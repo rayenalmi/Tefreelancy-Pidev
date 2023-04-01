@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +38,21 @@ class Grouppostlikes
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $idgroup;
+
+    public function getIdgrouppost(): ?int
+    {
+        return $this->idgrouppost;
+    }
+
+    public function getIduser(): ?int
+    {
+        return $this->iduser;
+    }
+
+    public function getIdgroup(): ?int
+    {
+        return $this->idgroup;
+    }
 
 
 }

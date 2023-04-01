@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,6 +41,47 @@ class FreelancerPost
      * @ORM\Column(name="workspace_id", type="integer", nullable=false)
      */
     private $workspaceId;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFreelancerId(): ?int
+    {
+        return $this->freelancerId;
+    }
+
+    public function setFreelancerId(int $freelancerId): self
+    {
+        $this->freelancerId = $freelancerId;
+
+        return $this;
+    }
+
+    public function getPublicationId(): ?int
+    {
+        return $this->publicationId;
+    }
+
+    public function setPublicationId(int $publicationId): self
+    {
+        $this->publicationId = $publicationId;
+
+        return $this;
+    }
+
+    public function getWorkspaceId(): ?int
+    {
+        return $this->workspaceId;
+    }
+
+    public function setWorkspaceId(int $workspaceId): self
+    {
+        $this->workspaceId = $workspaceId;
+
+        return $this;
+    }
 
 
 }

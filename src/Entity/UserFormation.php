@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,16 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class UserFormation
 {
     /**
-     * @var \Formation
-     *
-     * @ORM\ManyToOne(targetEntity="Formation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_formation", referencedColumnName="id_formation")
-     * })
-     */
-    private $idFormation;
-
-    /**
      * @var \User
      *
      * @ORM\Id
@@ -33,6 +23,40 @@ class UserFormation
      * })
      */
     private $idUser;
+
+    /**
+     * @var \Formation
+     *
+     * @ORM\ManyToOne(targetEntity="Formation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_formation", referencedColumnName="id_formation")
+     * })
+     */
+    private $idFormation;
+
+    public function getIdUser(): ?User
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?User $idUser): self
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdFormation(): ?Formation
+    {
+        return $this->idFormation;
+    }
+
+    public function setIdFormation(?Formation $idFormation): self
+    {
+        $this->idFormation = $idFormation;
+
+        return $this;
+    }
 
 
 }

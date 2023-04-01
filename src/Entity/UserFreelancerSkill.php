@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,23 @@ class UserFreelancerSkill
      * @ORM\Column(name="id_skills", type="integer", nullable=false)
      */
     private $idSkills;
+
+    public function getIdPortfolio(): ?int
+    {
+        return $this->idPortfolio;
+    }
+
+    public function getIdSkills(): ?int
+    {
+        return $this->idSkills;
+    }
+
+    public function setIdSkills(int $idSkills): self
+    {
+        $this->idSkills = $idSkills;
+
+        return $this;
+    }
 
 
 }

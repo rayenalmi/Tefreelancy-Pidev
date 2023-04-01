@@ -1,7 +1,8 @@
 <?php
 
+namespace App\Entity;
 
-
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +45,47 @@ class Portfolio
      * })
      */
     private $idFreelancer;
+
+    public function getIdPortfolio(): ?int
+    {
+        return $this->idPortfolio;
+    }
+
+    public function getIntro(): ?string
+    {
+        return $this->intro;
+    }
+
+    public function setIntro(string $intro): self
+    {
+        $this->intro = $intro;
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(string $about): self
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    public function getIdFreelancer(): ?User
+    {
+        return $this->idFreelancer;
+    }
+
+    public function setIdFreelancer(?User $idFreelancer): self
+    {
+        $this->idFreelancer = $idFreelancer;
+
+        return $this;
+    }
 
 
 }

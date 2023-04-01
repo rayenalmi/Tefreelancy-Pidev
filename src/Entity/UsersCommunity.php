@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +29,16 @@ class UsersCommunity
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $idUser;
+
+    public function getIdCommunity(): ?int
+    {
+        return $this->idCommunity;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->idUser;
+    }
 
 
 }

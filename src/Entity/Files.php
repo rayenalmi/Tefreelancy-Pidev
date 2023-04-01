@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,23 @@ class Files
      * @ORM\Column(name="path", type="string", length=255, nullable=true)
      */
     private $path;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
 
 
 }

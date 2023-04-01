@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,23 @@ class UserFreelancerProject
      * @ORM\Column(name="id_project", type="integer", nullable=false)
      */
     private $idProject;
+
+    public function getIdPortfolio(): ?int
+    {
+        return $this->idPortfolio;
+    }
+
+    public function getIdProject(): ?int
+    {
+        return $this->idProject;
+    }
+
+    public function setIdProject(int $idProject): self
+    {
+        $this->idProject = $idProject;
+
+        return $this;
+    }
 
 
 }

@@ -1,7 +1,8 @@
 <?php
 
+namespace App\Entity;
 
-
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +52,59 @@ class Badge
      * })
      */
     private $idTest;
+
+    public function getIdBadge(): ?int
+    {
+        return $this->idBadge;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getIdTest(): ?Test
+    {
+        return $this->idTest;
+    }
+
+    public function setIdTest(?Test $idTest): self
+    {
+        $this->idTest = $idTest;
+
+        return $this;
+    }
 
 
 }

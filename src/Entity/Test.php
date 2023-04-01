@@ -1,7 +1,8 @@
 <?php
 
+namespace App\Entity;
 
-
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,35 @@ class Test
      * @ORM\Column(name="type", type="text", length=65535, nullable=false)
      */
     private $type;
+
+    public function getIdTest(): ?int
+    {
+        return $this->idTest;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 
 
 }
