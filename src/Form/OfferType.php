@@ -6,6 +6,8 @@ use App\Entity\Offer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\User;
 
 class OfferType extends AbstractType
 {
@@ -17,7 +19,12 @@ class OfferType extends AbstractType
             ->add('duration')
             ->add('keywords')
             ->add('salary')
-            //->add('idRecruter')
+            ->add('idRecruter',EntityType::class,[
+                'class'=>User::class,
+                "choice_label"=>'email',
+                'expanded'=>false,
+                'multiple'=>false
+            ])
             //->add('idUser')
         ;
     }
