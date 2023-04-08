@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GroupPostRepository;
 
 /**
  * Grouppost
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="grouppost")
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: GroupPostRepository::class)]
 class Grouppost
 {
     /**
@@ -20,6 +22,9 @@ class Grouppost
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $idGrouppost;
 
     /**
@@ -27,6 +32,7 @@ class Grouppost
      *
      * @ORM\Column(name="context", type="text", length=65535, nullable=false)
      */
+    #[ORM\Column(length: 550)]
     private $context;
 
     /**
@@ -102,6 +108,4 @@ class Grouppost
 
         return $this;
     }
-
-
 }

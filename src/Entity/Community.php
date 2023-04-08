@@ -4,37 +4,21 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommunityRepository;
 
-/**
- * Community
- *
- * @ORM\Table(name="community")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CommunityRepository::class)]
 class Community
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_community", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idCommunity;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idCommunity;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="text", length=65535, nullable=false)
-     */
-    private $name;
+    #[ORM\Column(length: 550)]
+    private ?string $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(length: 550)]
+    private ?string $description;
 
     public function getIdCommunity(): ?int
     {
@@ -64,6 +48,4 @@ class Community
 
         return $this;
     }
-
-
 }

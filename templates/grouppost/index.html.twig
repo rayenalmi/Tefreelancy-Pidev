@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Grouppost index{% endblock %}
+
+{% block body %}
+    <h1>Grouppost index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdGrouppost</th>
+                <th>Context</th>
+                <th>Date</th>
+                <th>User</th>
+                <th>IdCommunity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for grouppost in groupposts %}
+            <tr>
+                <td>{{ grouppost.idGrouppost }}</td>
+                <td>{{ grouppost.context }}</td>
+                <td>{{ grouppost.date ? grouppost.date|date('Y-m-d') : '' }}</td>
+                <td>{{ grouppost.user }}</td>
+                <td>{{ grouppost.idCommunity }}</td>
+                <td>
+                    <a href="{{ path('app_grouppost_show', {'idGrouppost': grouppost.idGrouppost}) }}">show</a>
+                    <a href="{{ path('app_grouppost_edit', {'idGrouppost': grouppost.idGrouppost}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_grouppost_new') }}">Create new</a>
+{% endblock %}
