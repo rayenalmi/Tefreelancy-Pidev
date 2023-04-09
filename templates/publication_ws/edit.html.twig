@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PublicationWs{% endblock %}
+
+{% block body %}
+    <h1>Edit PublicationWs</h1>
+
+    {{ include('publication_ws/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_workspace_homews', {'id': workspaceId}) }}">back to list</a>
+
+    {{ include('publication_ws/_delete_form.html.twig') }}
+{% endblock %}

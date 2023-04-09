@@ -50,6 +50,12 @@ class PublicationWs
      */
     private $creationdate;
 
+    public function __construct()
+{
+    $this->creationdate = new \DateTime();
+}
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,12 +102,19 @@ class PublicationWs
         return $this->creationdate;
     }
 
-    public function setCreationdate(\DateTimeInterface $creationdate): self
-    {
-        $this->creationdate = $creationdate;
+    public function setCreationdate(\DateTimeInterface $creationDate = null): self
+{
+    $this->creationdate = $creationDate ?: new \DateTime();
 
-        return $this;
-    }
+    return $this;
+}
 
+    // public function setCreationdate(\DateTimeInterface $creationdate): self
+    // {
+    //     $this->creationdate = $creationdate;
+
+    //     return $this;
+    // }
+    
 
 }

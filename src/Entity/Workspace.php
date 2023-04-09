@@ -64,15 +64,7 @@ class Workspace
      */
     private $idoffer;
 
-    /**
-     * @var \Offer
-     *
-     * @ORM\ManyToOne(targetEntity="Offer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_offer", referencedColumnName="id_offer")
-     * })
-     */
-    private $idOffer;
+   
 
     public function getId(): ?int
     {

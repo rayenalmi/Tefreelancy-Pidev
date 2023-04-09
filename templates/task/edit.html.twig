@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h1 class="card-title mb-4">Edit Task</h1>
+
+                        {{ include('task/_form.html.twig', {'button_label': 'Update'}) }}
+
+                        
+                    
+                        {{ include('task/_delete_form.html.twig') }}
+
+                        <div class="text-center mt-5">
+                            <a href="{{ path('app_workspace_homews', {'id': workspaceId}) }}" class="btn btn-secondary">
+                                Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

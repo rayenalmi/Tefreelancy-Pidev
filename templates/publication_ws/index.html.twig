@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublicationWs index{% endblock %}
+
+{% block body %}
+    <h1>Workspace Posts</h1>
+
+    <table class="table" >
+        <thead>
+            <tr>
+                {# <th>Id</th> #}
+                <th>Title</th>
+                <th>Content</th>
+                {# <th>Author</th>
+                <th>Creationdate</th> #}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for publication_w in publication_ws %}
+        {% if loop.index <= 10 %}
+            <tr>
+                {# <td>{{ publication_w.id }}</td> #}
+                <td>{{ publication_w.title }}</td>
+                <td>{{ publication_w.content }}</td>
+                {# <td>{{ publication_w.author }}</td>
+                <td>{{ publication_w.creationdate ? publication_w.creationdate|date('Y-m-d') : '' }}</td> #}
+                <td>
+                    <a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}">show</a>
+                    <a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}">edit</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+            
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_publication_ws_new') }}">Create new</a>
+{% endblock %}
