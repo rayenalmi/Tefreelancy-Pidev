@@ -7,16 +7,38 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommunityRepository;
 
 #[ORM\Entity(repositoryClass: CommunityRepository::class)]
+/**
+ * Community
+ *
+ * @ORM\Table(name="community")
+ * @ORM\Entity
+ */
 class Community
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_community", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $idCommunity;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="text", length=65535, nullable=false)
+     */
 
     #[ORM\Column(length: 550)]
-    private ?string $nom;
-
+    private ?string $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     */
     #[ORM\Column(length: 550)]
     private ?string $description;
 

@@ -1,37 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Community index{% endblock %}
+{% block title %}
+  Community
+{% endblock %}
 
 {% block body %}
-    <h1>Community index</h1>
+  <h1>
+    Community
+  </h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdCommunity</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for community in communities %}
-            <tr>
-                <td>{{ community.idCommunity }}</td>
-                <td>{{ community.name }}</td>
-                <td>{{ community.description }}</td>
-                <td>
-                    <a href="{{ path('app_community_show', {'idCommunity': community.idCommunity}) }}">show</a>
-                    <a href="{{ path('app_community_edit', {'idCommunity': community.idCommunity}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for community in communities %}
+        <tr>
+          <td>
+            {{ community.name }}
+          </td>
+          <td>
+            {{ community.description }}
+          </td>
+          <td>
+            <a href="{{
+              path(
+                'app_community_show',
+                {
+                  idCommunity: community.idCommunity
+                }
+              )
+              }}">
+              show
+            </a>
+            <a href="{{
+              path(
+                'app_community_edit',
+                {
+                  idCommunity: community.idCommunity
+                }
+              )
+              }}">
+              edit
+            </a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4">
+            no records found
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-    <a href="{{ path('app_community_new') }}">Create new</a>
+  <a href="{{ path('app_community_new') }}">Create new</a>
 {% endblock %}

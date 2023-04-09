@@ -32,6 +32,8 @@
 </head>
 
 <body>
+    {% block navbar %}
+
     <div class="container-xxl bg-white p-0">
 
         <!-- Navbar Start -->
@@ -67,8 +69,8 @@
             </div>
         </nav>
         <!-- Navbar End -->
-
-
+    {% endblock navbar %}
+    {% block body %}
 
 
         <!-- Search Start -->
@@ -600,6 +602,7 @@
             </div>
         </div>
         <!-- Testimonial End -->
+    {% endblock body %}
         
 
         <!-- Footer Start -->
@@ -685,5 +688,6 @@
     <script src={{asset("assets/js/main.js")}}></script>
     {% endblock javascripts %}
 </body>
+
 
 </html>
