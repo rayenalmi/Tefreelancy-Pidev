@@ -1,4 +1,12 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container">
+    <!-- Count of Job list Start -->
+    <div class="row">
+        <div class="col-lg-7">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <br><br>
+            <button class="btn">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

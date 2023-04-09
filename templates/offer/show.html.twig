@@ -3,40 +3,118 @@
 {% block title %}Offer{% endblock %}
 
 {% block body %}
-    <h1>Offer</h1>
+<main>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdOffer</th>
-                <td>{{ offer.idOffer }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ offer.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ offer.description }}</td>
-            </tr>
-            <tr>
-                <th>Duration</th>
-                <td>{{ offer.duration }}</td>
-            </tr>
-            <tr>
-                <th>Keywords</th>
-                <td>{{ offer.keywords }}</td>
-            </tr>
-            <tr>
-                <th>Salary</th>
-                <td>{{ offer.salary }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Hero Area Start-->
+    <div class="slider-area ">
+        <div class="single-slider section-overly slider-height2 d-flex align-items-center"
+            data-background={{asset("assets/img/hero/about.jpg")}}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Offer Details</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Area End -->
+    <!-- job post company Start -->
+    <div class="job-post-company pt-120 pb-120">
+        <div class="container">
+            <div class="row justify-content-between">
+                <!-- Left Content -->
+                <div class="col-xl-7 col-lg-8">
+                    <!-- job single -->
+                    <div class="single-job-items mb-50">
+                        <div class="job-items">
+                            <div class="company-img company-img-details">
+                                <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+                            </div>
+                            <div class="job-tittle">
+                                <a href="#">
+                                    <h4>{{offer.name}}</h4>
+                                </a>
+                                <ul>
+                                    <li>{{offer.description}}</li>
+                                </ul>
+                                <ul>
+                                    <li>{{offer.duration}}</li>
+                                    <li><i class="fas fa-map-marker-alt"></i>TUNIS</li>
+                                    <li>${{offer.salary}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a class="btn" href="{{ path('app_offer_edit', {'idOffer': offer.idOffer}) }}">edit</a>
 
-    <a href="{{ path('app_offer_index') }}">back to list</a>
+                    </div>
+                    <!-- job single End -->
 
-    <a href="{{ path('app_offer_edit', {'idOffer': offer.idOffer}) }}">edit</a>
+                    <div class="job-post-details">
+                        <div class="post-details1 mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Job Description</h4>
+                            </div>
+                            <p>{{offer.description}}</p>
+                        </div>
+                        <div class="post-details2  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Required Knowledge, Skills, and Abilities</h4>
+                            </div>
+                            <ul>
+                                <li>{{offer.keywords}}</li>
 
-    {{ include('offer/_delete_form.html.twig') }}
+                            </ul>
+                        </div>
+                        <!--
+                            <div class="post-details2  mb-50">
+                                  //Small Section Tittle 
+                                <div class="small-section-tittle">
+                                    <h4>Education + Experience</h4>
+                                </div>
+                               <ul>
+                                   <li>3 or more years of professional design experience</li>
+                                   <li>Direct response email experience</li>
+                                   <li>Ecommerce website design experience</li>
+                                   <li>Familiarity with mobile and web apps preferred</li>
+                                   <li>Experience using Invision a plus</li>
+                               </ul>
+                            </div>
+                            -->
+                    </div>
+
+                </div>
+                <!-- Right Content -->
+                <div class="col-xl-4 col-lg-4">
+                    <a class="btn" href="{{ path('app_offer_index') }}">back to list</a>
+                    <div class="post-details3  mb-50">
+                        <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                            <h4>Job Overview</h4>
+                        </div>
+                        <ul>
+                            <li>Name : <span>{{offer.name}}</span></li>
+                            <li>Description : <span>{{offer.description}}</span></li>
+                            <li>keywords : <span>{{offer.keywords}}</span></li>
+                            <li>Duration : <span>{{offer.duration}}</span></li>
+                            <li>Salary : <span>${{offer.salary}}</span></li>
+
+                        </ul>
+                        <div class="apply-btn2">
+                            {{ include('offer/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- job post company End -->
+
+</main>
+
 {% endblock %}

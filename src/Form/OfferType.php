@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\User;
 
 class OfferType extends AbstractType
@@ -14,17 +15,43 @@ class OfferType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('duration')
-            ->add('keywords')
-            ->add('salary')
+            ->add('name',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control valid',
+                    'placeholder' => 'Enter your name',
+                ],
+            ])
+            ->add('description',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control valid',
+                    'placeholder' => 'Enter your description',
+                ],
+            ])
+            ->add('duration',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control valid',
+                    'placeholder' => 'Enter your duration',
+                ],
+            ])
+            ->add('keywords',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control valid',
+                    'placeholder' => 'Enter your keywords',
+                ],
+            ])
+            ->add('salary',TextType::class, [
+                'attr' => [
+                    'class' => 'form-control valid',
+                    'placeholder' => 'Enter your salary',
+                ],
+            ])
             ->add('idRecruter',EntityType::class,[
                 'class'=>User::class,
                 "choice_label"=>'email',
                 'expanded'=>false,
                 'multiple'=>false
             ])
+            
             //->add('idUser')
         ;
     }
