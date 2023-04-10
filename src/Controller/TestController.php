@@ -25,7 +25,7 @@ class TestController extends AbstractController
         ]);
     }
 
-    #[Route('/addtest', name: 'app_test_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_test_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $test = new Test();
