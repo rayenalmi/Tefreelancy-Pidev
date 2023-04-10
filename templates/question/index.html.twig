@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question index{% endblock %}
+
+{% block body %}
+    <h1>Question index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdQuestion</th>
+                <th>Quest</th>
+                <th>Choice1</th>
+                <th>Choice2</th>
+                <th>Choice3</th>
+                <th>Response</th>
+                <th>IdTest</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.idQuestion }}</td>
+                <td>{{ question.quest }}</td>
+                <td>{{ question.choice1 }}</td>
+                <td>{{ question.choice2 }}</td>
+                <td>{{ question.choice3 }}</td>
+                <td>{{ question.response }}</td>
+                <td>{{ question.idTest }}</td>
+                <td>
+                    <a href="{{ path('app_question_show', {'idQuestion': question.idQuestion}) }}">show</a>
+                    <a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_question_new') }}">Create new</a>
+{% endblock %}
