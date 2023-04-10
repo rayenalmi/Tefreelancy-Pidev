@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Achievement index{% endblock %}
+
+{% block body %}
+    <h1>Achievement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdAchivement</th>
+                <th>IdFreelancer</th>
+                <th>IdOffer</th>
+                <th>Rate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for achievement in achievements %}
+            <tr>
+                <td>{{ achievement.idAchivement }}</td>
+                <td>{{ achievement.idFreelancer }}</td>
+                <td>{{ achievement.idOffer }}</td>
+                <td>{{ achievement.rate }}</td>
+                <td>
+                    <a href="{{ path('app_achievement_show', {'idAchivement': achievement.idAchivement}) }}">show</a>
+                    <a href="{{ path('app_achievement_edit', {'idAchivement': achievement.idAchivement}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_achievement_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio index{% endblock %}
+
+{% block body %}
+    <h1>Portfolio index</h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>IdPortfolio</th>
+                <th>Intro</th>
+                <th>About</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for portfolio in portfolios %}
+            <tr>
+                <td>{{ portfolio.idPortfolio }}</td>
+                <td>{{ portfolio.intro }}</td>
+                <td>{{ portfolio.about }}</td>
+                <td>
+                    <a href="{{ path('app_portfolio_show', {'idPortfolio': portfolio.idPortfolio}) }}">show</a>
+                    <a href="{{ path('app_portfolio_edit', {'idPortfolio': portfolio.idPortfolio}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_portfolio_new') }}">Create new</a>
+{% endblock %}
