@@ -1,69 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-  Community
-{% endblock %}
-
 {% block body %}
-  <h1>
-    Community
-  </h1>
+  <div class="mt-5">
+    <div class="filter">
+      <div class="ml-5">
+        <div class="datatable-search">
+          <input class="datatable-input"
+            placeholder="Search..."
+            type="search"
+            title="Search within table" />
+        </div>
+      </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>
-          Name
-        </th>
-        <th>
-          Description
-        </th>
-        <th>
-          actions
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for community in communities %}
-        <tr>
-          <td>
-            {{ community.name }}
-          </td>
-          <td>
-            {{ community.description }}
-          </td>
-          <td>
-            <a href="{{
-              path(
-                'app_community_show',
-                {
-                  idCommunity: community.idCommunity
-                }
-              )
-              }}">
-              show
-            </a>
-            <a href="{{
-              path(
-                'app_community_edit',
-                {
-                  idCommunity: community.idCommunity
-                }
-              )
-              }}">
-              edit
-            </a>
-          </td>
-        </tr>
-      {% else %}
-        <tr>
-          <td colspan="4">
-            no records found
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      <a class="icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots"></i>
+      </a>
+      <a href="{{ path('app_community_new') }}">Create new</a>
 
-  <a href="{{ path('app_community_new') }}">Create new</a>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+        <li class="dropdown-header text-start">
+          <h6>
+            Filter
+          </h6>
+        </li>
+
+        <li><a class="dropdown-item" href="#">Today</a></li>
+        <li><a class="dropdown-item" href="#">This Month</a></li>
+        <li><a class="dropdown-item" href="#">This Year</a></li>
+      </ul>
+    </div>
+    <div class="col-12">
+      <div class="card overflow-auto">
+        <div class="card-body pb-0">
+          <h5 class="card-title">
+            Groups
+          </h5>
+
+          <table class="table table-borderless">
+            <thead>
+              <tr class="bg-light">
+                <th scope="col">
+                  Image
+                </th>
+                <th scope="col">
+                  Name
+                </th>
+                <th scope="col">
+                  Description
+                </th>
+                <th scope="col">
+                  Check
+                </th>
+                <th scope="col">
+                  Edit
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for community in communities %}
+                <tr>
+                  <th scope="row">
+                    <a href="#">
+                      <img src="https://cdn-icons-png.flaticon.com/512/476/476863.png"
+                        alt=""
+                        class="img-fluid"
+                        style="width: 50px;" />
+                    </a>
+                  </th>
+                  <td class="">
+                    {{ community.name }}
+                  </td>
+                  <td>
+                    {{ community.description }}
+                  </td>
+                  <td>
+                    <img src="https://cdn-icons-png.flaticon.com/512/7835/7835667.png"
+                      alt=""
+                      class="img-fluid"
+                      style="width: 20px;" />
+                    <a href="{{
+                      path(
+                        'app_community_show',
+                        {
+                          idCommunity: community.idCommunity
+                        }
+                      )
+                      }}">
+                      show
+                    </a>
+                  </td>
+                  <td>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1159/1159876.png"
+                      alt=""
+                      class="img-fluid"
+                      style="width: 15px;" />
+                    <a href="{{
+                      path(
+                        'app_community_edit',
+                        {
+                          idCommunity: community.idCommunity
+                        }
+                      )
+                      }}">
+                      edit
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -26,8 +26,10 @@ class GrouppostController extends AbstractController
     }
 
     #[Route('/new', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $grouppost = new Grouppost();
         $form = $this->createForm(GrouppostType::class, $grouppost);
         $form->handleRequest($request);
@@ -36,7 +38,11 @@ class GrouppostController extends AbstractController
             $entityManager->persist($grouppost);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_grouppost_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_grouppost_index',
+                [],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('grouppost/new.html.twig', [
@@ -48,21 +54,28 @@ class GrouppostController extends AbstractController
     #[Route('/{idGrouppost}', name: 'app_grouppost_show', methods: ['GET'])]
     public function show(Grouppost $grouppost): Response
     {
-        return $this->render('grouppost/show.html.twig', [
+        return $this->render('community/show.html.twig', [
             'grouppost' => $grouppost,
         ]);
     }
 
     #[Route('/{idGrouppost}/edit', name: 'app_grouppost_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Grouppost $grouppost, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Grouppost $grouppost,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(GrouppostType::class, $grouppost);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_grouppost_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_grouppost_index',
+                [],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('grouppost/edit.html.twig', [
@@ -72,13 +85,25 @@ class GrouppostController extends AbstractController
     }
 
     #[Route('/{idGrouppost}', name: 'app_grouppost_delete', methods: ['POST'])]
-    public function delete(Request $request, Grouppost $grouppost, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$grouppost->getIdGrouppost(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Grouppost $grouppost,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (
+            $this->isCsrfTokenValid(
+                'delete' . $grouppost->getIdGrouppost(),
+                $request->request->get('_token')
+            )
+        ) {
             $entityManager->remove($grouppost);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_grouppost_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute(
+            'app_grouppost_index',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
     }
 }

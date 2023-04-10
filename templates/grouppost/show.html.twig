@@ -1,38 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Grouppost{% endblock %}
+{% block title %}
+  Grouppost
+{% endblock %}
 
 {% block body %}
-    <h1>Grouppost</h1>
+  <h1>
+    Grouppost
+  </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdGrouppost</th>
-                <td>{{ grouppost.idGrouppost }}</td>
-            </tr>
-            <tr>
-                <th>Context</th>
-                <td>{{ grouppost.context }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ grouppost.date ? grouppost.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>User</th>
-                <td>{{ grouppost.user }}</td>
-            </tr>
-            <tr>
-                <th>IdCommunity</th>
-                <td>{{ grouppost.idCommunity }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>
+          IdGrouppost
+        </th>
+        <td>
+          {{ grouppost.idGrouppost }}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Context
+        </th>
+        <td>
+          {{ grouppost.context }}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Date
+        </th>
+        <td>
+          {{ grouppost.date ? grouppost.date|date('Y-m-d') : '' }}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          User
+        </th>
+        <td>
+          {{ grouppost.user }}
+        </td>
+      </tr>
+      <tr>
+        <th>
+          IdCommunity
+        </th>
+        <td>
+          {{ grouppost.idCommunity }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <a href="{{ path('app_grouppost_index') }}">back to list</a>
+  <a href="{{ path('app_grouppost_index') }}">back to list</a>
 
-    <a href="{{ path('app_grouppost_edit', {'idGrouppost': grouppost.idGrouppost}) }}">edit</a>
+  <a href="{{
+    path(
+      'app_grouppost_edit',
+      {
+        idGrouppost: grouppost.idGrouppost
+      }
+    )
+    }}">
+    edit
+  </a>
 
-    {{ include('grouppost/_delete_form.html.twig') }}
+  {{ include('grouppost/_delete_form.html.twig') }}
 {% endblock %}

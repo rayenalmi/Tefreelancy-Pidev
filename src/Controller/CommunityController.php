@@ -26,8 +26,10 @@ class CommunityController extends AbstractController
     }
 
     #[Route('/new', name: 'app_community_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $community = new Community();
         $form = $this->createForm(CommunityType::class, $community);
         $form->handleRequest($request);
@@ -36,7 +38,11 @@ class CommunityController extends AbstractController
             $entityManager->persist($community);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_community_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_community_index',
+                [],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('community/new.html.twig', [
@@ -54,15 +60,22 @@ class CommunityController extends AbstractController
     }
 
     #[Route('/{idCommunity}/edit', name: 'app_community_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Community $community, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Community $community,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(CommunityType::class, $community);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_community_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_community_index',
+                [],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('community/edit.html.twig', [
@@ -72,13 +85,25 @@ class CommunityController extends AbstractController
     }
 
     #[Route('/{idCommunity}', name: 'app_community_delete', methods: ['POST'])]
-    public function delete(Request $request, Community $community, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$community->getIdCommunity(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Community $community,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (
+            $this->isCsrfTokenValid(
+                'delete' . $community->getIdCommunity(),
+                $request->request->get('_token')
+            )
+        ) {
             $entityManager->remove($community);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_community_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute(
+            'app_community_index',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
     }
 }
