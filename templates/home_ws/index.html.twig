@@ -1,77 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PublicationWs index{% endblock %}
+{% block title %}PublicationWs index
+{% endblock %}
 
 {% block body %}
-<div class="container">
+	<div class="container">
 
-	<div class="row">
-		<div class="col-12 col-md-6">
-			<h1>Tasks</h1>
-			<table class="table">
-				<thead>
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<h1>Tasks</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Deadline</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for task in tasks %}
+							{% if loop.index <= 10 and task.completed == 0 %}
+								<tr>
+									<td>{{ task.title }}</td>
+									<td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
+									<td>
+										<a href="{{ path('app_task_show', {'id': task.id, 'workspaceId': workspaceId}) }}">Show</a>
+									</td>
+								</tr>
+							{% endif %}
+						{% else %}
+							<tr>
+								<td colspan="3">No records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col-12 col-md-6">
+				<h1>Workspace Posts</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Content</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for publication_w in publication_ws %}
+							{% if loop.index <= 10 %}
+								<tr>
+									<td>{{ publication_w.title }}</td>
+									<td>{{ publication_w.content }}</td>
+									<td>
+										<a href="{{ path('app_publication_ws_show', {'id': publication_w.id, 'workspaceId': workspaceId} ) }}">Show</a>
+									</td>
+								</tr>
+							{% endif %}
+						{% else %}
+							<tr>
+								<td colspan="3">No records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<a class="btn btn-primary" href="{{ path('app_addpost', {'id': workspaceId }) }}">Create new post</a>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-12">
+				<a class="btn btn-secondary" href="{{ path('app_editworkspace', {'id': workspaceId}) }}">Edit Workspace</a>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="container mt-5">
+		<h1 class="text-center mb-4">Freelancers</h1>
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead class="table-dark">
 					<tr>
-						<th>Title</th>
-						<th>Deadline</th>
-						<th>Actions</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Last Name</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for task in tasks %}
-						{% if loop.index <= 10 and task.completed == 0 %}
-							<tr>
-								<td>{{ task.title }}</td>
-								<td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
-								<td>
-									<a href="{{ path('app_task_show', {'id': task.id, 'workspaceId': workspaceId}) }}">Show</a>
-								</td>
-							</tr>
-						{% endif %}
+					{% for free in freelancers %}
+						<tr>
+							<td>{{ free.firstName }}</td>
+							<td>{{ free.lastName }}</td>
+						</tr>
 					{% else %}
 						<tr>
-							<td colspan="3">No records found</td>
+							<td colspan="2" class="text-center">No records found.</td>
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
-		<div class="col-12 col-md-6">
-			<h1>Workspace Posts</h1>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Content</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for publication_w in publication_ws %}
-						{% if loop.index <= 10 %}
-							<tr>
-								<td>{{ publication_w.title }}</td>
-								<td>{{ publication_w.content }}</td>
-								<td>
-									<a href="{{ path('app_publication_ws_show', {'id': publication_w.id, 'workspaceId': workspaceId} ) }}">Show</a>
-								</td>
-							</tr>
-						{% endif %}
-					{% else %}
-						<tr>
-							<td colspan="3">No records found</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			<a class="btn btn-primary" href="{{ path('app_addpost', {'id': workspaceId }) }}">Create new post</a>
-		</div>
 	</div>
 
-	<div class="row mt-3">
-		<div class="col-12">
-			<a class="btn btn-secondary" href="{{ path('app_editworkspace', {'id': workspaceId}) }}">Edit Workspace</a>
-		</div>
-	</div>
 
-</div>
 {% endblock %}

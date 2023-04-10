@@ -4,10 +4,15 @@ namespace App\Controller;
 
 use App\Entity\PublicationWs;
 use App\Entity\Task;
+use App\Entity\User;
 use App\Entity\Workspace;
+use App\Entity\WorkspaceFreelancer;
 use App\Form\WorkspaceType;
 use App\Repository\PublicationWsRepository;
 use App\Repository\TaskRepository;
+use App\Repository\WorkspaceRepository;
+use App\Form\AddFreelancerWsType;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +26,12 @@ class WorkspaceController extends AbstractController
 
 
     #[Route('/', name: 'app_workspace_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,WorkspaceRepository $repo3): Response
     {
-        $workspaces = $entityManager
+        /* $workspaces = $entityManager
             ->getRepository(Workspace::class)
-            ->findBy([], ['id' => 'DESC']);
-
+            ->findBy([], ['id' => 'DESC']); */
+        $workspaces=$repo3->getWorkspacesForFreelancer(12);
         return $this->render('workspace/index.html.twig', [
             'workspaces' => $workspaces,
         ]);
@@ -35,11 +40,12 @@ class WorkspaceController extends AbstractController
 
 
     #[Route('/homews/{id}', name: 'app_workspace_homews', methods: ['GET'])]
-    public function homeWs($id,EntityManagerInterface $entityManager,TaskRepository $repo,PublicationWsRepository $repo2): Response
+    public function homeWs($id,EntityManagerInterface $entityManager,TaskRepository $repo,PublicationWsRepository $repo2,WorkspaceRepository $repo3): Response
     {
         $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findAll();
+        $freelancers =$repo3->getFreelancersForWorkspace($id);
 
         $publicationWs = $repo2->getPublicationWssForWorkspace($id);
 
@@ -48,27 +54,46 @@ class WorkspaceController extends AbstractController
             'workspaces' => $workspaces,
             'publication_ws' => $publicationWs,
             'workspaceId' => $id,
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'freelancers'=>$freelancers
         ]);
     }
 
 
-    #[Route('/editws/{id}', name: 'app_editworkspace', methods: ['GET'])]
-    public function editWorkSpace($id,EntityManagerInterface $entityManager,TaskRepository $repo,PublicationWsRepository $repo2): Response
+    #[Route('/editws/{id}', name: 'app_editworkspace', methods: ['GET','POST'])]
+    public function editWorkSpace(Request $request,$id,EntityManagerInterface $entityManager,TaskRepository $repo,PublicationWsRepository $repo2,WorkspaceRepository $repo3): Response
     {
         $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findAll();
+        $freelancers =$repo3->getFreelancersForWorkspace($id);
 
         $publicationWs = $repo2->getPublicationWssForWorkspace($id);
 
         $tasks = $repo->getTasksForWorkspace($id);
-
+        
+        $form2 = $this->createForm(AddFreelancerWsType::class);
+        $form2->handleRequest($request);
+        $newFreelancer = new User();
+        if ($form2->isSubmitted() && $form2->isValid()) {
+            $formData = $form2->getData();
+            $email = $formData['email'];
+            
+            $newFreelancer=$repo3->getFreelancerByEmail($email);
+            $workspaceFreelancer = new WorkspaceFreelancer();
+            $workspaceFreelancer->setWorkspaceId($id);
+            $workspaceFreelancer->setFreelancerId($newFreelancer->getIdUser());
+            $entityManager->persist($workspaceFreelancer);
+            $entityManager->flush();
+        }
+        array_push($freelancers, $newFreelancer);
         return $this->render('home_ws/edit.html.twig', [
             'workspaces' => $workspaces,
             'publication_ws' => $publicationWs,
             'workspaceId' => $id,
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'freelancers'=>$freelancers,
+            'form2'=>$form2->createView()
         ]);
     }
 
@@ -105,16 +130,17 @@ class WorkspaceController extends AbstractController
     {
         $form = $this->createForm(WorkspaceType::class, $workspace);
         $form->handleRequest($request);
-
+       
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
             return $this->redirectToRoute('app_workspace_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
+        
         return $this->renderForm('workspace/edit.html.twig', [
             'workspace' => $workspace,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
@@ -128,4 +154,5 @@ class WorkspaceController extends AbstractController
 
         return $this->redirectToRoute('app_workspace_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

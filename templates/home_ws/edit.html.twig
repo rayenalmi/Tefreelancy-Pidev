@@ -70,4 +70,35 @@
     </div>
 </div>
 
+<div class="container mt-5">
+		<h1 class="text-center mb-4">Freelancers</h1>
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead class="table-dark">
+					<tr>
+						<th scope="col">First Name</th>
+						<th scope="col">Last Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for free in freelancers %}
+						<tr>
+							<td>{{ free.firstName }}</td>
+							<td>{{ free.lastName }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="2" class="text-center">No records found.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+            {{form(form2)}}
+		</div>
+        <br>
+	</div>
+
+ 
+
+
 {% endblock %}
