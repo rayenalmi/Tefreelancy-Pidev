@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Community;
+use App\Entity\Grouppost;
+
 use App\Form\CommunityType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,10 +54,17 @@ class CommunityController extends AbstractController
     }
 
     #[Route('/{idCommunity}', name: 'app_community_show', methods: ['GET'])]
-    public function show(Community $community): Response
-    {
+    public function show(
+        Community $community,
+        int $idCommunity,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $groupposts = $entityManager
+            ->getRepository(Grouppost::class)
+            ->findBy(['idCommunity' => $idCommunity]);
         return $this->render('community/show.html.twig', [
             'community' => $community,
+            'groupposts' => $groupposts,
         ]);
     }
 

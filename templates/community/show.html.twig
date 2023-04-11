@@ -9,14 +9,37 @@
     Community
   </h1>
 
-  <table class="table">
+  <h5>
+    {{ community.name }}
+  </h5>
+  {{ community.description }}
+  <h5></h5>
+  {% for grouppost in groupposts %}
+    <div>
+      <h3>
+        {{ grouppost.context }}
+      </h3>
+      <a href="{{
+        path(
+          'app_grouppost_edit',
+          {
+            idGrouppost: grouppost.idGrouppost
+          }
+        )
+        }}">
+        edit
+      </a>
+    </div>
+  {% endfor %}
+
+  {# <table class="table">
     <tbody>
       <tr>
         <th>
           Name
         </th>
         <td>
-          {{ community.name }}
+          {{ grouppost.context }}
         </td>
       </tr>
       <tr>
@@ -24,11 +47,21 @@
           Description
         </th>
         <td>
-          {{ community.description }}
+          {{ grouppost.user }}
         </td>
       </tr>
+      <tr>    <a href="{{
+                      path(
+                        'app_community_edit',
+                        {
+                          idCommunity: community.idCommunity
+                        }
+                      )
+                      }}">
+                      edit
+                    </a></tr>
     </tbody>
-  </table>
+  </table>#}
 
   <a href="{{ path('app_community_index') }}">back to list</a>
 

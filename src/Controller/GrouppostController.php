@@ -25,12 +25,13 @@ class GrouppostController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
+    #[Route('/new/idCommunity', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
         $grouppost = new Grouppost();
+        $grouppost->setUser(1);
         $form = $this->createForm(GrouppostType::class, $grouppost);
         $form->handleRequest($request);
 
@@ -52,10 +53,12 @@ class GrouppostController extends AbstractController
     }
 
     #[Route('/{idGrouppost}', name: 'app_grouppost_show', methods: ['GET'])]
-    public function show(Grouppost $grouppost): Response
-    {
+    public function show(
+        Grouppost $grouppost,
+    ): Response {
+        
         return $this->render('community/show.html.twig', [
-            'grouppost' => $grouppost,
+            'groupposts' => $groupposts,
         ]);
     }
 
@@ -63,7 +66,8 @@ class GrouppostController extends AbstractController
     public function edit(
         Request $request,
         Grouppost $grouppost,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        int $idGrouppost,
     ): Response {
         $form = $this->createForm(GrouppostType::class, $grouppost);
         $form->handleRequest($request);
@@ -72,8 +76,8 @@ class GrouppostController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'app_grouppost_index',
-                [],
+                'app_community_show',
+                ['idCommunity' => $grouppost->getIdCommunity()],
                 Response::HTTP_SEE_OTHER
             );
         }

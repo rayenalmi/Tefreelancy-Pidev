@@ -3,9 +3,36 @@
 {% block title %}New Grouppost{% endblock %}
 
 {% block body %}
-    <h1>Create new Grouppost</h1>
+    <h5 class="mt-5">Create new Grouppost</h5>
 
-    {{ include('grouppost/_form.html.twig') }}
+  <section class="mt-5>
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="..\img\writePost.png" class="img-fluid " alt="Sample image" />
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+       {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+          <div class="form-outline mb-4">
+{{ form_widget(form.context, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Write Something'}}) }}
+{{ form_errors(form.context, {'attr': {'class': 'text-danger'}}) }}
+
+
+            <label class="form-label" >context</label>
+          </div>
+
+     
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+    <button class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ button_label|default('Save') }}</button>
+          </div>
+       {{ form_end(form) }}
+
+      </div>
+    </div>
+  </div>
+</section>
 
     <a href="{{ path('app_grouppost_index') }}">back to list</a>
 {% endblock %}

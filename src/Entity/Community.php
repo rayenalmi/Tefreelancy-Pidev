@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommunityRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommunityRepository::class)]
 /**
@@ -27,16 +28,24 @@ class Community
     #[ORM\Column]
     private ?int $idCommunity;
     /**
-     * @var string
+     * @Assert\NotBlank(message=" name should not be empty")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage=" enter a name minimum 5 letters"
      *
+     *     )
      * @ORM\Column(name="name", type="text", length=65535, nullable=false)
      */
 
     #[ORM\Column(length: 550)]
     private ?string $name;
     /**
-     * @var string
-     *
+     * @Assert\NotBlank(message="description  doit etre non vide")
+     * @Assert\Length(
+     *      min = 7,
+     *      max = 100,
+     *      minMessage = "doit etre >=7 ",
+     *     maxMessage = "doit etre <=100" )
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
     #[ORM\Column(length: 550)]

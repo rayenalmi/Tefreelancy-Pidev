@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GroupPostRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Grouppost
@@ -29,18 +30,24 @@ class Grouppost
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Context can't be empty")
+     * @Assert\Length(
+     *      min = 7,
+     *      max = 100,
+     *      minMessage = "Message Length should be >=7 ",
+     *     maxMessage = "Message Length should be <=100" )
      *
      * @ORM\Column(name="context", type="text", length=65535, nullable=false)
      */
     #[ORM\Column(length: 550)]
     private $context;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $date = 'CURRENT_TIMESTAMP';
+    // /**
+    //  * @var \DateTime
+    //  *
+    //  * @ORM\Column(name="date", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+    //  */
+    // private $date = 'CURRENT_TIMESTAMP';
 
     /**
      * @var int

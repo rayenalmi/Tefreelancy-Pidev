@@ -3,10 +3,40 @@
 {% block title %}Edit Community{% endblock %}
 
 {% block body %}
-    <h1>Edit Community</h1>
 
-    {{ include('community/_form.html.twig', {'button_label': 'Update'}) }}
+<section class="mt-5">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="{{ asset('img/editGrp.png') }}" class="img-fluid w-50" alt="" />
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+       {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+          <div class="form-outline mb-4">
+    <h5>Edit Community</h5>
 
+{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Enter a valid group name'}}) }}
+
+            <label class="form-label" ></label>
+          </div>
+
+          <div class="form-outline mb-3">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Enter Description'}}) }}
+
+            <label class="form-label" ></label>
+
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+    <button class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ button_label|default('Save') }}</button>
+          </div>
+       {{ form_end(form) }}
+
+      </div>
+    </div>
+  </div>
+</section>
     <a href="{{ path('app_community_index') }}">back to list</a>
 
     {{ include('community/_delete_form.html.twig') }}

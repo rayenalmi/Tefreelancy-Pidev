@@ -9,14 +9,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GrouppostType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('context')
-            ->add('date')
-            ->add('user')
-            ->add('idCommunity')
-        ;
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
+        $builder->add(
+            'context'
+            // ->add('user')
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
