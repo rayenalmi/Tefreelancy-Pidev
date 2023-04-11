@@ -6,18 +6,44 @@ use App\Entity\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quest')
-            ->add('choice1')
-            ->add('choice2')
-            ->add('choice3')
-            ->add('response')
-            ->add('idTest')
+            ->add('quest', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('choice1', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('choice2', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('choice3', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('response', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('idTest', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
         ;
     }
 

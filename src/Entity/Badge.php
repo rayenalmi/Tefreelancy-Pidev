@@ -52,6 +52,10 @@ class Badge
      * })
      */
     private $idTest;
+    public function __toString()
+    {
+        return (string) $this->getIdTest();
+    }
 
     public function getIdBadge(): ?int
     {
