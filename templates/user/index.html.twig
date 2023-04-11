@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <table class="table">
+        <thead><tr>
+                <th>Freelancer</th>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Photo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in freelancers %}
+            <tr>
+                <td>{{ f.lastName }}</td>
+                <td>{{ f.firstName }}</td>
+                <td>{{ f.phone }}</td>
+                <td>{{ f.email }}</td>
+                <td>{{ f.photo }}</td>
+                <td>
+                    <a  class="btn btn-primary" href="{{ path('app_user_show', {'idUser': f.idUser}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_user_edit', {'idUser': f.idUser}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ path('app_user_newF') }}">Create new Freelancer</a> <br>
+    <br>
+    <table class="table">
+        <thead><tr>
+                <th>Recruter</th>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Photo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for r in recruters %}
+            <tr>
+                <td>{{ r.lastName }}</td>
+                <td>{{ r.firstName }}</td>
+                <td>{{ r.phone }}</td>
+                <td>{{ r.email }}</td>
+                <td>{{ r.photo }}</td>
+                <td>
+                    <a  class="btn btn-primary" href="{{ path('app_user_show', {'idUser': r.idUser}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_user_edit', {'idUser': r.idUser}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_user_newR') }}">Create new Recruter</a>
+    <br>
+    </div>
+{% endblock %}
