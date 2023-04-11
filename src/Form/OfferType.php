@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 class OfferType extends AbstractType
 {
@@ -39,8 +41,10 @@ class OfferType extends AbstractType
                     'placeholder' => 'Enter your keywords',
                 ],
             ])
-            ->add('salary',TextType::class, [
+            ->add('salary', NumberType::class, [
+                'scale' => 2, // allow 2 decimal places
                 'attr' => [
+                    'step' => '0.01', // set the input step to 0.01
                     'class' => 'form-control valid',
                     'placeholder' => 'Enter your salary',
                 ],
