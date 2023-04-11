@@ -4,11 +4,10 @@
 
 {% block body %}
     <h1>Formation index</h1>
-
+    {% for formation in formations %}
     <table class="table">
         <thead>
             <tr>
-                <th>IdFormation</th>
                 <th>Name</th>
                 <th>Nbh</th>
                 <th>Nbl</th>
@@ -17,9 +16,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for formation in formations %}
-            <tr>
-                <td>{{ formation.idFormation }}</td>
+        <tr>
                 <td>{{ formation.name }}</td>
                 <td>{{ formation.nbh }}</td>
                 <td>{{ formation.nbl }}</td>
@@ -28,14 +25,54 @@
                     <a href="{{ path('app_formation_show', {'idFormation': formation.idFormation}) }}">show</a>
                     <a href="{{ path('app_formation_edit', {'idFormation': formation.idFormation}) }}">edit</a>
                 </td>
+        </tr>  
+            
+            <tr>
+                <td>Name</td>
+                <td>Context</td>
+                <td>actions</td>
             </tr>
-        {% else %}
+            <tr><td> <h3> chapters link to {{formation.name}} </h3>  </td></tr>
+            {% set nbchap = 0 %}
+
+            {% for chap in chapters %}
+            {% if chap.formation.idFormation == formation.idFormation  %}
+            {% set nbchap  = nbchap + 1  %}
+            
+            <tr>
+           <td>{{ chap.name }}</td>
+                <td>{{ chap.context }}</td>
+                <td>
+                    <a href="{{ path('app_chapters_show', {'id': chap.id}) }}">show</a>
+                    <a href="{{ path('app_chapters_edit', {'id': chap.id}) }}">edit</a>
+                </td>
+                </tr>
+            {% endif %}
+            
+            {% else %}
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
-        {% endfor %}
+            
+            {% endfor %} 
+            {% if nbchap ==0  %}
+            <tr>
+                <td colspan="6">no records found for chapters</td>
+            </tr>
+            {% endif %}
         </tbody>
     </table>
+    <br>
+    <br>
+    {% endfor %} 
+
 
     <a href="{{ path('app_formation_new') }}">Create new</a>
-{% endblock %}
+
+
+ {% endblock %}
+
+
+
+
+

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Formation;
+use App\Entity\Chapters;
+
 use App\Form\FormationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,16 +15,37 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/', name: 'app_formation_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $formations = $entityManager
             ->getRepository(Formation::class)
             ->findAll();
+        $chapters = $entityManager
+            ->getRepository(Chapters::class)
+            ->findAll();
 
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
+            'chapters' => $chapters,
         ]);
+    }
+
+    public function getFormationByName(string $name): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT u FROM App\Entity\Formation u WHERE u.name = :name'
+        )->setParameter('name', $name);
+
+        return $query->getResult();
     }
 
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
@@ -33,6 +56,13 @@ class FormationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $u = $this->getFormationByName($form["name"]->getData());
+            if (count($u)!=0) 
+            {
+                return $this->redirectToRoute('app_formation_new', [], Response::HTTP_SEE_OTHER);
+            }
+
             $entityManager->persist($formation);
             $entityManager->flush();
 

@@ -10,19 +10,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $users = $entityManager
-            ->getRepository(User::class)
-            ->findAll();
+        $this->entityManager = $entityManager;
+    }
+
+    public function getUsersByEmail(string $email): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT u FROM App\Entity\User u WHERE u.email = :email'
+        )->setParameter('email', $email);
+
+        return $query->getResult();
+    }
+
+    public function getUsersByRole(string $role): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT u FROM App\Entity\User u WHERE u.role = :role'
+        )->setParameter('role', $role);
+
+        return $query->getResult();
+    }
+    #[Route('/', name: 'app_user_index', methods: ['GET'])]
+    public function index(): Response
+    {
+        $freelancers = $this->getUsersByRole("freelancer");
+        $recruters= $this->getUsersByRole("recruter");
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'freelancers' => $freelancers,
+            'recruters' => $recruters,
         ]);
     }
 
@@ -30,11 +56,16 @@ class UserController extends AbstractController
     public function newR(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(UserTypeNew::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $user->setRole("recruter");
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $u =$this->getUsersByEmail($form["email"]->getData());
+            if (count($u)!=0) 
+            {
+                return $this->redirectToRoute('app_user_newR', [], Response::HTTP_SEE_OTHER);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -51,9 +82,15 @@ class UserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
+        $user->setRole("freelancer");
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $u =$this->getUsersByEmail($form["email"]->getData());
+            if (count($u)!=0)
+            {
+                return $this->redirectToRoute('app_user_newR', [], Response::HTTP_SEE_OTHER);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 

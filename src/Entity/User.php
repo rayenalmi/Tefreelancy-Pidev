@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     /**
      * @var int
@@ -89,7 +89,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->idOffer = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
+    public function __toString()
+{
+    return (string) $this->getIdUser();
+}
 
     /**
      * The public representation of the user (e.g. a username, an email address, etc.)
@@ -112,6 +115,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
+    public function setRoles(array $roles): self
+    {
+        $this->role = $roles;
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
 
     /**
      * Returning a salt is only needed if you are not using a modern
@@ -119,9 +135,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getSalt(): ?string
+    public function getSalt()
     {
-        return null;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
@@ -186,13 +202,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
 
     public function setPassword(string $password): self
     {
