@@ -10,9 +10,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('/start/offer')]
 class OfferController extends AbstractController
+
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    public function getOfferByName(string $name): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o FROM App\Entity\Offer o WHERE o.name = :name'
+        )->setParameter('name', $name);
+
+        return $query->getResult();
+    }
+
     #[Route('/', name: 'app_offer_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -33,6 +50,10 @@ class OfferController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $x=$this->getOfferByName($form["name"]->getData());
+            if(count($x)!=0){
+                return $this->redirectToRoute('app_offer_new', [], Response::HTTP_SEE_OTHER);
+            }
             $entityManager->persist($offer);
             $entityManager->flush();
 
