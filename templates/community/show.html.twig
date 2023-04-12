@@ -5,21 +5,60 @@
 {% endblock %}
 
 {% block body %}
-  <h1>
-    Community
-  </h1>
+<div>
+   <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
 
-  <h5>
+  <a href="{{ path('app_community_index') }}">Back to list</a>
+ </div>
+
+  {# <a href="{{ path('app_grouppost_new',{ idCommunity: community.idCommunity}) }}">Create new</a> #}
+
+  <img src="https://images.unsplash.com/photo-1608408843596-b3119736057c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2034&q=80"
+              {# href="{{ asset('..\public\assets\css\styleCommunityPage.css') }}" #}
+              class="img-fluid rounded-start small-img w-25 ml-200 mt-50  w-75"
+              alt="..." />
+               <div style="margin-left:1500px " class="mb-20 mt-20 ">
+          <img src="https://cdn-icons-png.flaticon.com/512/10336/10336548.png"
+            alt=""
+            class="img-fluid "
+            style="width: 25px;  " />
+          <a href="{{ path('app_grouppost_new',{'idCommunity':community.getIdCommunity()}) }}">Create new</a>
+        </div>
+
+  <h5 class="ml-200 mt-35">
     {{ community.name }}
   </h5>
+  <p class="ml-200">
   {{ community.description }}
-  <h5></h5>
-  {% for grouppost in groupposts %}
-    <div>
-      <h3>
-        {{ grouppost.context }}
-      </h3>
-      <a href="{{
+  <p/>
+
+  <table class="table">
+    {% for grouppost in groupposts %}
+      <div class="card mb-3  ml-200 " style="margin-right:270px">
+        <div class="row g-0 ml-10">
+          <div class="col-md-4" >
+            <img src="..\assets\img\manUser.png"
+              {# href="{{ asset('..\public\assets\css\styleCommunityPage.css') }}" #}
+              class="img-fluid rounded-start small-img mt-20 " style="width:110px"
+              alt="..." />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">
+                Ameni Ben Saada
+                {# {{ grouppost.user.first_name }} #}
+              </h5>
+              <p class="card-text">
+                {{ grouppost.context }}
+              </p>
+               <img src="https://cdn-icons-png.flaticon.com/512/9283/9283120.png"
+                      alt=""
+                      class="img-fluid"
+                      style="width: 25px;" />
+                        <a href="{{
         path(
           'app_grouppost_edit',
           {
@@ -29,43 +68,35 @@
         }}">
         edit
       </a>
-    </div>
-  {% endfor %}
+      {# <button class=" "> #}
+        <img src="https://cdn-icons-png.flaticon.com/512/10191/10191928.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
+                          <a href="{{
+        path(
+          'app_grouppost_delete',
+          {
+            idGrouppost: grouppost.idGrouppost
+          }
+        )
+        }}">
+        Delete
+      </a>
+      {# </button> #}
+      {# <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete?')){window.location.href='{{ path('app_grouppost_delete', {idGrouppost: grouppost.idGrouppost}) }}'}">
+  Delete
+</button> #}
 
-  {# <table class="table">
-    <tbody>
-      <tr>
-        <th>
-          Name
-        </th>
-        <td>
-          {{ grouppost.context }}
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Description
-        </th>
-        <td>
-          {{ grouppost.user }}
-        </td>
-      </tr>
-      <tr>    <a href="{{
-                      path(
-                        'app_community_edit',
-                        {
-                          idCommunity: community.idCommunity
-                        }
-                      )
-                      }}">
-                      edit
-                    </a></tr>
-    </tbody>
-  </table>#}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </table>
 
-  <a href="{{ path('app_community_index') }}">back to list</a>
 
-  <a href="{{
+  {# <a href="{{
     path(
       'app_community_edit',
       {
@@ -74,7 +105,9 @@
     )
     }}">
     edit
-  </a>
+  </a> #}
 
-  {{ include('community/_delete_form.html.twig') }}
+
+
+  {# {{ include('grouppost/_delete_form.html.twig') }} #}
 {% endblock %}

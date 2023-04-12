@@ -93,22 +93,17 @@ class CommunityController extends AbstractController
         ]);
     }
 
-    #[Route('/{idCommunity}', name: 'app_community_delete', methods: ['POST'])]
+    #[Route('/{idCommunity}/delete', name: 'app_community_delete', methods: ['GET'])]
     public function delete(
         Request $request,
-        Community $community,
+        int $idCommunity,
         EntityManagerInterface $entityManager
     ): Response {
-        if (
-            $this->isCsrfTokenValid(
-                'delete' . $community->getIdCommunity(),
-                $request->request->get('_token')
-            )
-        ) {
-            $entityManager->remove($community);
-            $entityManager->flush();
-        }
-
+        $community = $entityManager
+            ->getRepository(Community::class)
+            ->find($idCommunity);
+        $entityManager->remove($community);
+        $entityManager->flush();
         return $this->redirectToRoute(
             'app_community_index',
             [],

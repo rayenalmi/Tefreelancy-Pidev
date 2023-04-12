@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block body %}
+  <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+    alt=""
+    class="img-fluid ml-35"
+    style="width: 25px;" />
+  <a href="{{ path('app_grouppost_index') }}">back to list</a>
   <h1>
     Grouppost
   </h1>
@@ -53,8 +58,6 @@
       </tr>
     </tbody>
   </table>
-
-  <a href="{{ path('app_grouppost_index') }}">back to list</a>
 
   <a href="{{
     path(

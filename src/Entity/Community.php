@@ -28,10 +28,10 @@ class Community
     #[ORM\Column]
     private ?int $idCommunity;
     /**
-     * @Assert\NotBlank(message=" name should not be empty")
+     * @Assert\NotBlank(message=" Name field can't be empty")
      * @Assert\Length(
      *      min = 5,
-     *      minMessage=" enter a name minimum 5 letters"
+     *      minMessage=" Enter a name with minimum 5 letters"
      *
      *     )
      * @ORM\Column(name="name", type="text", length=65535, nullable=false)
@@ -40,12 +40,12 @@ class Community
     #[ORM\Column(length: 550)]
     private ?string $name;
     /**
-     * @Assert\NotBlank(message="description  doit etre non vide")
+     * @Assert\NotBlank(message="Description field can't be empty")
      * @Assert\Length(
      *      min = 7,
-     *      max = 100,
-     *      minMessage = "doit etre >=7 ",
-     *     maxMessage = "doit etre <=100" )
+     *      max = 100999,
+     *      minMessage = "Should be >=7 ",
+     *     maxMessage = "Should be <=100999" )
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
     #[ORM\Column(length: 550)]
@@ -55,7 +55,12 @@ class Community
     {
         return $this->idCommunity;
     }
+    public function setIdCommunity(int $id): self
+    {
+        $this->idCommunity = $id;
 
+        return $this;
+    }
     public function getName(): ?string
     {
         return $this->name;

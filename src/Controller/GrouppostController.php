@@ -25,13 +25,16 @@ class GrouppostController extends AbstractController
         ]);
     }
 
-    #[Route('/new/idCommunity', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idCommunity}', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        int $idCommunity
     ): Response {
         $grouppost = new Grouppost();
         $grouppost->setUser(1);
+        $grouppost->setIdCommunity($idCommunity);
+
         $form = $this->createForm(GrouppostType::class, $grouppost);
         $form->handleRequest($request);
 
@@ -40,8 +43,8 @@ class GrouppostController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'app_grouppost_index',
-                [],
+                'app_community_show',
+                ['idCommunity' => $grouppost->getIdCommunity()],
                 Response::HTTP_SEE_OTHER
             );
         }
@@ -58,7 +61,7 @@ class GrouppostController extends AbstractController
     ): Response {
         
         return $this->render('community/show.html.twig', [
-            'groupposts' => $groupposts,
+            'groupposts' => $grouppost,
         ]);
     }
 
@@ -88,25 +91,20 @@ class GrouppostController extends AbstractController
         ]);
     }
 
-    #[Route('/{idGrouppost}', name: 'app_grouppost_delete', methods: ['POST'])]
+    #[Route('/{idGrouppost}/delete', name: 'app_grouppost_delete', methods: ['GET'])]
     public function delete(
         Request $request,
-        Grouppost $grouppost,
+        int $idGrouppost,
         EntityManagerInterface $entityManager
     ): Response {
-        if (
-            $this->isCsrfTokenValid(
-                'delete' . $grouppost->getIdGrouppost(),
-                $request->request->get('_token')
-            )
-        ) {
+        $grouppost = $entityManager
+        ->getRepository(Grouppost::class)
+        ->find($idGrouppost);
             $entityManager->remove($grouppost);
             $entityManager->flush();
-        }
-
         return $this->redirectToRoute(
-            'app_grouppost_index',
-            [],
+            'app_community_show',
+            ['idCommunity' => $grouppost->getIdCommunity()],
             Response::HTTP_SEE_OTHER
         );
     }

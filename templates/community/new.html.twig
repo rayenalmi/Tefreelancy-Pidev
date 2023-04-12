@@ -5,31 +5,32 @@
 {% endblock %}
 
 {% block body %}
-  <h5>
-    Create new Community
-  </h5>
+  
 
   <section class="mt-5>
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="..\img\addgrp.png" class="img-fluid" alt="Sample image" />
+      <div class="col-md-9 col-lg-6 col-xl-5 mt-30">
+        <img src="..\img\addgrp.png" class="img-fluid w-75" />
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <h5>
+    Create new Community
+  </h5>
        {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
           <div class="form-outline mb-4">
-{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Enter a valid group name'}}) }}
+{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg pb-20', 'placeholder': 'Enter a valid group name'}}) }}
 {{ form_errors(form.name, {'attr': {'class': 'text-danger'}}) }}
 
 
-            <label class="form-label" >Name</label>
+            {# <label class="form-label" >Name</label> #}
           </div>
 
-          <div class="form-outline mb-3">
-            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Enter Description'}}) }}
+          <div class="form-outline mb-4">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg pb-100', 'placeholder': 'Enter Description'}}) }}
 {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
 
-            <label class="form-label" >Description</label>
+            {# <label class="form-label" >Description</label> #}
 
           </div>
 

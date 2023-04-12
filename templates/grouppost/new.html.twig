@@ -3,22 +3,31 @@
 {% block title %}New Grouppost{% endblock %}
 
 {% block body %}
-    <h5 class="mt-5">Create new Grouppost</h5>
+  <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
+       <a href="{{ path('app_community_index') }}">back to list</a>
 
-  <section class="mt-5>
-  <div class="container-fluid h-custom">
+
+  <section class="mt-35 mb-100">
+  <div class="container-fluid h-custom mt-175">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="..\img\writePost.png" class="img-fluid " alt="Sample image" />
+      <div class="col-md-3 col-lg-3 col-xl-3">
+        {# <img src="..\img\addgrp.png" class="img-fluid" alt="" /> #}
+        <img src="{{ asset('img/writePost.png') }}" class="img-fluid " />
+
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+    <h5 class="mt-5">Create new Grouppost</h5>
+
        {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
           <div class="form-outline mb-4">
-{{ form_widget(form.context, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Write Something'}}) }}
+{{ form_widget(form.context, {'attr': {'class': 'form-control form-control-lg pb-100', 'placeholder': 'Write Something'}}) }}
 {{ form_errors(form.context, {'attr': {'class': 'text-danger'}}) }}
 
 
-            <label class="form-label" >context</label>
+            {# <label class="form-label" >context</label> #}
           </div>
 
      
@@ -34,5 +43,4 @@
   </div>
 </section>
 
-    <a href="{{ path('app_grouppost_index') }}">back to list</a>
 {% endblock %}
