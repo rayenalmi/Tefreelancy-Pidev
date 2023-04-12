@@ -1,76 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Workspace{% endblock %}
+{% block title %}Workspace
+{% endblock %}
 
 {% block body %}
 
-<div class="row">
-    <div class="col-md-6">
-        <h1 class="mt-4 mb-4">Tasks</h1>
+	<div class="row">
+		<div class="col-md-6">
+			<h1 class="mt-4 mb-4">Tasks</h1>
 
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Deadline</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
-                        <td>
-                            <a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
-                            <a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">No tasks found</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Deadline</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for task in tasks %}
+						<tr>
+							<td>{{ task.title }}</td>
+							<td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
+							<td>
+								<a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
+								<a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">No tasks found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 
-        <a href="{{ path('app_addtask', {'id': workspaceId }) }}" class="btn btn-success">Create new task</a>
-    </div>
+			<a href="{{ path('app_addtask', {'id': workspaceId }) }}" class="btn btn-success">Create new task</a>
+		</div>
 
-    <div class="col-md-6">
-        <h1 class="mt-4 mb-4">Posts</h1>
+		<div class="col-md-6">
+			<h1 class="mt-4 mb-4">Posts</h1>
 
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for publication_w in publication_ws %}
-                    <tr>
-                        <td>{{ publication_w.title }}</td>
-                        <td>{{ publication_w.content }}</td>
-                        <td>
-                            <a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
-                            <a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">No posts found</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Content</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for publication_w in publication_ws %}
+						<tr>
+							<td>{{ publication_w.title }}</td>
+							<td>{{ publication_w.content }}</td>
+							<td>
+								<a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
+								<a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">No posts found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 
-        <a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="btn btn-success">Create new post</a>
-    </div>
-</div>
+			<a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="btn btn-success">Create new post</a>
+		</div>
+	</div>
 
-<div class="container mt-5">
+	<div class="container mt-5">
 		<h1 class="text-center mb-4">Freelancers</h1>
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover">
@@ -93,12 +94,22 @@
 					{% endfor %}
 				</tbody>
 			</table>
-            {{form(form2)}}
+			{{ form_start(form2, {'attr': {'novalidate': 'novalidate'}}) }}
+			{{ form_label(form2.email) }}
+			{{ form_widget(form2.email, {'attr': {'class': 'form-control ' ~ (form2.email.vars.errors|length > 0 ? 'is-invalid' : '') }}) }}
+			{% if form_errors(form2.email) %}
+				<div class="invalid-feedback">
+					{{ form_errors(form2.email) }}
+				</div>
+			{% endif %}
+			{{ form_widget(form2.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+			{{ form_end(form2) }}
+
+
 		</div>
-        <br>
+		<br>
 	</div>
 
- 
-
-
+<a href="{{ path('app_workspace_show', {'id': workspaceId}) }}" class="btn btn-primary">Show</a>
+<a href="{{ path('app_workspace_edit', {'id': workspaceId}) }}" class="btn btn-secondary">Edit</a>
 {% endblock %}

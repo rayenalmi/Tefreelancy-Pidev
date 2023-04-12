@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PublicationWs
  *
@@ -27,6 +27,7 @@ class PublicationWs
      *
      * @ORM\Column(name="title", type="string", length=30, nullable=false)
      */
+   // #[Assert\NotBlank(message:"Title is required")]
     private $title;
 
     /**
@@ -34,6 +35,7 @@ class PublicationWs
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
+   // #[Assert\NotBlank(message:"Content is required")]
     private $content;
 
     /**

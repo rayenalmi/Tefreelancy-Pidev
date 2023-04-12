@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Entity\WorkspaceTask;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    
+
 
 
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
@@ -50,15 +51,26 @@ class TaskController extends AbstractController
         ]);
     }
 
-
     #[Route('/addtask/{id}', name: 'app_addtask', methods: ['GET', 'POST'])]
-    public function addPost($id, Request $request, EntityManagerInterface $entityManager): Response
+    public function addPost($id, Request $request, EntityManagerInterface $entityManager, TaskRepository $repo): Response
     {
         $Task = new Task();
         $form = $this->createForm(TaskType::class, $Task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $existingTask = $entityManager->getRepository(Task::class)->findOneBy(['title' => $Task->getTitle()]);
+            //// $existingTask = $repo->findByName($Task->getTitle());
+            if ($existingTask != null) {
+                $message = 'Task already exists';
+                return $this->renderForm('task/new.html.twig', [
+                    'publication_w' => $Task,
+                    'workspaceId' => $id,
+                    'form' => $form,
+                    'message' => $message
+                ]);
+            }
+
             $entityManager->persist($Task);
             $entityManager->flush();
 
@@ -79,8 +91,10 @@ class TaskController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}/{workspaceId}', name: 'app_task_show', methods: ['GET'])]
-    public function show($workspaceId,Task $task): Response
+    public function show($workspaceId, Task $task): Response
     {
         return $this->render('task/show.html.twig', [
             'task' => $task,
@@ -89,12 +103,23 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{id}/edit/{workspaceId}', name: 'app_task_edit', methods: ['GET', 'POST'])]
-    public function edit($workspaceId,Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    public function edit($workspaceId, Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $existingTask = $entityManager->getRepository(Task::class)->findOneBy(['title' => $task->getTitle()]);
+            //// $existingTask = $repo->findByName($Task->getTitle());
+            if ($existingTask != null) {
+                $message = 'Task already exists';
+                return $this->renderForm('task/new.html.twig', [
+                    'publication_w' => $task,
+                    'workspaceId' => $workspaceId,
+                    'form' => $form,
+                    'message' => $message
+                ]);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('app_workspace_homews',  ['id' => $workspaceId], Response::HTTP_SEE_OTHER);
@@ -108,7 +133,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{id}/setTrue/{workspaceId}', name: 'app_task_setTrue', methods: ['GET', 'POST'])]
-    public function setTrue($workspaceId,Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    public function setTrue($workspaceId, Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
         $task->setCompleted(true); // set the completed property to true
         $entityManager->flush(); // persist the changes to the database
@@ -118,7 +143,7 @@ class TaskController extends AbstractController
 
 
     #[Route('/{id}/{workspaceId}', name: 'app_task_delete', methods: ['POST'])]
-    public function delete($workspaceId,Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    public function delete($workspaceId, Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $entityManager->remove($task);

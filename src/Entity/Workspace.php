@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Workspace
  *
@@ -27,6 +29,7 @@ class Workspace
      *
      * @ORM\Column(name="name", type="string", length=30, nullable=false)
      */
+    //#[Assert\NotBlank(message:"Name is required")]
     private $name;
 
     /**
@@ -34,6 +37,7 @@ class Workspace
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
+    //#[Assert\NotBlank(message:"Description is required")]
     private $description;
 
     /**
@@ -57,12 +61,7 @@ class Workspace
      */
     private $freelancers;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idoffer", type="integer", nullable=false)
-     */
-    private $idoffer;
+   
 
    
 
@@ -131,17 +130,17 @@ class Workspace
         return $this;
     }
 
-    public function getIdoffer(): ?int
-    {
-        return $this->idoffer;
-    }
+    // public function getIdoffer(): ?int
+    // {
+    //     return $this->idoffer;
+    // }
 
-    public function setIdoffer(int $idoffer): self
-    {
-        $this->idoffer = $idoffer;
+    // public function setIdoffer(int $idoffer): self
+    // {
+    //     $this->idoffer = $idoffer;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
 
 }

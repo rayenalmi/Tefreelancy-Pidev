@@ -62,6 +62,16 @@ class TaskRepository extends ServiceEntityRepository
         return $tasks;
     }
 
+    public function findByName($name)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.title = :title')
+            ->setParameter('title', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    
+    
 
     //    /**
     //     * @return Task[] Returns an array of Task objects

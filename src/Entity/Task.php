@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Task
  *
@@ -27,6 +29,8 @@ class Task
      *
      * @ORM\Column(name="title", type="string", length=30, nullable=false)
      */
+
+    //#[Assert\NotBlank(message:"Title is required")]
     private $title;
 
     /**
@@ -34,6 +38,8 @@ class Task
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
+
+    // #[Assert\NotBlank(message:"Description is required")]
     private $description;
 
     /**
@@ -41,6 +47,9 @@ class Task
      *
      * @ORM\Column(name="deadline", type="date", nullable=false)
      */
+
+    // #[Assert\NotBlank(message:"Deadline is required")] 
+
     private $deadline;
 
     /**
@@ -48,7 +57,7 @@ class Task
      *
      * @ORM\Column(name="completed", type="boolean", nullable=false)
      */
-    private $completed=false;
+    private $completed = false;
 
     public function getId(): ?int
     {
@@ -102,6 +111,4 @@ class Task
 
         return $this;
     }
-
-
 }

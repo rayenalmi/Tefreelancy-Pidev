@@ -5,25 +5,25 @@
 {% block body %}
     <h1>Workspace</h1>
 
+    <div><a href="{{ path('app_workspace_new') }}" class="btn btn-primary mt-3">Create new</a>
+    <br></div>
+    
     <div class="row">
         {% for workspace in workspaces %}
-        {% if loop.index <= 10 %}
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ workspace.name }}</h5>
                         <p class="card-text">{{ workspace.description }}</p>
-                        <a href="{{ path('app_workspace_show', {'id': workspace.id}) }}" class="btn btn-primary">Show</a>
-                        <a href="{{ path('app_workspace_edit', {'id': workspace.id}) }}" class="btn btn-secondary">Edit</a>
+                        {# <a href="{{ path('app_workspace_show', {'id': workspace.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('app_workspace_edit', {'id': workspace.id}) }}" class="btn btn-secondary">Edit</a> #}
                         <a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="btn btn-success">Go</a>
                     </div>
                 </div>
             </div>
-        {% endif %}
         {% else %}
             <p>No records found.</p>
         {% endfor %}
     </div>
 
-    <a href="{{ path('app_workspace_new') }}" class="btn btn-primary mt-3">Create new</a>
 {% endblock %}
