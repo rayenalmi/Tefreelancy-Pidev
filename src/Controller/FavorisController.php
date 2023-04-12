@@ -8,11 +8,30 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/favoris')]
 class FavorisController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    public function getAllFormationFavoris(): array
+    {
+        $session = new Session(); 
+        $session->start(); 
+        //$session->get('key');
+        $query = $this->entityManager->createQuery(
+            'SELECT f FROM App\Entity\UserFormation uf JOIN App\Entity\Formation f WITH uf.idFormation = f.idFormation WHERE uf.idUser = :id'
+            )->setParameter('id', $session->get('id'));
+
+        return $query->getResult();
+    }
+
     #[Route('/', name: 'app_favoris_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -20,8 +39,12 @@ class FavorisController extends AbstractController
             ->getRepository(UserFormation::class)
             ->findAll();
 
+        $session = new Session(); 
+
         return $this->render('favoris/index.html.twig', [
             'user_formations' => $userFormations,
+            'a' => $this->getAllFormationFavoris(),
+            'b' => $session->get('id')
         ]);
     }
 

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
@@ -42,13 +43,17 @@ class UserController extends AbstractController
     }
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(): Response
-    {
+    {   
+        $session = new Session(); 
+        $session->start(); 
+        //$session->get('key');
         $freelancers = $this->getUsersByRole("freelancer");
         $recruters= $this->getUsersByRole("recruter");
 
         return $this->render('user/index.html.twig', [
             'freelancers' => $freelancers,
             'recruters' => $recruters,
+            't' => $session->get('id')
         ]);
     }
 
