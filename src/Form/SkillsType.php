@@ -10,8 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SkillsType extends AbstractType
 {
@@ -20,7 +19,15 @@ class SkillsType extends AbstractType
         $builder
             
             ->add('name')
-            ->add('level')
+            
+            ->add('level', ChoiceType::class, [
+                'choices'  => [
+                    'Novice' => 'Novice',
+                    'Advanced' => 'Advanced',
+                    
+                ],
+            ])
+
             ->add('idFreelancer',EntityType::class,[
                 'class'=>User::class,
                 "choice_label"=>'email',

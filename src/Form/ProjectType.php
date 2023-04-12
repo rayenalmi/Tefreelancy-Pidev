@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Portfolio;
 use App\Entity\Project;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,11 @@ class ProjectType extends AbstractType
                 'expanded'=>false,
                 'multiple'=>false
             ])
-        ;
+            ->add('idFreelancer') 
+        
+            
+        
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

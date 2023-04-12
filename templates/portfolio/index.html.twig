@@ -3,6 +3,11 @@
 {% block title %}Portfolio index{% endblock %}
 
 {% block body %}
+
+
+ <img src="{{ asset('img/profile/portfolio.png') }}"  width="120" height="80" alt="Natural" align="left"/>
+
+<br>
     <h1>Portfolio index</h1>
 
     <table class="table" border="1">
@@ -34,4 +39,9 @@
     </table>
 
     <a href="{{ path('app_portfolio_new') }}">Create new</a>
+    <br>
+    
+    <td><a class="btn btn-primary" href="{{path('app_project_index') }}">Take a look on your projects</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_experience_index') }}">See your experiences</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_skills_index') }}">Got a new skill ? </a></td>
 {% endblock %}

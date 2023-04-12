@@ -47,6 +47,14 @@ class Portfolio
      */
     private $idFreelancer;
 
+
+    public function __toString() 
+{
+    return (string) $this->idPortfolio; 
+}
+
+
+
     public function getIdPortfolio(): ?int
     {
         return $this->idPortfolio;

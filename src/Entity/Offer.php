@@ -97,6 +97,16 @@ class Offer
         return $this->idOffer;
     }
 
+
+    // added by badr
+
+/*  public function setIdOffer(int $idOffer): self
+{
+    $this->idOffer = $idOffer;
+    return $this;
+} * */
+
+    //
     public function getName(): ?string
     {
         return $this->name;
