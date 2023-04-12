@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\SearchOfferType;
 
 
 #[Route('/start/offer')]
@@ -30,15 +31,66 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-    #[Route('/', name: 'app_offer_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function RechercheDesc(): array
     {
-        $offers = $entityManager
-            ->getRepository(Offer::class)
-            ->findAll();
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.name DESC'
+        );
+
+        return $query->getResult();
+    }
+    public function RechercheAsc(): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.name ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    
+    public function findOffer($keyword)
+    {
+       /* var_dump($keyword); 
+        die()*/ ; //transforme array to string 
+        $ch = implode('', $keyword);
+        $query = $this->entityManager
+        ->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            WHERE o.keywords LIKE  :keywords')
+        ->setParameter('keywords', '%'.$ch.'%' );
+
+        return $query->getResult();
+    }
+
+    
+
+    #[Route('/', name: 'app_offer_index', methods: ['GET','POST'])]
+    public function index(Request $req,EntityManagerInterface $entityManager): Response
+    {
+            $offers = $entityManager->getRepository(Offer::class)->findAll();;
+            $form= $this->createForm(SearchOfferType::class);
+            $form->handleRequest($req);        
+            if($form->isSubmitted()){
+            
+                /*var_dump($this); 
+                die() ;*/ 
+                $offers = $this->findOffer($form->getData('search'));
+                
+                return $this->render('offer/index.html.twig', [
+                    'offers'=>$offers,
+                    'form'=>$form->createView()
+                ]);
+            }
 
         return $this->render('offer/index.html.twig', [
             'offers' => $offers,
+            'form'=>$form->createView()
         ]);
     }
 
@@ -52,6 +104,7 @@ class OfferController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $x=$this->getOfferByName($form["name"]->getData());
             if(count($x)!=0){
+                $this->addFlash('error','alerte!');
                 return $this->redirectToRoute('app_offer_new', [], Response::HTTP_SEE_OTHER);
             }
             $entityManager->persist($offer);
@@ -102,4 +155,8 @@ class OfferController extends AbstractController
 
         return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
+
+    
 }

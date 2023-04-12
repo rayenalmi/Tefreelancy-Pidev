@@ -2,7 +2,7 @@
     <!-- Count of Job list Start -->
     <div class="row">
         <div class="col-lg-7">
-            {{ form_start(form) }}
+{{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
             {{ form_errors(form) }}
             {{ form_widget(form) }}
             <br><br>
@@ -11,3 +11,4 @@
         </div>
     </div>
 </div>
+
