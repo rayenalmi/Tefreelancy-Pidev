@@ -69,6 +69,7 @@ class UserController extends AbstractController
             $u =$this->getUsersByEmail($form["email"]->getData());
             if (count($u)!=0) 
             {
+                $this->addFlash('error', 'Your action!');
                 return $this->redirectToRoute('app_user_newR', [], Response::HTTP_SEE_OTHER);
             }
             $entityManager->persist($user);
@@ -93,7 +94,8 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $u =$this->getUsersByEmail($form["email"]->getData());
             if (count($u)!=0)
-            {
+            {   
+                $this->addFlash('error', 'Your action!');
                 return $this->redirectToRoute('app_user_newR', [], Response::HTTP_SEE_OTHER);
             }
             $entityManager->persist($user);

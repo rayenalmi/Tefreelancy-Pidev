@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User implements UserInterface
+class User
 {
     /**
      * @var int
@@ -121,33 +121,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
-    {
-        return (string) $this->password;
-    }
 
-    /**
-     * Returning a salt is only needed if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
 
     public function getIdUser(): ?int
     {
@@ -208,6 +182,10 @@ class User implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+    public function getPassword(): ?string
+    {
+        return $this->password;
     }
 
     public function getPhoto(): ?string

@@ -59,7 +59,8 @@ class FormationController extends AbstractController
 
             $u = $this->getFormationByName($form["name"]->getData());
             if (count($u)!=0) 
-            {
+            {   
+                $this->addFlash('error', 'Your action!');
                 return $this->redirectToRoute('app_formation_new', [], Response::HTTP_SEE_OTHER);
             }
 

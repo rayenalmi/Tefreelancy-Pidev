@@ -66,7 +66,9 @@ class UserType extends AbstractType
             ])
             ->add('photo', TextType::class, [
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'Please enter your Photo',
+                    ]),
                 ],
             ])
             ->add('password', PasswordType::class, [
