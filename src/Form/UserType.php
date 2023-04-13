@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\{TextType,ButtonType,EmailType,Hi
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class UserType extends AbstractType
 {
@@ -64,10 +67,27 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('photo', TextType::class, [
+            ->add('photo', FileType::class, [
+                'label' => 'Brochure (PDF file)',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter your Photo',
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/*',
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas valide, assurez vous d\'avoir un fichier au format PDF, PNG, JPG, JPEG)',
                     ]),
                 ],
             ])
