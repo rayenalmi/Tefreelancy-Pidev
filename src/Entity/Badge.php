@@ -44,12 +44,9 @@ class Badge
     private $image;
 
     /**
-     * @var \Test
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Test")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_test", referencedColumnName="id_test")
-     * })
+     * @ORM\Column(name="id_test", type="integer", nullable=false)
      */
     private $idTest;
     public function __toString()
@@ -98,12 +95,12 @@ class Badge
         return $this;
     }
 
-    public function getIdTest(): ?Test
+    public function getIdTest(): ?int
     {
         return $this->idTest;
     }
 
-    public function setIdTest(?Test $idTest): self
+    public function setIdTest(?int $idTest): self
     {
         $this->idTest = $idTest;
 

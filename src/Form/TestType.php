@@ -17,15 +17,21 @@ class TestType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'constraints' => [
+                    
                     new NotBlank([
-                        'message' => 'Le champ nom ne doit pas être vide.',
+                        'message' => 'Le champ name ne doit pas être vide.',
                     ]),
                 ],
+                'empty_data' =>'',
+
             ])
             ->add('type', TextType::class, [
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'Le champ type ne doit pas être vide.',
+                    ]),
                 ],
+                'empty_data' => '',
             ])
         ;
     }
