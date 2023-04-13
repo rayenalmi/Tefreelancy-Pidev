@@ -1,28 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <div class="mt-10">
+ {#  <div class="mt-10">
     <div class="filter">
-      <div class="ml-5">
-        <div class="datatable-search">
-          <input class="datatable-input"
-            placeholder="Search..."
-            type="search"
-            title="Search within table" />
-        </div>
 
         <a class="icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-three-dots"></i>
         </a>
-        <div style="margin-left:1500px " class="mb-20">
+        <div style=" " class="mb-20 mt-20">
           <img src="https://cdn-icons-png.flaticon.com/512/10336/10336548.png"
             alt=""
             class="img-fluid"
             style="width: 25px; " />
           <a href="{{ path('app_community_new') }}">Create new</a>
-        </div>
+        </div> 
       </div>
-      {# 
+      
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
         <li class="dropdown-header text-start">
           <h6>
@@ -35,14 +28,155 @@
         <li><a class="dropdown-item" href="#">This Year</a></li>
       </ul> #}
     </div>
+        <div class="job-listing-area  pb-120">
+<div class="container">
+  <div class="col-lg-12">
+                    <div class="blog_right_sidebar">
+                    
+                 <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btns" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                  </div>
+                            </form>
+                        </aside>
+                        </div>
+                        </div>
+
     <div class="col-12">
       <div class="card overflow-auto">
         <div class="card-body pb-0">
-          <h5 class="card-title">
-            Groups
-          </h5>
+          
+          <section class="featured-job-area">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="count-job mb-35">
+                    {# <span>Groups</span> #}
+          <a href="{{ path('app_community_new') }}"class="btn post-btn ml-20">+ Create new</a>
 
-          <table class="table table-borderless">
+                    <!-- Select job items start -->
+                    <div class="select-job-items">
+                      <span>Sort by</span>
+                      <select name="select">
+                        <option value="">
+                          None
+                        </option>
+                        <option value="">
+                          Name
+                        </option>
+                    
+                     
+                      </select>
+                    </div>
+                    <!-- Select job items End -->
+                  </div>
+                </div>
+              </div>
+              {% for community in communities %}
+                <div class="single-job-items">
+                  <div class="job-items">
+                    <div class="company-img">
+                      <a href="#">
+                        <img src="../assets/img/icon/job-list1.png" alt="" />
+                      </a>
+                    </div>
+                    <div class="job-tittle job-tittle2">
+                      <a href="#">
+                        <h4>
+                          {{ community.name }}
+                        </h4>
+                      </a>
+                      <ul>
+                        <li>{{ community.description }}</li>
+                        {# <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
+                  <li>$3500 - $4000</li> #}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="items-link items-link2 f-right row mt-20">
+                    {# <a href="job_details.html">Full Time</a> #}
+                    <div class="col">
+                      <a href="{{
+                        path(
+                          'app_community_show',
+                          {
+                            idCommunity: community.idCommunity
+                          }
+                        )
+                        }}">
+                        Show
+                      </a>
+                    </div>
+                    <div class="col">
+                      <a href="{{
+                        path(
+                          'app_community_edit',
+                          {
+                            idCommunity: community.idCommunity
+                          }
+                        )
+                        }}">
+                        Edit
+                      </a>
+                    </div>
+
+                    <div class="col">
+                      <a href="{{
+                        path(
+                          'app_community_delete',
+                          {
+                            idCommunity: community.idCommunity
+                          }
+                        )
+                        }}">
+                        Delete
+                      </a>
+                      <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    {# <span>7 hours ago</span> #}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </section>
+          <div class="pagination-area pb-115 text-center">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="single-wrap d-flex justify-content-center">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-start">
+                        <li class="page-item active">
+                          <a class="page-link" href="#">01</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">02</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">03</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            <span class="ti-angle-right"></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {# <table class="table table-borderless">
             <thead>
               <tr class="bg-light">
                 <th scope="col">
@@ -100,7 +234,7 @@
                   </td>
                   <td>
                     {# <img src="https://cdn-icons-png.flaticon.com/512/1159/1159876.png"
-                     #}
+                     
                     <img src="https://cdn-icons-png.flaticon.com/512/9283/9283120.png"
                       alt=""
                       class="img-fluid"
@@ -135,7 +269,7 @@
                 </tr>
               {% endfor %}
             </tbody>
-          </table>
+          </table> #}
         </div>
       </div>
     </div>
