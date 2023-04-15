@@ -37,12 +37,46 @@
                             <form action="#">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                        <input type="text" id="search-input" class="form-control" placeholder='Search Keyword'
                                             onfocus="this.placeholder = ''"
                                             onblur="this.placeholder = 'Search Keyword'">
                                         <div class="input-group-append">
-                                            <button class="btns" type="button"><i class="ti-search"></i></button>
+                                            <button class="btns" type="button"id="search-button"><i class="ti-search"></i></button>
                                         </div>
+                                        {# <div id="search-results"></div> #}
+
+                                        <script>
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('keyup', () => {
+        const searchTerm = searchInput.value;
+
+        fetch(`/community/search-groups?name=${searchTerm}`)
+             .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.indexOf('application/json') !== -1) {
+                    return response.json();
+                } else {
+                    throw new TypeError('Response was not JSON');
+                }
+            })
+            .then(groups => {
+
+                const searchResults = document.getElementById('search-results');
+    searchResults.innerHTML = ''; // clear previous results
+
+    groups.forEach(group => {
+        const groupElement = document.createElement('div');
+        groupElement.innerHTML = `<h2>${group.name}</h2>`;
+        searchResults.appendChild(groupElement);
+    });
+            })  .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
                                   </div>
                             </form>
                         </aside>
@@ -54,7 +88,7 @@
         <div class="card-body pb-0">
           
           <section class="featured-job-area">
-            <div class="container">
+            <div class="container"id="search-results" >
               <div class="row">
                 <div class="col-lg-12">
                   <div class="count-job mb-35">
@@ -64,16 +98,27 @@
                     <!-- Select job items start -->
                     <div class="select-job-items">
                       <span>Sort by</span>
-                      <select name="select">
+                      <select name="select",id="sort-select">
                         <option value="">
                           None
                         </option>
                         <option value="">
                           Name
                         </option>
-                    
-                     
                       </select>
+                      <script>
+  const sortSelect = document.getElementById('sort-select');
+  const searchInput = document.getElementById('search-input');
+
+  sortSelect.addEventListener('change', () => {
+    const selectedOption = sortSelect.value;
+
+    if (selectedOption === 'name') {
+      const searchTerm = searchInput.value;
+      sortGroupsByName(searchTerm);
+    }
+  });
+</script>
                     </div>
                     <!-- Select job items End -->
                   </div>
