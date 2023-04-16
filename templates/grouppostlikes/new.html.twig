@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Grouppostlikes{% endblock %}
+
+{% block body %}
+    <h1>Create new Grouppostlikes</h1>
+
+    {{ include('grouppostlikes/_form.html.twig') }}
+
+    <a href="{{ path('app_grouppostlikes_index') }}">back to list</a>
+{% endblock %}

@@ -35,6 +35,14 @@
   <p class="ml-200">
   {{ community.description }}
   <p/>
+  <p>
+    {{ likesCount }} likes
+  </p>
+
+  {# Form to add a new like #}
+  {{ form_start(form) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
 
   <table class="table">
     {% for grouppost in groupposts %}
