@@ -68,7 +68,7 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('photo', FileType::class, [
-                'label' => 'Brochure (PDF file)',
+                'label' => 'Photo',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

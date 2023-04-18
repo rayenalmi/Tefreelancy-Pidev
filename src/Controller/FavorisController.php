@@ -24,10 +24,10 @@ class FavorisController extends AbstractController
     {
         $session = new Session(); 
         $session->start(); 
-        //$session->get('key');
+        $u=  $session->get('user');
         $query = $this->entityManager->createQuery(
             'SELECT f FROM App\Entity\UserFormation uf JOIN App\Entity\Formation f WITH uf.idFormation = f.idFormation WHERE uf.idUser = :id'
-            )->setParameter('id', $session->get('id'));
+            )->setParameter('id', $u->getIdUser());
 
         return $query->getResult();
     }
