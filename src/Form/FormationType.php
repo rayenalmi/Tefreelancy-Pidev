@@ -61,7 +61,7 @@ class FormationType extends AbstractType
                     'placeholder' => 'Enter Name Path',
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'Please enter a Name',]),
+                    new NotBlank(['message' => 'Please enter a Path',]),
                 ],
             ])
         ;

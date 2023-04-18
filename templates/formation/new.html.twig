@@ -4,7 +4,11 @@
 
 {% block body %}
     <h1>Create new Formation</h1>
-
+    {% if app.flashes('error') is not empty %}
+        <div class="alert alert-danger">
+            Formation Exist
+        </div>
+        {% endif %}
     {{ include('formation/_form.html.twig') }}
 
     <a href="{{ path('app_formation_index') }}">back to list</a>

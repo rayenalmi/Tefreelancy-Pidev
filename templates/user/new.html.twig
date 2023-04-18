@@ -4,7 +4,11 @@
 
 {% block body %}
     <h1>Create new User</h1>
-
+        {% if app.flashes('error') is not empty %}
+        <div class="alert alert-danger">
+            Email Exist
+        </div>
+        {% endif %}
     {{ include('user/_form.html.twig') }}
 
     <a href="{{ path('app_user_index') }}">back to list</a>
