@@ -37,7 +37,12 @@ body {
   .trend-text:hover::after {
 	transform: scaleX(1);
   }
-  
+
+  img {
+    max-width: 100%; /* make the image fill the width of the div */
+    height: 250; /* maintain the aspect ratio of the image */
+    width: auto;
+  }
 
 #login-box {
   position: relative;

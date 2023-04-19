@@ -182,6 +182,59 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/signin', name: 'app_user_signin', methods: ['GET', 'POST'])]
+    public function signin(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
+    {
+        $user = new User();
+        $form = $this->createForm(LoginType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $u =$this->getUsersByEmail($form["email"]->getData());
+            if (!$u) 
+            {
+                $this->addFlash('email', 'Your action!');
+                return $this->redirectToRoute('app_user_signin', [], Response::HTTP_SEE_OTHER);
+            }
+            else 
+            {   
+                if ($passwordHasher->isPasswordValid($u, $form["password"]->getData() ))
+                {
+                    $session = new Session(); 
+                    //$session->start(); 
+                    $session->set('user', $u);
+                    return $this->redirectToRoute('app_favoris_index', [], Response::HTTP_SEE_OTHER);
+                }
+                else 
+                {
+                    $this->addFlash('password', 'Your action!');
+                    return $this->redirectToRoute('app_user_signin', [], Response::HTTP_SEE_OTHER);
+                }
+                //$user->setPassword($form["password"]->getData());
+
+                /*if(!($passwtest==$hashedPassword))
+                {
+                    // faux mot de passe
+                    $this->addFlash('password', 'Your action!');
+                    return $this->redirectToRoute('app_user_login', [], Response::HTTP_SEE_OTHER);
+                }
+                else
+                {
+                    // les information sont correct
+                    return $this->redirectToRoute('app_start', [], Response::HTTP_SEE_OTHER);
+                }*/
+
+
+            }
+
+            //return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/signin.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/newRectuter', name: 'app_user_newR', methods: ['GET', 'POST'])]
     public function newR(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
     {

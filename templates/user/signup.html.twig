@@ -9,8 +9,8 @@
             Email Exist
         </div>
         {% endif %}
-     {{ include('user/_form.html.twig') }}
-    <input type="submit" name="signup_submit" value="Sign me up" />
+     {{ include('user/_form_signup.twig') }}
+    <a href="{{ path('app_user_login') }}">Sign In </a>
   </div>
   
   <div class="right">
