@@ -1,0 +1,24 @@
+{% block css %}
+    <link rel="stylesheet" type="text/css" href={{asset("./assets/login/css/style.css")}}>
+{% endblock %}
+<div id="login-box">
+  <div class="left">
+    <h1>Sign up as</h1> <h1 class="trend-text" > {{user.role}} </h1>
+    {% if app.flashes('error') is not empty %}
+        <div class="error-message">
+            Email Exist
+        </div>
+        {% endif %}
+     {{ include('user/_form.html.twig') }}
+    <input type="submit" name="signup_submit" value="Sign me up" />
+  </div>
+  
+  <div class="right">
+    <span class="loginwith">Sign in with<br />social network</span>
+    
+    <button class="social-signin facebook">Log in with facebook</button>
+    <button class="social-signin twitter">Log in with Twitter</button>
+    <button class="social-signin google">Log in with Gmail</button>
+  </div>
+  <div class="or">OR</div>
+</div>

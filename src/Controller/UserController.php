@@ -60,6 +60,75 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/signup/{role}', name: 'app_user_signup', methods:  ['GET', 'POST'])]
+    public function l($role, Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        if ($role == "recruter")
+        {
+        $user->setRole("recruter");
+        }
+        else 
+        {
+        $user->setRole("freelancer");
+        }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $u =$this->getUsersByEmail($form["email"]->getData());
+            if ($u) 
+            {
+                $this->addFlash('error', 'Your action!');
+                return $this->redirectToRoute('app_user_signup', ["role" => $role], Response::HTTP_SEE_OTHER);
+            }
+
+
+            
+             /** @var UploadedFile $brochureFile */
+             $brochureFile = $form->get('photo')->getData();
+
+             // this condition is needed because the 'brochure' field is not required
+             // so the PDF file must be processed only when a file is uploaded
+             
+             if ($brochureFile) {
+                 $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                 // this is needed to safely include the file name as part of the URL
+                 $safeFilename = $slugger->slug($originalFilename);
+                 $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+ 
+                 // Move the file to the directory where brochures are stored
+                 try {
+                     $brochureFile->move(
+                         $this->getParameter('brochures_directory'),
+                         $newFilename
+                     );
+                 } catch (FileException $e) {
+                     // ... handle exception if something happens during file upload
+                 }
+ 
+                 // updates the 'brochureFilename' property to store the PDF file name
+                 // instead of its contents
+                 $user->setPhoto($newFilename);
+
+                 $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $user->getPassword()
+                );
+                $user->setPassword($hashedPassword);
+             }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/signup.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/login', name: 'app_user_login', methods: ['GET', 'POST'])]
     public function login(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
     {
