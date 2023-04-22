@@ -21,7 +21,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UserController extends AbstractController
 {
     private $entityManager;
-
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -47,8 +47,8 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(): Response
     {   
-        $session = new Session(); 
-        $session->start(); 
+        //$session = new Session(); 
+        //$session->start(); 
         //$session->get('key');
         $freelancers = $this->getUsersByRole("freelancer");
         $recruters= $this->getUsersByRole("recruter");
@@ -56,7 +56,6 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'freelancers' => $freelancers,
             'recruters' => $recruters,
-            't' => $session->get('id')
         ]);
     }
 
@@ -185,6 +184,14 @@ class UserController extends AbstractController
     #[Route('/signin', name: 'app_user_signin', methods: ['GET', 'POST'])]
     public function signin(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
     {
+        $session = $request->getSession();
+
+        if($session->get('user') != null ) 
+        {
+            $session->remove('user');
+        }
+        //$session->start(); 
+        //$session->remove('user');
         $user = new User();
         $form = $this->createForm(LoginType::class, $user);
         $form->handleRequest($request);
@@ -199,7 +206,7 @@ class UserController extends AbstractController
             {   
                 if ($passwordHasher->isPasswordValid($u, $form["password"]->getData() ))
                 {
-                    $session = new Session(); 
+                    //$session = new Session(); 
                     //$session->start(); 
                     $session->set('user', $u);
                     return $this->redirectToRoute('app_favoris_index', [], Response::HTTP_SEE_OTHER);
@@ -361,6 +368,37 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/logout', name: 'app_user_logout', methods: ['GET', 'POST'])]
+    public function logout(): Response
+    {
+        $session = new Session();
+        $session->remove('user');
+        
+        //$session->get('key');
+        $freelancers = $this->getUsersByRole("freelancer");
+        $recruters= $this->getUsersByRole("recruter");
+
+        return $this->render('user/index.html.twig', [
+            'freelancers' => $freelancers,
+            'recruters' => $recruters,
+        ]);
+
+    }
+
+    #[Route('/cscsc', name: 'app_user_bbbb', methods: ['GET', 'POST'])]
+    public function sqcqs(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
+    {
+        $user = new User();
+        $form = $this->createForm(LoginType::class, $user);
+        $form->handleRequest($request);
+        
+
+        return $this->renderForm('user/signin.html.twig', [
+            'user' => $user,
+            'form' => $form,
         ]);
     }
 

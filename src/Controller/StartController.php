@@ -12,9 +12,9 @@ class StartController extends AbstractController
     #[Route('/', name: 'app_start')]
     public function index(): Response
     {
-        $session = new Session(); 
-        $session->start(); 
-        $session->set('id', 191);
+        //$session = new Session(); 
+        //$session->start(); 
+        //$session->set('id', 191);
         // $session->get('key')
         
         return $this->render('base.html.twig', [

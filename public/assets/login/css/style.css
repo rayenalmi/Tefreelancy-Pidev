@@ -220,3 +220,55 @@ button.social-signin.google {
 	text-align: center;
 	box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
+
+  /* Hide the pop-up by default */
+#myPopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 80%;
+  max-width: 600px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Show the pop-up when the button is clicked */
+#myPopup.show {
+  display: block;
+}
+
+/* Style the close button */
+#closeButton {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#goTofreelancer {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#goTorecruter {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
