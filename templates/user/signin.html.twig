@@ -1,0 +1,37 @@
+{% block css %}
+    <link rel="stylesheet" type="text/css" href={{asset("./assets/login/css/style.css")}}>
+{% endblock %}
+<div id="login-box">
+  <div class="left">
+    <h1 class="trend-text" >Sign In</h1> 
+    {% if app.flashes('email') is not empty %}
+        <div class="error-message">
+            Email Does not Exist
+        </div>
+        {% endif %}
+
+        {% if app.flashes('password') is not empty %}
+        <div class="error-message">
+            Please Set Correct Password
+        </div>
+        {% endif %}
+     {{ include('user/_form_signup.twig') }}
+    <a id="btnpop" href="#">Register </a>
+  </div>
+
+  <div id="myPopup">
+  <h2>You want to Sign As </h2>
+  <p>...</p>
+
+  <a href="{{ path('app_user_signup', {'role': 'freelancer'}) }}"> <button id="goTofreelancer">Freelancer</button> </a>   <a href="{{ path('app_user_signup', {'role': 'freelancer'}) }}">    <button id="goTorecruter">Recruter</button> </a>
+  </div>
+
+  <div class="right">
+    <img class="image_rigth" src="https://img.freepik.com/free-vector/digital-money-online-saving-deposit-concept-blank-space-phone_255625-429.jpg?w=1480&t=st=1681868240~exp=1681868840~hmac=93e60d5ffc474a8d5b27bfd5681528f084149fd5a0334b41a14967b34718b2a9" />
+  </div>
+  <div class="or">Goal</div>
+</div>
+   {% block js %}
+    <!-- All JS Custom Plugins Link Here here -->
+    <script src={{asset("./assets/login/js/app.js")}}></script>
+    {% endblock %}
