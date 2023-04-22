@@ -6,6 +6,7 @@ use App\Entity\Formation;
 use App\Entity\Chapters;
 
 use App\Form\FormationType;
+use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,8 +24,23 @@ class FormationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/', name: 'app_formation_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function findFormation($name)
+    {
+       /* var_dump($keyword); 
+        die()*/ ; //transforme array to string 
+        //$ch = implode('', $keyword);
+        $query = $this->entityManager
+        ->createQuery(
+            'SELECT o
+            FROM App\Entity\Formation o
+            WHERE o.name LIKE  :name')
+        ->setParameter('name', '%'.$name.'%' );
+
+        return $query->getResult();
+    }
+
+    #[Route('/', name: 'app_formation_index', methods: ['GET','POST'])]
+    public function index(Request $req,EntityManagerInterface $entityManager): Response
     {
         $formations = $entityManager
             ->getRepository(Formation::class)
@@ -33,9 +49,25 @@ class FormationController extends AbstractController
             ->getRepository(Chapters::class)
             ->findAll();
 
+        $form= $this->createForm(SearchType::class);
+        $form->handleRequest($req);
+
+        if($form->isSubmitted()){
+
+            $f =strlen($form["search"]->getData()) ==0  ? $formations : $this->findFormation($form["search"]->getData());
+            
+            return $this->render('formation/index.html.twig', [
+                'formations' => $f,
+                'chapters' => $chapters,
+                'form'=>$form->createView()
+            ]);
+        
+        }
+
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
             'chapters' => $chapters,
+            'form'=>$form->createView()
         ]);
     }
 
@@ -59,7 +91,8 @@ class FormationController extends AbstractController
 
             $u = $this->getFormationByName($form["name"]->getData());
             if (count($u)!=0) 
-            {
+            {   
+                $this->addFlash('error', 'Your action!');
                 return $this->redirectToRoute('app_formation_new', [], Response::HTTP_SEE_OTHER);
             }
 
