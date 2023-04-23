@@ -93,12 +93,12 @@ class TestController extends AbstractController
     }
 
 
-    #[Route('/recherche_offre_ajax', name: 'recherche_offre_ajax')]
+    /*#[Route('/recherche_offre_ajax', name: 'recherche_offre_ajax')]
     public function rechercheOffreAjax(Request $request): JsonResponse
     {
         $requestString = $request->query->get('searchValue');
         $resultats = $this->findOfferByName($requestString);
 
         return $this->json($resultats);
-    }
+    }*/
 }

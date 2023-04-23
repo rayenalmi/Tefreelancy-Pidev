@@ -62,7 +62,7 @@ class Offer
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User",cascade={"persist"} )
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_recruter", referencedColumnName="id_user")
      * })

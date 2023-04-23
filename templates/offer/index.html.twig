@@ -211,7 +211,7 @@
                                         {% for f in offers %}
                                         {% set nbr = nbr+1 %}
                                         {% endfor %}-->
-                                        <span>{{offers.getTotalItemCount}} Offers found</span>
+                                      
                                         <!-- Select job items start -->
                                         <div class="select-job-items">
                                             <span>Sort by</span>
@@ -255,9 +255,7 @@
                                 </div>
                             </div>
                             {% endfor %}
-                            <div class="items-link">
-                                <a>{{ knp_pagination_render(offers) }}</a>
-                            </div>
+                            
 
                         </div>
 

@@ -112,14 +112,14 @@ class OfferController extends AbstractController
     
 
     #[Route('/', name: 'app_offer_index', methods: ['GET','POST'])]
-    public function index(Request $req,EntityManagerInterface $entityManager,PaginatorInterface $paginator): Response
+    public function index(Request $req,EntityManagerInterface $entityManager): Response
     {
             $offers = $entityManager->getRepository(Offer::class)->findAll();
-            $offers = $paginator->paginate(
+            /*$offers = $paginator->paginate(
                 $offers,
                 $req->query->getInt(key:'page',default:1),
                 limit:2
-            );
+            );*/
             $form= $this->createForm(SearchOfferType::class);
             $form->handleRequest($req);        
             if($form->isSubmitted()){
@@ -143,7 +143,10 @@ class OfferController extends AbstractController
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $session = $request->getSession();
+        $u = $session->get('user');
         $offer = new Offer();
+        $offer->setIdRecruter($u);
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
 
@@ -241,19 +244,9 @@ class OfferController extends AbstractController
         return $response;
     }
 
-    
-    /**
-     * @Route("/", name="app_homepage")
-     */
-    #[Route('/yas', name: 'app_yass')]
-    public function index1(): Response
-    {
-        $ch="azerty";
-        return $this->render('test/index.html.twig', [
-            'chaine' => $ch,
-        ]);
-    }
 
+
+    #[Route('/yas', name: 'app_yass')]
     function helloWorld(): Response
 {
     return new Response('Hello, world!');
