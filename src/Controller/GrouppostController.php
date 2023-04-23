@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Grouppost;
+use App\Entity\Grouppostlikes;
+
 use App\Form\GrouppostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +26,19 @@ class GrouppostController extends AbstractController
             'groupposts' => $groupposts,
         ]);
     }
-
+    public function countLikes(int $postId, EntityManagerInterface $entityManager): int
+    {
+        $count = $entityManager
+            ->getRepository(Grouppostlikes::class)
+            ->createQueryBuilder('gpl')
+            ->select('COUNT(gpl.idgrouppost)')
+            ->where('gpl.idgrouppost = :postId')
+            ->setParameter('postId', $postId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    
+        return $count;
+    }
     #[Route('/new/{idCommunity}', name: 'app_grouppost_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -52,16 +66,6 @@ class GrouppostController extends AbstractController
         return $this->renderForm('grouppost/new.html.twig', [
             'grouppost' => $grouppost,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{idGrouppost}', name: 'app_grouppost_show', methods: ['GET'])]
-    public function show(
-        Grouppost $grouppost,
-    ): Response {
-        
-        return $this->render('community/show.html.twig', [
-            'groupposts' => $grouppost,
         ]);
     }
 

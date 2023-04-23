@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Community;
+use App\Entity\Grouppostlikes;
 use App\Entity\Grouppost;
-
+use Knp\Component\Pager\PaginatorInterface;
 use App\Form\CommunityType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Controller\ControllerTrait;
@@ -20,14 +21,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CommunityController extends AbstractController
 {
     #[Route('/', name: 'app_community_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $communities = $entityManager
+    public function index(
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response {
+        $totalGroups = $entityManager
             ->getRepository(Community::class)
-            ->findAll();
+            ->count([]);
+        $itemsPerPage = ceil($totalGroups / 4);
+        $pagination = $paginator->paginate(
+            $entityManager->getRepository(Community::class)->findAll(),
+            $request->query->getInt('page', 1),
+            $itemsPerPage
+        );
 
         return $this->render('community/index.html.twig', [
-            'communities' => $communities,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -64,7 +74,6 @@ class CommunityController extends AbstractController
         dump('helloooooo');
 
         $name = $request->query->get('name');
-
         $queryBuilder = $doctrine
             ->getManager()
             ->createQueryBuilder()
@@ -74,13 +83,10 @@ class CommunityController extends AbstractController
             ->setParameter('name', '%' . $name . '%');
 
         $groups = $queryBuilder->getQuery()->getResult();
-
-        // Convert the groups to an array of associative arrays for easier serialization
         $data = array_map(function ($group) {
             return [
                 'id' => $group->getIdCommunity(),
                 'name' => $group->getName(),
-                // Add any other properties you want to include in the JSON response
             ];
         }, $groups);
         dump('heloooooooooooooooo testtttttttttt');
@@ -109,19 +115,48 @@ class CommunityController extends AbstractController
 
         return new JsonResponse($data);
     }
-
+    // public function countLikes(
+    //     int $postId,
+    //     EntityManagerInterface $entityManager
+    // ): int {
+    //     $count = $entityManager
+    //         ->getRepository(Grouppostlikes::class)
+    //         ->createQueryBuilder('gpl')
+    //         ->select('COUNT(gpl.idgrouppost)')
+    //         ->where('gpl.idgrouppost = :postId')
+    //         ->setParameter('postId', $grouppostId)
+    //         ->getQuery()
+    //         ->getSingleScalarResult();
+    //     return $count;
+    // }
     #[Route('/{idCommunity}', name: 'app_community_show', methods: ['GET'])]
     public function show(
         Community $community,
         int $idCommunity,
-        EntityManagerInterface $entityManager
+
+        EntityManagerInterface $entityManager,
+        GrouppostController $likesController
     ): Response {
         $groupposts = $entityManager
             ->getRepository(Grouppost::class)
             ->findBy(['idCommunity' => $idCommunity]);
+        // foreach ($groupposts as $grouppost) {
+        //     $numLikes = $likesController->countLikes(
+        //         $grouppost->getIdGrouppost(),
+        //         $entityManager
+        //     );
+        //     $grouppost->setLikesnum($numLikes);
+        // }
+        $modifiedPosts = array_map(function ($groupPost) {
+            $groupPost['numLikes'] = $likesController->countLikes(
+                $grouppost->getIdGrouppost()
+            );
+            return $groupPost;
+        }, $groupposts);
         return $this->render('community/show.html.twig', [
             'community' => $community,
             'groupposts' => $groupposts,
+            'num_likes' => $numLikes,
         ]);
     }
 

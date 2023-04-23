@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/grouppostlikes')]
@@ -25,69 +26,52 @@ class GrouppostlikesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_grouppostlikes_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, EntityManagerInterface $entityManager): Response
-    // {
-    //     $grouppostlike = new Grouppostlikes();
-    //     $form = $this->createForm(GrouppostlikesType::class, $grouppostlike);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->persist($grouppostlike);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_grouppostlikes_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->renderForm('grouppostlikes/new.html.twig', [
-    //         'grouppostlike' => $grouppostlike,
-    //         'form' => $form,
-    //     ]);
-    // }
-    // Controller method that handles the creation of new likes
-    public function likePost(Request $request, Post $post)
-    {
-        $like = new Like();
-        $like->setPost($post);
-        $like->setUser(1);
-        $form = $this->createForm(GrouppostlikesType::class, $like);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($like);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_grouppostlikes_index', [
-                'id' => $post->getId(),
-            ]);
-        }
-
-        // Render the view of the post with the form to add a new like
-        return $this->render('grouppostlikes/new.html.twig', [
-            'post' => $post,
-            'likesCount' => $post->getLikes()->count(),
-            'form' => $form->createView(),
-        ]);
+    #[Route('/new', name: 'app_grouppostlikes_new', methods: ['POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $grouppostlike = new Grouppostlikes();
+        $body = $request->getContent();
+        $data = json_decode($body, true);
+        $grouppostlike->setIdgrouppost($data['Idgrouppost']);
+        $grouppostlike->setIduser($data['Iduser']);
+        $grouppostlike->setIdgroup($data['Idgroup']);
+        $entityManager->persist($grouppostlike);
+        $entityManager->flush();
+        return new JsonResponse($data);
     }
-    // Controller method that renders the view of the post
-    public function countLikes(Post $post)
-    {
-        // Retrieve the total number of likes for the current post
-        $likesCount = $this->getDoctrine()
-            ->getRepository(Grouppostlikes::class)
-            ->createQueryBuilder('l')
-            ->select('COUNT(l.id)')
-            ->where('l.post = :post')
-            ->setParameter('post', $post)
-            ->getQuery()
-            ->getSingleScalarResult();
 
-        // Render the view of the post with the likes count
-        return $this->render('communitypost/show.html.twig', [
-            'post' => $post,
-            'likesCount' => $likesCount,
+    // #[Route('/delete', name: 'app_grouppostlikes_delete', methods: ['POST'])]
+    // public function delete(
+    //     Request $request,
+    //     Grouppostlikes $grouppostlike,
+    //     EntityManagerInterface $entityManager
+    // ): Response {
+    //     $grouppostlike->getIdgrouppost($data['Idgrouppost']);
+    //     $grouppostlike->getIduser($data['Iduser']);
+    //     $grouppostlike->getIdgroup($data['Idgroup']);
+    //     $entityManager->remove($grouppostlike);
+    //     $entityManager->flush();
+    //     return new JsonResponse($data);
+    // }
+
+    #[Route('/{idgrouppost}/{id}/delete', name: 'app_grouppostlikes_delete', methods: ['POST'])]
+    public function delete(
+        Request $request,
+        Grouppostlikes $grouppostlike,
+        int $idgrouppost,
+        int $id,
+        EntityManagerInterface $entityManager,
+        
+    ): Response {
+        $grouppostlike = $entityManager->getRepository(Grouppostlikes::class)->findOneBy([
+            'grouppost' => $idgrouppost,
+            'user' => $this->getUser()->getId(),
         ]);
+        $entityManager->remove($grouppostlike);
+        $entityManager->flush();
+        return new JsonResponse([]);
     }
 
     #[Route('/{idgrouppost}/edit', name: 'app_grouppostlikes_edit', methods: ['GET', 'POST'])]
@@ -113,28 +97,5 @@ class GrouppostlikesController extends AbstractController
             'grouppostlike' => $grouppostlike,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{idgrouppost}', name: 'app_grouppostlikes_delete', methods: ['POST'])]
-    public function delete(
-        Request $request,
-        Grouppostlikes $grouppostlike,
-        EntityManagerInterface $entityManager
-    ): Response {
-        if (
-            $this->isCsrfTokenValid(
-                'delete' . $grouppostlike->getIdgrouppost(),
-                $request->request->get('_token')
-            )
-        ) {
-            $entityManager->remove($grouppostlike);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute(
-            'app_grouppostlikes_index',
-            [],
-            Response::HTTP_SEE_OTHER
-        );
     }
 }

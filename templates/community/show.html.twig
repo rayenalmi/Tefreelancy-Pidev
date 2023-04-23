@@ -13,7 +13,6 @@
 
   <a href="{{ path('app_community_index') }}">Back to list</a>
  </div>
-
   {# <a href="{{ path('app_grouppost_new',{ idCommunity: community.idCommunity}) }}">Create new</a> #}
 
   {# <img src="https://images.unsplash.com/photo-1608408843596-b3119736057c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2034&q=80" #}
@@ -35,14 +34,8 @@
   <p class="ml-200">
   {{ community.description }}
   <p/>
-  <p>
-    {{ likesCount }} likes
-  </p>
 
-  {# Form to add a new like #}
-  {{ form_start(form) }}
-  {{ form_widget(form) }}
-  {{ form_end(form) }}
+
 
   <table class="table">
     {% for grouppost in groupposts %}
@@ -92,6 +85,19 @@
         }}">
         Delete
       </a>
+    {# {% set likeCount = countLikes(grouppost.idGrouppost) %} #}
+<button class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="addLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ >Like 
+ <span >{{ grouppost.modifiedPosts }}</span>
+  </button>
+ <button class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ >DisLike</button>
+ {# <span>{{ num_likes }} likes</span> #}
+
+    {# <a href="{{ path('app_commentairegrppost_index') }}">Show comments</a> #}
+
+
+
       {# </button> #}
       {# <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete?')){window.location.href='{{ path('app_grouppost_delete', {idGrouppost: grouppost.idGrouppost}) }}'}">
   Delete
@@ -102,8 +108,68 @@
         </div>
       </div>
     {% endfor %}
+    
   </table>
+<script>
 
+    {# const addLikeBtn = document.querySelector('#addLikeBtn'); #}
+    const buttons = document.querySelectorAll('#addLikeBtn');
+    buttons.forEach(button => {
+        let liked = false;
+    button.addEventListener('click', function(event) {
+      const itemId = event.target.dataset.itemId;
+      const grpId = event.target.dataset.itemIdgrp;
+        fetch(`/grouppostlikes/new`, {
+            method: 'POST',
+            body: JSON.stringify({
+                Idgrouppost: itemId ,
+                Iduser: 2,
+                Idgroup: grpId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error adding like');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        
+    }); });
+</script>
+
+<script>
+    const buttons = document.querySelectorAll('#deleteLikeBtn');
+    buttons.forEach(button => {
+
+    button.addEventListener('click', function(event) {
+      console.log("hihihihihihi");
+
+      const itemId = event.target.dataset.itemId;
+      const grpId = event.target.dataset.itemIdgrp;
+      console.log(itemId);
+        fetch(`/grouppostlikes/${grpId}/${itemId}/delete`, {
+            method: 'POST',
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error deleting like');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        
+    }); });
+</script>
 
   {# <a href="{{
     path(
