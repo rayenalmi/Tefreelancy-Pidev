@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <canvas id="myChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ labels|json_encode()|raw }},
+                datasets: [{
+                    label: 'Salary',
+                    data: {{ salaries|json_encode()|raw }},
+                    backgroundColor: '#3e95cd'
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Offer Salaries'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+{% endblock %}

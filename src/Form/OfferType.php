@@ -78,12 +78,7 @@ class OfferType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('idRecruter',EntityType::class,[
-                'class'=>User::class,
-                "choice_label"=>'email',
-                'expanded'=>false,
-                'multiple'=>false
-            ])
+            
             
             //->add('idUser')
         ;

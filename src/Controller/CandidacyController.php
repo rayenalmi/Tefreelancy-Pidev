@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Candidacy;
 use App\Form\CandidacyType;
+use App\Form\CandidacyTypeEdit;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,12 +14,29 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/start/candidacy')]
 class CandidacyController extends AbstractController
 {
-    #[Route('/', name: 'app_candidacy_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $candidacies = $entityManager
-            ->getRepository(Candidacy::class)
-            ->findAll();
+        $this->entityManager = $entityManager;
+    }
+    public function getCandidacyByID(int $id): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT c.idCandidacy,c.object,c.message,c.accepted FROM App\Entity\Candidacy c  WHERE c.idFreelancer = :id'
+        )->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
+
+    #[Route('/', name: 'app_candidacy_index', methods: ['GET'])]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $session = $request->getSession();
+        $u = $session->get('user');
+        
+        $candidacies = $this->getCandidacyByID($u->getIdUser());
 
         return $this->render('candidacy/index.html.twig', [
             'candidacies' => $candidacies,
@@ -56,7 +74,7 @@ class CandidacyController extends AbstractController
     #[Route('/{idCandidacy}/edit', name: 'app_candidacy_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Candidacy $candidacy, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(CandidacyType::class, $candidacy);
+        $form = $this->createForm(CandidacyTypeEdit::class, $candidacy);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,7 +92,7 @@ class CandidacyController extends AbstractController
     #[Route('/{idCandidacy}', name: 'app_candidacy_delete', methods: ['POST'])]
     public function delete(Request $request, Candidacy $candidacy, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$candidacy->getIdCandidacy(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $candidacy->getIdCandidacy(), $request->request->get('_token'))) {
             $entityManager->remove($candidacy);
             $entityManager->flush();
         }

@@ -188,15 +188,15 @@
                 <!-- Right content -->
                 <div class="col-xl-9 col-lg-9 col-md-8">
 
-                    
+
                     <div class="row">
                         <div class="col-md-4">
                             {{form(form)}}
                         </div>
                         <div class="button-group-area mt-10">
-                        <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
-                        <br><br>
-                    </div>
+                            <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
+                            <br><br>
+                        </div>
 
                     </div>
 
@@ -207,11 +207,11 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="count-job mb-35">
-                                        {% set nbr = 0 %}
+                                        <!--{% set nbr = 0 %}
                                         {% for f in offers %}
                                         {% set nbr = nbr+1 %}
-                                        {% endfor %}
-                                        <span>{{nbr}} Offers found</span>
+                                        {% endfor %}-->
+                                        <span>{{offers.getTotalItemCount}} Offers found</span>
                                         <!-- Select job items start -->
                                         <div class="select-job-items">
                                             <span>Sort by</span>
@@ -255,6 +255,9 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            <div class="items-link">
+                                <a>{{ knp_pagination_render(offers) }}</a>
+                            </div>
 
                         </div>
 

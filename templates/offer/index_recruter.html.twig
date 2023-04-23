@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offer index{% endblock %}
+
+{% block body %}
+<main>
+
+
+    <!-- Hero Area Start-->
+    <div class="slider-area ">
+        <div class="single-slider section-overly slider-height2 d-flex align-items-center"
+            data-background={{asset("assets/img/hero/about.jpg")}}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Get your job</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Area End -->
+    <!-- Job List Area Start -->
+    <div class="job-listing-area pt-120 pb-120">
+        <div class="container">
+
+            <!-- Right content -->
+            <div class="col-xl-9 col-lg-9 col-md-8">
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        {{form(form)}}
+                    </div>
+                    <div class="button-group-area mt-10">
+                        <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
+                        <br><br>
+                    </div>
+
+                </div>
+
+                <!-- Featured_job_start -->
+                <section class="featured-job-area">
+                    <div class="container">
+                        <!-- Count of Job list Start -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="count-job mb-35">
+                                    {% set nbr = 0 %}
+                                    {% for f in offers %}
+                                    {% set nbr = nbr+1 %}
+                                    {% endfor %}
+                                    <span>{{nbr}} Offers found</span>
+                                    <!-- Select job items start -->
+                                    <div class="select-job-items">
+                                        <span>Sort by</span>
+                                        <select name="select">
+                                            <option value="">None</option>
+                                            <option value="">job list</option>
+                                            <option value="">job list</option>
+                                            <option value="">job list</option>
+                                        </select>
+                                    </div>
+                                    <!--  Select job items End-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Count of Job list End -->
+                        <!-- single-job-content -->
+                        {% for offer in offers %}
+                        <div class="single-job-items mb-30">
+                            <div class="job-items">
+                                <div class="company-img">
+                                    <a href="#"><img src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
+                                </div>
+                                <div class="job-tittle job-tittle2">
+                                    <a href="#">
+                                        <h4>{{offer.name}}</h4>
+                                    </a>
+                                    <ul>
+                                        <li>{{offer.description}}</li>
+
+                                    </ul>
+                                    <ul>
+                                        <li>Creative Agency</li>
+                                        
+                                        <li>${{offer.salary}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="items-link items-link2 f-right">
+                                <a href={{ path('app_offer_show', {'idOffer': offer.idOffer}) }}>Show</a>
+                                <span>{{offer.duration}}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+                <!-- Featured_job_end -->
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}
