@@ -9,6 +9,7 @@ use App\Form\FormationType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +25,16 @@ class FormationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    public function myFunction(): Response
+    {
+        // Do something
+
+        // Return a response
+        return $this->render('formation/index.html.twig', [
+            'message' => 'Hello, world!',
+        ]);
+    }
+
     public function findFormation($name)
     {
        /* var_dump($keyword); 
@@ -37,6 +48,21 @@ class FormationController extends AbstractController
         ->setParameter('name', '%'.$name.'%' );
 
         return $query->getResult();
+    }
+
+    #[Route('/recherche_ajax', name: 'recherche_ajax_formation')]
+    public function rechercheAjax(Request $request): JsonResponse
+    {
+        $requestString = $request->query->get('searchValue');
+        
+        $resultats = $this->entityManager
+        ->createQuery(
+            'SELECT o
+            FROM App\Entity\Formation o
+            WHERE o.name LIKE  :name')
+        ->setParameter('name', '%'.$requestString.'%' )
+        ->getResult();
+        return $this->json($resultats);
     }
 
     #[Route('/', name: 'app_formation_index', methods: ['GET','POST'])]
