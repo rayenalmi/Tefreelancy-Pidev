@@ -44,16 +44,7 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-    public function RechercheDesc(): array
-    {
-        $query = $this->entityManager->createQuery(
-            'SELECT o
-            FROM App\Entity\Offer o
-            ORDER BY o.name DESC'
-        );
-
-        return $query->getResult();
-    }
+   
     public function RechercheAsc(): array
     {
         $query = $this->entityManager->createQuery(
@@ -64,6 +55,135 @@ class OfferController extends AbstractController
 
         return $query->getResult();
     }
+
+    #[Route('/listOffreAsc',name: 'OffreAsc')]
+    public function listeOffreAsc(Request $req,EntityManagerInterface $entityManager):Response
+    {
+        $offers = $this->RechercheAsc();
+        $form= $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);        
+        if($form->isSubmitted()){
+        
+            /*var_dump($this); 
+            die() ;*/ 
+            $offers = $this->findOffer($form->getData('search'));
+            
+            return $this->render('offer/index.html.twig', [
+                'offers'=>$offers,
+                'form'=>$form->createView()
+            ]);
+        }
+
+    return $this->render('offer/index.html.twig', [
+        'offers' => $offers,
+        'form'=>$form->createView()
+    ]);
+    }
+
+ public function RechercheDesc(): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.name DESC'
+        );
+
+        return $query->getResult();
+    }
+    #[Route('/listOffreDesc',name: 'OffreDesc')]
+    public function listeOffreDesc(Request $req,EntityManagerInterface $entityManager):Response
+    {
+        $offers = $this->RechercheDesc();
+        $form= $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);        
+        if($form->isSubmitted()){
+        
+            /*var_dump($this); 
+            die() ;*/ 
+            $offers = $this->findOffer($form->getData('search'));
+            
+            return $this->render('offer/index.html.twig', [
+                'offers'=>$offers,
+                'form'=>$form->createView()
+            ]);
+        }
+
+    return $this->render('offer/index.html.twig', [
+        'offers' => $offers,
+        'form'=>$form->createView()
+    ]);
+    }
+
+    public function RechercheSalaryAsc(): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.salary ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    #[Route('/listOffreSalaryAsc',name: 'OffreSalaryAsc')]
+    public function listeOffreSalaryAsc(Request $req,EntityManagerInterface $entityManager):Response
+    {
+        $offers = $this->RechercheSalaryAsc();
+        $form= $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);        
+        if($form->isSubmitted()){
+        
+            /*var_dump($this); 
+            die() ;*/ 
+            $offers = $this->findOffer($form->getData('search'));
+            
+            return $this->render('offer/index.html.twig', [
+                'offers'=>$offers,
+                'form'=>$form->createView()
+            ]);
+        }
+
+    return $this->render('offer/index.html.twig', [
+        'offers' => $offers,
+        'form'=>$form->createView()
+    ]);
+    }
+
+    public function RechercheSalaryDesc(): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.salary DESC'
+        );
+
+        return $query->getResult();
+    }
+
+    #[Route('/listOffreSalaryDesc',name: 'OffreSalaryDesc')]
+    public function listeOffreSalaryDesc(Request $req,EntityManagerInterface $entityManager):Response
+    {
+        $offers = $this->RechercheSalaryDesc();
+        $form= $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);        
+        if($form->isSubmitted()){
+        
+            /*var_dump($this); 
+            die() ;*/ 
+            $offers = $this->findOffer($form->getData('search'));
+            
+            return $this->render('offer/index.html.twig', [
+                'offers'=>$offers,
+                'form'=>$form->createView()
+            ]);
+        }
+
+    return $this->render('offer/index.html.twig', [
+        'offers' => $offers,
+        'form'=>$form->createView()
+    ]);
+    }
+
 
     
     public function findOffer($keyword)

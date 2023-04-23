@@ -45,6 +45,12 @@
                     <div class="job-category-listing mb-50">
                         <!-- single one -->
                         <div class="single-listing">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{form(form)}}
+                                </div>
+                            </div>
+
                             <div class="small-section-tittle2">
                                 <h4>Job Category</h4>
                             </div>
@@ -187,19 +193,6 @@
                 </div>
                 <!-- Right content -->
                 <div class="col-xl-9 col-lg-9 col-md-8">
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            {{form(form)}}
-                        </div>
-                        <div class="button-group-area mt-10">
-                            <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
-                            <br><br>
-                        </div>
-
-                    </div>
-
                     <!-- Featured_job_start -->
                     <section class="featured-job-area">
                         <div class="container">
@@ -211,54 +204,65 @@
                                         {% for f in offers %}
                                         {% set nbr = nbr+1 %}
                                         {% endfor %}-->
-                                      
+
                                         <!-- Select job items start -->
                                         <div class="select-job-items">
-                                            <span>Sort by</span>
-                                            <select name="select">
+                                            <span>Sort by : </span>
+                                            <div class="button-group-area mt-40">
+                                                <a href="{{path('OffreAsc')}}" class="genric-btn default radius">Name
+                                                    Asc</a>
+                                                <a href="{{path('OffreDesc')}}" class="genric-btn primary radius">Name
+                                                    Desc</a>
+                                                <a href="{{path('OffreSalaryAsc')}}" class="genric-btn default radius">Salary Asc</a>
+                                                <a href="{{path('OffreSalaryDesc')}}" class="genric-btn primary radius">Salary Desc</a>
+
+                                                <!--<select name="select">
                                                 <option value="">None</option>
                                                 <option value="">job list</option>
                                                 <option value="">job list</option>
                                                 <option value="">job list</option>
-                                            </select>
+                                            </select>-->
+                                            </div>
+                                            <!--  Select job items End-->
                                         </div>
-                                        <!--  Select job items End-->
                                     </div>
                                 </div>
+                                <!-- Count of Job list End -->
+                                <!-- single-job-content -->
+                                {% for offer in offers %}
+                                <div class="single-job-items mb-30">
+                                    <div class="job-items">
+                                        <div class="company-img">
+                                            <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}"><img
+                                                    src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
+                                        </div>
+                                        <div class="job-tittle job-tittle2">
+                                            <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}">
+                                                <h4>{{offer.name}}</h4>
+                                            </a>
+                                            <ul>
+                                                <li>{{offer.description}}</li>
+
+                                            </ul>
+                                            <ul>
+                                                <li>Creative Agency</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
+                                                <li>${{offer.salary}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="items-link items-link2 f-right">
+                                        <a href="{{path('app_candidacy_new', {'idOffer': offer.idOffer} ) }}">Apply</a>
+                                        <span>{{offer.duration}}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
                             </div>
-                            <!-- Count of Job list End -->
-                            <!-- single-job-content -->
-                            {% for offer in offers %}
-                            <div class="single-job-items mb-30">
-                                <div class="job-items">
-                                    <div class="company-img">
-                                        <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}"><img src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
-                                    </div>
-                                    <div class="job-tittle job-tittle2">
-                                        <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}">
-                                            <h4>{{offer.name}}</h4>
-                                        </a>
-                                        <ul>
-                                            <li>{{offer.description}}</li>
-
-                                        </ul>
-                                        <ul>
-                                            <li>Creative Agency</li>
-                                            <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                            <li>${{offer.salary}}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="items-link items-link2 f-right">
-                                    <a href="{{path('app_candidacy_new', {'idOffer': offer.idOffer} ) }}">Apply</a>
-                                    <span>{{offer.duration}}</span>
-                                </div>
+                            <div class="button-group-area mt-10">
+                                <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
+                                <br><br>
                             </div>
-                            {% endfor %}
-                            
-
-                        </div>
-
                     </section>
                     <!-- Featured_job_end -->
                 </div>
