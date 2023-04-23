@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Candidacy;
+use App\Entity\Offer;
 use App\Form\CandidacyType;
+use App\Form\CandidacyType1;
 use App\Form\CandidacyTypeEdit;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,18 +45,23 @@ class CandidacyController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_candidacy_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{idOffer}', name: 'app_candidacy_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager,Offer $offer): Response
     {
+        $session = $request->getSession();
+        $u = $session->get('user');
         $candidacy = new Candidacy();
-        $form = $this->createForm(CandidacyType::class, $candidacy);
+        $candidacy->setIdFreelancer($u);
+        $candidacy->setIdOffer($offer);
+        
+        $form = $this->createForm(CandidacyType1::class, $candidacy);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($candidacy);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_candidacy_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('candidacy/new.html.twig', [
