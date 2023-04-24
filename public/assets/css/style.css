@@ -4,6 +4,63 @@
     background: #ffffff
 }
 
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(201, 211, 151);
+    border: 1px solid black;
+    padding: 50px;
+    width: 400px; /* set the width */
+    height: 200px; /* set the height */
+  }
+
+.line-list {
+    width: 20%;
+    list-style-type: none;
+    margin: 10;
+    padding: 10;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .line-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .line-list li:nth-child(odd) {
+    background-color: #f7f7f7;
+  }
+  
+  .line-list li:nth-child(even) {
+    background-color: #eaeaea;
+  }
+  
+  .line-list li .trend-up {
+    color: #4CAF50;
+  }
+  
+  .line-list li .trend-down {
+    color: #F44336;
+  }
+  
+  
+
+.details-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6aaff7;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
 .card {
     border: 1px solid #ddd;
     border-radius: 5px;

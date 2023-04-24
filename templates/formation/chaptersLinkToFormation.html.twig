@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br>
+<h2> Chapters Link To</h2> <br> <h1> {{formation.name}} </h1>
+<br>
+<br>
+
+<ul class="line-list">
+{% for chap in chapters %}
+  <li onclick="showPopup('{{chap.context}}')" >{{chap.name}}</li>
+{% endfor %}
+</ul>
+<br>
+<br>
+
+<!-- The popup/modal -->
+<div id="popup" style="display:none">
+  <p id="popup-text"></p>
+</div>
+<br>
+<br>
+<br>
+
+  <script>
+
+
+    function showPopup(element) {
+      // Get the text content of the <li> element
+      //console.log(element);
+      //var text = element.textContent;
+      
+      // Show the popup/modal
+      var popup = document.getElementById("popup");
+      popup.style.display = "block";
+      
+      // Display the text content in the popup/modal
+      var popupText = document.getElementById("popup-text");
+      popupText.textContent = element;
+    }
+
+  </script>
+
+{% endblock %}

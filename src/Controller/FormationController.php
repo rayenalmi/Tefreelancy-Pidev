@@ -25,16 +25,6 @@ class FormationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function myFunction(): Response
-    {
-        // Do something
-
-        // Return a response
-        return $this->render('formation/index.html.twig', [
-            'message' => 'Hello, world!',
-        ]);
-    }
-
     public function findFormation($name)
     {
        /* var_dump($keyword); 
@@ -97,6 +87,26 @@ class FormationController extends AbstractController
         ]);
     }
 
+    #[Route('/chaptersLinkTo/{idFormation}', name: 'app_chapters_link_to_formation',methods: ['GET', 'POST'])]
+    public function chaptersLinkToFormation(Formation $formation): Response
+    {
+        // Do something
+        $resultats = $this->entityManager
+        ->createQuery(
+            'SELECT c
+            FROM App\Entity\Chapters c
+            WHERE c.formation = :formation')
+        ->setParameter('formation', $formation->getIdFormation() )
+        ->getResult();
+
+        // Return a response
+        return $this->render('formation/chaptersLinkToFormation.html.twig', [
+            'formation' => $formation,
+            'chapters' => $resultats,
+            'message' => 'Hello, world!',
+        ]);
+    }
+
     public function getFormationByName(string $name): array
     {
         $query = $this->entityManager->createQuery(
@@ -134,13 +144,15 @@ class FormationController extends AbstractController
         ]);
     }
 
-    #[Route('/{idFormation}', name: 'app_formation_show', methods: ['GET'])]
+    #[Route('/{idFormation}', name: 'app_wormation_show', methods: ['GET'])]
     public function show(Formation $formation): Response
     {
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
         ]);
     }
+
+    
 
     #[Route('/{idFormation}/edit', name: 'app_formation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
