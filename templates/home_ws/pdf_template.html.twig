@@ -1,0 +1,18 @@
+{% block content %}
+    <table border="1" cellspacing="0">
+        <thead>
+            <tr bgcolor="#dddddd">
+                <th align="center" width="50%">Task</th>
+                <th align="center" width="50%">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td style="padding: 5px;">{{ task.title }}</td>
+                    <td style="padding: 5px;">{{ task.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

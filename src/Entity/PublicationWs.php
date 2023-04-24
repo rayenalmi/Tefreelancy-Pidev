@@ -58,6 +58,41 @@ class PublicationWs
 }
 
 
+ /**
+     * @var int
+     */
+    private $likes_count = 0;
+
+    public function getLikesCount(): int
+    {
+        return $this->likes_count;
+    }
+
+    public function incrementLikesCount(): void
+    {
+        $this->likes_count++;
+    }
+
+    
+    /**
+     * @var boolean
+     */
+
+
+    private $isLikedByUser = false;
+
+    public function getIsLikedByUser(): bool
+    {
+        return $this->isLikedByUser;
+    }
+
+    public function setIsLikedByUser(bool $isLikedByUser): self
+    {
+        $this->isLikedByUser = $isLikedByUser;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

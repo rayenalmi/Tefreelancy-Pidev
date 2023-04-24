@@ -27,8 +27,8 @@
                 {# <td>{{ publication_w.author }}</td>
                 <td>{{ publication_w.creationdate ? publication_w.creationdate|date('Y-m-d') : '' }}</td> #}
                 <td>
-                    <a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}">show</a>
-                    <a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}">edit</a>
+                    <a class="genric-btn primary-border circle" href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}">show</a>
+                    <a class="genric-btn primary-border circle" href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}">edit</a>
                 </td>
             </tr>
             {% endif %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_publication_ws_new') }}">Create new</a>
+    <a href="{{ path('app_publication_ws_new') }}" class="genric-btn primary-border circle">Create new</a>
 {% endblock %}

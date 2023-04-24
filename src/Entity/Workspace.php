@@ -63,7 +63,17 @@ class Workspace
 
    
 
-   
+   private $notifications;
+   public function getNotifications(): array
+{
+   return $this->notifications ?? [];
+}
+public function setNotifications(array $notifications): self
+{
+   $this->notifications = $notifications;
+
+   return $this;
+}
 
     public function getId(): ?int
     {

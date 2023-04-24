@@ -45,13 +45,12 @@ class PublicationWsRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $dql = '
-            SELECT t
-            FROM App\Entity\PublicationWs t
-            WHERE t.id IN (
-                SELECT wt.publicationId
-                FROM App\Entity\WorkspacePost wt
-                WHERE wt.workspaceId = :workspaceId
-            )
+        SELECT p
+        FROM App\Entity\PublicationWs p
+        JOIN App\Entity\WorkspacePost wp WITH wp.publicationId = p.id
+        WHERE wp.workspaceId = :workspaceId
+        ORDER BY p.creationdate DESC
+        
         ';
 
         $query = $entityManager->createQuery($dql);
@@ -62,8 +61,30 @@ class PublicationWsRepository extends ServiceEntityRepository
         return $PublicationWss;
     }
 
-   
-    
+    public function getLastPost(int $workspaceId): array
+    {
+        $entityManager = $this->getEntityManager();
+        $dql = '
+        SELECT p
+        FROM App\Entity\PublicationWs p
+        JOIN App\Entity\WorkspacePost wp WITH wp.publicationId = p.id
+        WHERE wp.workspaceId = :workspaceId
+        AND p.creationdate = CURRENT_DATE()
+        ORDER BY p.creationdate DESC
+        
+    ';
+
+        $query = $entityManager->createQuery($dql);
+        $query->setParameter('workspaceId', $workspaceId);
+        $PublicationWss = $query->getResult();
+        return $PublicationWss;
+    }
+
+
+
+
+
+
 
 
     //    /**

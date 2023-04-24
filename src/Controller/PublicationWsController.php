@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PublicationWs;
 use App\Entity\WorkspacePost;
 use App\Form\PublicationWsType;
+use App\Repository\PublicationWsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,4 +139,8 @@ class PublicationWsController extends AbstractController
 
         return $this->redirectToRoute('app_workspace_homews', ['id' => $workspaceId], Response::HTTP_SEE_OTHER);
     }
+
+   
+    
+
 }

@@ -8,6 +8,7 @@ use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +38,7 @@ class TaskController extends AbstractController
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
-
+        $notifications = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($task);
             $entityManager->flush();
@@ -51,16 +52,17 @@ class TaskController extends AbstractController
         ]);
     }
 
+    
+
     #[Route('/addtask/{id}', name: 'app_addtask', methods: ['GET', 'POST'])]
     public function addPost($id, Request $request, EntityManagerInterface $entityManager, TaskRepository $repo): Response
     {
         $Task = new Task();
         $form = $this->createForm(TaskType::class, $Task);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $existingTask = $entityManager->getRepository(Task::class)->findOneBy(['title' => $Task->getTitle()]);
-            //// $existingTask = $repo->findByName($Task->getTitle());
+
             if ($existingTask != null) {
                 $message = 'Task already exists';
                 return $this->renderForm('task/new.html.twig', [
@@ -81,17 +83,42 @@ class TaskController extends AbstractController
             $entityManager->persist($workspaceTask);
             $entityManager->flush();
 
+            $taskId = $Task->getId();
+            $this->addFlash('success', sprintf('%d', $taskId));
             return $this->redirectToRoute('app_workspace_homews', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('task/new.html.twig', [
             'publication_w' => $Task,
             'workspaceId' => $id,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
 
+
+
+    #[Route('/notifications', name: 'app_get_notifications', methods: ['GET'])]
+    public function getNotifications()
+    {
+        // Fetch notifications from the database
+        $notifications = [
+            ['id' => 1, 'message' => 'A New Task Has Been Added '],
+        ];
+
+        return new JsonResponse($notifications);
+    }
+
+    #[Route('/notification-count', name: 'app_get_notification_count', methods: ['GET'])]
+    public function getNotificationCount()
+    {
+        // Fetch notification count from the database or another source
+        $count = 5;
+
+        return new JsonResponse([
+            'count' => $count,
+        ]);
+    }
 
     #[Route('/{id}/{workspaceId}', name: 'app_task_show', methods: ['GET'])]
     public function show($workspaceId, Task $task): Response

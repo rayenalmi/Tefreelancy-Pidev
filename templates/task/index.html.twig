@@ -27,8 +27,8 @@
                 <td>{{ task.completed ? 'Yes' : 'No' }}</td>
                 <td>
                 
-                    <a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}">show</a>
-                    <a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }}">edit</a>
+                    <a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }} " class="genric-btn primary-border circle">show</a>
+                    <a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }} "class="genric-btn primary-border circle">edit</a>
                 </td>
             </tr>
             
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_task_new') }}">Create new</a>
+    <a href="{{ path('app_task_new') }} " class="genric-btn primary-border circle">Create new</a>
 {% endblock %}

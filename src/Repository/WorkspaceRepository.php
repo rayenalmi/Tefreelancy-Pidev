@@ -17,6 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WorkspaceRepository extends ServiceEntityRepository
 {
+
+    
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Workspace::class);
@@ -89,7 +92,7 @@ class WorkspaceRepository extends ServiceEntityRepository
         return $freelancer;
     }
 
-
+   
     //    /**
     //     * @return Workspace[] Returns an array of Workspace objects
     //     */

@@ -70,8 +70,22 @@ class TaskRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
-    
+
+  
+    public function findBySearchQuery($query)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->where('t.title LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->orWhere('t.description LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->andWhere('t.completed = 0')
+            ->orderBy('t.deadline', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 
     //    /**
     //     * @return Task[] Returns an array of Task objects

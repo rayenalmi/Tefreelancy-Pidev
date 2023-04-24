@@ -7,7 +7,11 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<h1 class="mt-4 mb-4">Tasks</h1>
+			<h1 class="mt-4 mb-4">Tasks
+				<a href="#" onclick="savePDF(event)">  
+					<img url="#" onclick="savePDF(event)" src="/assets/img/file.png" style="width: 20px; height: 20px;">
+				</a>
+			</h1>
 
 			<table class="table table-striped table-hover">
 				<thead>
@@ -23,8 +27,8 @@
 							<td>{{ task.title }}</td>
 							<td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
 							<td>
-								<a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
-								<a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
+								<a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}" class="genric-btn primary-border circle">Show</a>
+								<a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }}" class="genric-btn primary-border circle">Edit</a>
 							</td>
 						</tr>
 					{% else %}
@@ -35,7 +39,7 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('app_addtask', {'id': workspaceId }) }}" class="btn btn-success">Create new task</a>
+			<a href="{{ path('app_addtask', {'id': workspaceId }) }}" class="genric-btn primary circle">Create new task</a>
 		</div>
 
 		<div class="col-md-6">
@@ -55,8 +59,8 @@
 							<td>{{ publication_w.title }}</td>
 							<td>{{ publication_w.content }}</td>
 							<td>
-								<a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-info btn-sm">Show</a>
-								<a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="btn btn-primary btn-sm">Edit</a>
+								<a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="genric-btn primary-border circle">Show</a>
+								<a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="genric-btn primary-border circle">Edit</a>
 							</td>
 						</tr>
 					{% else %}
@@ -67,33 +71,81 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="btn btn-success">Create new post</a>
+			<a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="genric-btn primary circle">Create new post</a>
 		</div>
 	</div>
 
+
+	<script>
+		function savePDF(event) {
+event.preventDefault();
+
+var url = "{{ path('pdf_save', {'id': workspaceId}) }}";
+var xhr = new XMLHttpRequest();
+
+xhr.open('GET', url, true);
+xhr.responseType = 'blob';
+
+xhr.onload = function () {
+if (xhr.status === 200) {
+var blob = new Blob([xhr.response], {type: 'application/pdf'});
+
+var a = document.createElement('a');
+a.style.display = 'none';
+a.href = window.URL.createObjectURL(blob);
+a.download = 'workspace.pdf';
+document.body.appendChild(a);
+a.click();
+window.URL.revokeObjectURL(a.href);
+document.body.removeChild(a);
+}
+};
+
+xhr.send();
+}
+	</script>
+
 	<div class="container mt-5">
-		<h1 class="text-center mb-4">Freelancers</h1>
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover">
-				<thead class="table-dark">
-					<tr>
-						<th scope="col">First Name</th>
-						<th scope="col">Last Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for free in freelancers %}
-						<tr>
-							<td>{{ free.firstName }}</td>
-							<td>{{ free.lastName }}</td>
-						</tr>
-					{% else %}
-						<tr>
-							<td colspan="2" class="text-center">No records found.</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+			<section class="blog_area single-post-area section-padding">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 posts-list">
+							<div class="comments-area">
+								<h4>Freelancers</h4>
+								{% for free in freelancers %}
+									<div class="comment-list">
+										<div class="single-comment justify-content-between d-flex">
+											<div class="user justify-content-between d-flex">
+												<div class="thumb">
+													<img src="../../assets/img/comment/comment_1.png" alt="">
+												</div>
+												<div class="desc">
+													<div class="d-flex justify-content-between">
+														<div class="d-flex align-items-center">
+															<h5>
+																<a href="#">{{ free.firstName }}
+																	{{ free.lastName }}</a>
+															</h5>
+														</div>
+														<div class="reply-btn">
+															<a href="#" class="btn-reply text-uppercase">Remove</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<tr>
+										<td colspan="2" class="text-center">No records found.</td>
+									</tr>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 			{{ form_start(form2, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_label(form2.email) }}
 			{{ form_widget(form2.email, {'attr': {'class': 'form-control ' ~ (form2.email.vars.errors|length > 0 ? 'is-invalid' : '') }}) }}
@@ -102,14 +154,15 @@
 					{{ form_errors(form2.email) }}
 				</div>
 			{% endif %}
-			{{ form_widget(form2.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+			{{ form_widget(form2.submit, {'attr': {'class': 'genric-btn primary circle'}}) }}
 			{{ form_end(form2) }}
-
 
 		</div>
 		<br>
 	</div>
 
-<a href="{{ path('app_workspace_show', {'id': workspaceId}) }}" class="btn btn-primary">Show</a>
-<a href="{{ path('app_workspace_edit', {'id': workspaceId}) }}" class="btn btn-secondary">Edit</a>
+	<a href="{{ path('app_workspace_show', {'id': workspaceId}) }}" class="genric-btn primary-border circle">Show</a>
+	<a href="{{ path('app_workspace_edit', {'id': workspaceId}) }}" class="genric-btn primary-border circle">Edit</a>
+
+
 {% endblock %}
