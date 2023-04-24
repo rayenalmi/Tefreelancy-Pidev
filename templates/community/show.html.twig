@@ -88,13 +88,16 @@
     {# {% set likeCount = countLikes(grouppost.idGrouppost) %} #}
 <button class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="addLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
  >Like 
- <span >{{ grouppost.modifiedPosts }}</span>
+ <span >{{ grouppost.numLikes }}</span>
   </button>
- <button class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ <button class="{{ grouppost.idGrouppost }}" data-item-Iduser="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
  >DisLike</button>
  {# <span>{{ num_likes }} likes</span> #}
 
-    {# <a href="{{ path('app_commentairegrppost_index') }}">Show comments</a> #}
+    <a href="{{ path('app_commentairegrppost_index', 
+          {
+            idgrppost: grouppost.idGrouppost
+          }) }}">Show comments</a>
 
 
 
@@ -113,10 +116,10 @@
 <script>
 
     {# const addLikeBtn = document.querySelector('#addLikeBtn'); #}
-    const buttons = document.querySelectorAll('#addLikeBtn');
-    buttons.forEach(button => {
+    const Likesbuttons = document.querySelectorAll('#addLikeBtn');
+    Likesbuttons.forEach(likebutton => {
         let liked = false;
-    button.addEventListener('click', function(event) {
+    likebutton.addEventListener('click', function(event) {
       const itemId = event.target.dataset.itemId;
       const grpId = event.target.dataset.itemIdgrp;
         fetch(`/grouppostlikes/new`, {
@@ -142,19 +145,17 @@
         });
         
     }); });
-</script>
 
-<script>
-    const buttons = document.querySelectorAll('#deleteLikeBtn');
-    buttons.forEach(button => {
-
-    button.addEventListener('click', function(event) {
+    const dislikebuttons = document.querySelectorAll('#deleteLikeBtn');
+    dislikebuttons.forEach(dislikebutton => {
+console.log("bamenoiiiiiiiiiiiiiii");
+    dislikebutton.addEventListener('click', function(event) {
       console.log("hihihihihihi");
 
-      const itemId = event.target.dataset.itemId;
-      const grpId = event.target.dataset.itemIdgrp;
-      console.log(itemId);
-        fetch(`/grouppostlikes/${grpId}/${itemId}/delete`, {
+      const grppostid = event.target.dataset.itemId;
+      //const userid = event.target.dataset.itemIdgrp;
+      const userid = 2;
+        fetch(`/grouppostlikes/${grppostid}/${userid}/delete`, {
             method: 'POST',
         })
         .then(response => {

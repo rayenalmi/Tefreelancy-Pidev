@@ -63,8 +63,6 @@ class Grouppost
      */
     private $idCommunity;
 
-    private $likesnum;
-
     public function getIdGrouppost(): ?int
     {
         return $this->idGrouppost;
@@ -114,18 +112,6 @@ class Grouppost
     public function setIdCommunity(int $idCommunity): self
     {
         $this->idCommunity = $idCommunity;
-
-        return $this;
-    }
-
-    public function getLikesnum(): ?int
-    {
-        return $this->likesnum;
-    }
-
-    public function setLikesnum(?int $likesnum): self
-    {
-        $this->likesnum = $likesnum;
 
         return $this;
     }

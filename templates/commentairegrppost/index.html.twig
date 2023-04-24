@@ -1,35 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commentairegrppost index{% endblock %}
+{% block title %}
+  Commentairegrppost index
+{% endblock %}
 
 {% block body %}
-    <h1>Commentairegrppost index</h1>
+  <h1>
+    Commentairegrppost index
+  </h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Context</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for commentairegrppost in commentairegrpposts %}
-            <tr>
-                <td>{{ commentairegrppost.id }}</td>
-                <td>{{ commentairegrppost.context }}</td>
-                <td>
-                    <a href="{{ path('app_commentairegrppost_show', {'id': commentairegrppost.id}) }}">show</a>
-                    <a href="{{ path('app_commentairegrppost_edit', {'id': commentairegrppost.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Id
+        </th>
+        <th>
+          Context
+        </th>
+        <th>
+          actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for commentairegrppost in commentairegrpposts %}
+        <tr>
+          <td>
+            {{ commentairegrppost.id }}
+          </td>
+          <td>
+            {{ commentairegrppost.context }}
+          </td>
+          <td>
+            <a href="{{
+              path(
+                'app_commentairegrppost_show',
+                {
+                  id: commentairegrppost.id
+                }
+              )
+              }}">
+              show
+            </a>
+            <a href="{{
+              path(
+                'app_commentairegrppost_edit',
+                {
+                  id: commentairegrppost.id
+                }
+              )
+              }}">
+              edit
+            </a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3">
+            no records found
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-    <a href="{{ path('app_commentairegrppost_new') }}">Create new</a>
+  <a href="{{
+    path(
+      'app_commentairegrppost_new',
+      {
+        idgrppost: Idgrppost
+      }
+    )
+    }}">
+    Create new
+  </a>
 {% endblock %}

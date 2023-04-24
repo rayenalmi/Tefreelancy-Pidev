@@ -15,17 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/grouppost')]
 class GrouppostController extends AbstractController
 {
-    #[Route('/', name: 'app_grouppost_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $groupposts = $entityManager
-            ->getRepository(Grouppost::class)
-            ->findAll();
+    // #[Route('/', name: 'app_grouppost_index', methods: ['GET'])]
+    // public function index(EntityManagerInterface $entityManager): Response
+    // {
+    //     $groupposts = $entityManager
+    //         ->getRepository(Grouppost::class)
+    //         ->findAll();
 
-        return $this->render('grouppost/index.html.twig', [
-            'groupposts' => $groupposts,
-        ]);
-    }
+    //     return $this->render('grouppost/index.html.twig', [
+    //         'groupposts' => $groupposts,
+    //     ]);
+    // }
     public function countLikes(int $postId, EntityManagerInterface $entityManager): int
     {
         $count = $entityManager

@@ -140,23 +140,21 @@ class CommunityController extends AbstractController
         $groupposts = $entityManager
             ->getRepository(Grouppost::class)
             ->findBy(['idCommunity' => $idCommunity]);
-        // foreach ($groupposts as $grouppost) {
-        //     $numLikes = $likesController->countLikes(
-        //         $grouppost->getIdGrouppost(),
-        //         $entityManager
-        //     );
-        //     $grouppost->setLikesnum($numLikes);
-        // }
-        $modifiedPosts = array_map(function ($groupPost) {
-            $groupPost['numLikes'] = $likesController->countLikes(
-                $grouppost->getIdGrouppost()
+        $modifiedPosts = array_map(function ($groupPost) use (
+            $likesController,
+            $entityManager
+        ) {
+            $groupPost->numLikes = $likesController->countLikes(
+                $groupPost->getIdGrouppost(),
+                $entityManager
             );
             return $groupPost;
-        }, $groupposts);
+        },
+        $groupposts);
+
         return $this->render('community/show.html.twig', [
             'community' => $community,
-            'groupposts' => $groupposts,
-            'num_likes' => $numLikes,
+            'groupposts' => $modifiedPosts,
         ]);
     }
 

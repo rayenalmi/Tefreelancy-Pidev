@@ -13,23 +13,27 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/commentairegrppost')]
 class CommentairegrppostController extends AbstractController
 {
-    #[Route('/', name: 'app_commentairegrppost_index', methods: ['GET'])]
+    #[Route('/{idgrppost}', name: 'app_commentairegrppost_index', methods: ['GET'])]
     public function index(
-        CommentairegrppostRepository $commentairegrppostRepository
+        CommentairegrppostRepository $commentairegrppostRepository,
+        int $idgrppost
     ): Response {
         return $this->render('commentairegrppost/index.html.twig', [
-            'commentairegrpposts' => $commentairegrppostRepository->findAll(),
+            'commentairegrpposts' => $commentairegrppostRepository->findBy([
+                'Idgrppost' => $idgrppost,
+            ]),
+            'Idgrppost' => $idgrppost,
         ]);
     }
 
-    #[Route('/new', name: 'app_commentairegrppost_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idgrppost}', name: 'app_commentairegrppost_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         CommentairegrppostRepository $commentairegrppostRepository,
-        // int $idgrppost
+        int $idgrppost
     ): Response {
         $commentairegrppost = new Commentairegrppost();
-        // $commentairegrppost->setIdgrppost($idgrppost);
+        $commentairegrppost->setIdgrppost($idgrppost);
 
         $form = $this->createForm(
             CommentairegrppostType::class,
@@ -50,6 +54,7 @@ class CommentairegrppostController extends AbstractController
         return $this->renderForm('commentairegrppost/new.html.twig', [
             'commentairegrppost' => $commentairegrppost,
             'form' => $form,
+            'Idgrppost' => $idgrppost,
         ]);
     }
 

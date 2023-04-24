@@ -56,18 +56,18 @@ class GrouppostlikesController extends AbstractController
     //     return new JsonResponse($data);
     // }
 
-    #[Route('/{idgrouppost}/{id}/delete', name: 'app_grouppostlikes_delete', methods: ['POST'])]
+    #[Route('/{idgrouppost}/{iduser}/delete', name: 'app_grouppostlikes_delete', methods: ['POST'])]
     public function delete(
         Request $request,
         Grouppostlikes $grouppostlike,
         int $idgrouppost,
-        int $id,
+        int $iduser,
         EntityManagerInterface $entityManager,
         
     ): Response {
         $grouppostlike = $entityManager->getRepository(Grouppostlikes::class)->findOneBy([
-            'grouppost' => $idgrouppost,
-            'user' => $this->getUser()->getId(),
+         'idgrouppost' => $idgrouppost,
+           'iduser' => $iduser,
         ]);
         $entityManager->remove($grouppostlike);
         $entityManager->flush();
