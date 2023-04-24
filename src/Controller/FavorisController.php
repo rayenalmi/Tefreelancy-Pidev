@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Formation;
+use App\Entity\User;
 use App\Entity\UserFormation;
 use App\Form\UserFormationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -74,6 +77,28 @@ class FavorisController extends AbstractController
         return $this->render('favoris/show.html.twig', [
             'user_formation' => $userFormation,
         ]);
+    }
+
+    #[Route('/Addfavoris', name: 'app_favoris_test', methods: ['POST'])]
+    public function test(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $session = $request->getSession();
+        $u = $session->get('user') ;
+        $data = json_decode($request->getContent(), true);
+
+        $id = $data['idFormation'];
+
+        $f = $this->entityManager->getRepository(Formation::class)->find($id);
+        $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
+        $userFormation = new UserFormation();
+        $userFormation->setIdUser($urs);
+        $userFormation->setIdFormation($f);
+
+        $entityManager->persist($userFormation);
+        $entityManager->flush();
+
+
+        return new JsonResponse(['success' => ' '.$u.' '.$id.' '.$f]);
     }
 
     #[Route('/{idUser}/edit', name: 'app_favoris_edit', methods: ['GET', 'POST'])]
