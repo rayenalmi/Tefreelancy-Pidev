@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Candidacy;
 use App\Entity\Offer;
+use App\Entity\User;
 use App\Form\CandidacyType;
 use App\Form\CandidacyType1;
 use App\Form\CandidacyTypeEdit;
@@ -48,10 +49,12 @@ class CandidacyController extends AbstractController
     #[Route('/new/{idOffer}', name: 'app_candidacy_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,Offer $offer): Response
     {
+        
         $session = $request->getSession();
         $u = $session->get('user');
+        $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
         $candidacy = new Candidacy();
-        $candidacy->setIdFreelancer($u);
+        $candidacy->setIdFreelancer($urs);
         $candidacy->setIdOffer($offer);
         
         $form = $this->createForm(CandidacyType1::class, $candidacy);
