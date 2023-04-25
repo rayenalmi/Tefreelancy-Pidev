@@ -97,6 +97,11 @@ class Offer
         return $this->idOffer;
     }
 
+    public function __toString()
+    {
+        return (string) $this->getIdOffer();
+    }
+
     public function getName(): ?string
     {
         return $this->name;

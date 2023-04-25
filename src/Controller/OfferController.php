@@ -8,13 +8,15 @@ use App\Form\OfferTypeEdit;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\SearchOfferType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use FontLib\Table\Type\name;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[Route('/start/offer')]
 class OfferController extends AbstractController
@@ -196,7 +198,7 @@ class OfferController extends AbstractController
             'SELECT o
             FROM App\Entity\Offer o
             WHERE o.keywords LIKE  :keywords')
-        ->setParameter('keywords', '%'.$ch.'%' );
+        ->setParameter('keywords', '%g%' );
 
         return $query->getResult();
     }
@@ -258,6 +260,23 @@ class OfferController extends AbstractController
             'offers' => $offers,
             'form'=>$form->createView()
         ]);
+    }
+
+    #[Route('/rechercheoffre', name: 'recherche_ajax_offre')]
+    public function rechercheAjadx(Request $request) : JsonResponse
+    {
+        $requestString = $request->query->get('searchValue');
+        
+        $resultats = $this->entityManager
+        ->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            WHERE o.keywords LIKE  :keywords')
+        ->setParameter('keywords', '%'.$requestString.'%' )
+        ->getArrayResult();
+        
+        return $this->json($resultats);
+
     }
 
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
