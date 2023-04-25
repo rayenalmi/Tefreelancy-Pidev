@@ -9,6 +9,7 @@ use App\Form\FormationType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,6 +38,21 @@ class FormationController extends AbstractController
         ->setParameter('name', '%'.$name.'%' );
 
         return $query->getResult();
+    }
+
+    #[Route('/recherche_ajax', name: 'recherche_ajax_formation')]
+    public function rechercheAjax(Request $request): JsonResponse
+    {
+        $requestString = $request->query->get('searchValue');
+        
+        $resultats = $this->entityManager
+        ->createQuery(
+            'SELECT o
+            FROM App\Entity\Formation o
+            WHERE o.name LIKE  :name')
+        ->setParameter('name', '%'.$requestString.'%' )
+        ->getResult();
+        return $this->json($resultats);
     }
 
     #[Route('/', name: 'app_formation_index', methods: ['GET','POST'])]
@@ -68,6 +84,26 @@ class FormationController extends AbstractController
             'formations' => $formations,
             'chapters' => $chapters,
             'form'=>$form->createView()
+        ]);
+    }
+
+    #[Route('/chaptersLinkTo/{idFormation}', name: 'app_chapters_link_to_formation',methods: ['GET', 'POST'])]
+    public function chaptersLinkToFormation(Formation $formation): Response
+    {
+        // Do something
+        $resultats = $this->entityManager
+        ->createQuery(
+            'SELECT c
+            FROM App\Entity\Chapters c
+            WHERE c.formation = :formation')
+        ->setParameter('formation', $formation->getIdFormation() )
+        ->getResult();
+
+        // Return a response
+        return $this->render('formation/chaptersLinkToFormation.html.twig', [
+            'formation' => $formation,
+            'chapters' => $resultats,
+            'message' => 'Hello, world!',
         ]);
     }
 
@@ -108,13 +144,15 @@ class FormationController extends AbstractController
         ]);
     }
 
-    #[Route('/{idFormation}', name: 'app_formation_show', methods: ['GET'])]
+    #[Route('/{idFormation}', name: 'app_wormation_show', methods: ['GET'])]
     public function show(Formation $formation): Response
     {
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
         ]);
     }
+
+    
 
     #[Route('/{idFormation}/edit', name: 'app_formation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
