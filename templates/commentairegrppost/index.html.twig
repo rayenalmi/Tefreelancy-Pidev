@@ -5,10 +5,51 @@
 {% endblock %}
 
 {% block body %}
-  <h1>
+  {# <h1>
     Commentairegrppost index
-  </h1>
+  </h1> #}
+        <section class="blog_area single-post-area section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
 
+              {% for commentairegrppost in commentairegrpposts %}
+          
+               <div class="comments-area">
+                  <div class="comment-list">
+                     <div class="single-comment justify-content-between d-flex">
+                        <div class="user justify-content-between d-flex">
+                           <div class="thumb">
+                              <img src="../assets/img/comment/comment_1.png" alt="">
+                           </div>
+                           <div class="desc">
+                              <p class="comment">
+                                  {{ commentairegrppost.context }}
+                              </p>
+                              <div class="d-flex justify-content-between">
+                                 <div class="d-flex align-items-center">
+                                    <h5>
+                                       <a href="#">Emilly Blunt</a>
+                                    </h5>
+                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                 </div>
+                                 {# <div class="reply-btn">
+                                    <a href="#" class="btn-reply text-uppercase">reply</a>
+                                 </div> #}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+              {% endfor %}
+                  
+                  </div>
+         </div>
+      </div>
+   </section>
+                 
+            
+{# 
   <table class="table">
     <thead>
       <tr>
@@ -61,9 +102,8 @@
             no records found
           </td>
         </tr>
-      {% endfor %}
     </tbody>
-  </table>
+  </table> #}
 
   <a href="{{
     path(

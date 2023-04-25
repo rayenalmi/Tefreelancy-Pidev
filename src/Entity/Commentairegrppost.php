@@ -27,6 +27,11 @@ class Commentairegrppost
      */
     private $Idgrppost;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Commentairegrppost
     public function setIdgrppost(?int $Idgrppost): self
     {
         $this->Idgrppost = $Idgrppost;
+
+        return $this;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function setUser(?string $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
