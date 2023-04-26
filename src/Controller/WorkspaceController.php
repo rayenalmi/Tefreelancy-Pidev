@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use TCPDF;
 use Twilio\Rest\Client;
 
+
 #[Route('/workspace')]
 class WorkspaceController extends AbstractController
 {
@@ -38,7 +39,7 @@ class WorkspaceController extends AbstractController
             'workspaces' => $workspaces,
         ]);
     }
-
+    /* 
     #[Route('/send-message', name: 'send_message', methods: ['GET'])]
     public function sendMessage()
     {
@@ -65,7 +66,7 @@ class WorkspaceController extends AbstractController
         ]);
 
         return new Response('Message sent: ' . $message->sid);
-    }
+    } */
 
     #[Route('/pdf-example/{id}', name: 'pdf_save', methods: ['GET'])]
     public function downloadTasks($id, TaskRepository $repo)
@@ -82,11 +83,6 @@ class WorkspaceController extends AbstractController
         // Add a new page
         $pdf->AddPage();
 
-        // Add some content
-        $pdf->SetFont('times', 'BI', 20);
-        $pdf->Write(0, "Workspace Tasks", '', 0, 'C', true, 0, false, false, 0);
-        $pdf->Ln();
-
         $tasks = $repo->getTasksForWorkspace($id);
 
         // Render the task list as HTML
@@ -94,8 +90,70 @@ class WorkspaceController extends AbstractController
             'tasks' => $tasks,
         ]);
 
+        $pdf->Image("C:\Users\USER\Desktop\SprintWeb\Tefreelancy-Pidev\public\assets\img\logofinal.jpg", 15, 140, 180, 80, 'JPG', '', '', true, 0, '', false, false, 0, false, false, false);
+
         // Output the HTML to the PDF document
-        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTML($html, false, false, true, false, '');
+        $pdf->SetFont('helvetica', 'B', 20);
+
+        // add a page
+        $pdf->AddPage();
+        $pdf->Write(0, 'Tasks Progress');
+        $numCompletedTasks = 0;
+        $numProgressTasks = 0;
+
+        foreach ($tasks as $task) {
+            if ($task->isCompleted() == true) {
+                $numCompletedTasks++;
+            }
+        }
+
+        foreach ($tasks as $task) {
+            if ($task->isCompleted() == false) {
+                $numProgressTasks++;
+            }
+        }
+
+
+        // Write chart and labels
+        $numCompletedTasks = 0;
+        $numProgressTasks = 0;
+
+        foreach ($tasks as $task) {
+            if ($task->isCompleted() == true) {
+                $numCompletedTasks++;
+            } else {
+                $numProgressTasks++;
+            }
+        }
+
+        // Number of tasks done and undone
+        $tasksDone = $numCompletedTasks;
+        $tasksUndone = $numProgressTasks;
+
+        // Pie chart settings
+        $xc = 105;
+        $yc = 100;
+        $r = 50;
+
+        // Calculate angles for tasks done and undone
+        $angleDone = 360 * $tasksDone / ($tasksDone + $tasksUndone);
+        $angleUndone = 360 - $angleDone;
+
+        // Draw pie sectors
+        $pdf->SetFillColor(0, 255, 0); // green for tasks done
+        $pdf->PieSector($xc, $yc, $r, 0, $angleDone, 'FD', false, 0, 2);
+
+        $pdf->SetFillColor(255, 0, 0); // red for tasks undone
+        $pdf->PieSector($xc, $yc, $r, $angleDone, 360, 'FD', false, 0, 2);
+
+        // Write labels
+        $pdf->SetTextColor(0, 0, 0); // black text
+        $pdf->SetFont('Helvetica', '', 12);
+        $pdf->Text(105, 90, '  Tasks Done: ' . $tasksDone);
+        $pdf->Text(105, 110, 'Tasks Undone: ' . $tasksUndone);
+
+        $pdf->Image("C:\Users\USER\Desktop\SprintWeb\Tefreelancy-Pidev\public\assets\img\logofinal.jpg", 15, 140, 180, 80, 'JPG', '', '', true, 0, '', false, false, 0, false, false, false);
 
         // Get the PDF content as a string
         $pdfContent = $pdf->Output('', 'S');
@@ -161,7 +219,7 @@ class WorkspaceController extends AbstractController
         $publicationWs = $repo2->getPublicationWssForWorkspace($id);
 
         $tasks = $repo->getTasksForWorkspace($id);
-
+      
         $form2 = $this->createForm(AddFreelancerWsType::class);
         $form2->handleRequest($request);
         $newFreelancer = new User();
@@ -194,7 +252,7 @@ class WorkspaceController extends AbstractController
             $messageBody = "Hello Freelancer ,You have been added to this Workspace";
 
             // Send the message using the Twilio API
-           /*  $message = $client->messages->create($toNumber, [
+            /*  $message = $client->messages->create($toNumber, [
                 'from' => $fromNumber,
                 'body' => $messageBody,
             ]); */
