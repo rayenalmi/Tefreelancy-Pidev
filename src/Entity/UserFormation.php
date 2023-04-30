@@ -34,29 +34,5 @@ class UserFormation
      */
     private $idFormation;
 
-    public function getIdUser(): ?User
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?User $idUser): self
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    public function getIdFormation(): ?Formation
-    {
-        return $this->idFormation;
-    }
-
-    public function setIdFormation(?Formation $idFormation): self
-    {
-        $this->idFormation = $idFormation;
-
-        return $this;
-    }
-
 
 }

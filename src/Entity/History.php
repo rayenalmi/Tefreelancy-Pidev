@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,59 +51,6 @@ class History
      * })
      */
     private $idFreelancer;
-
-    public function getIdHistory(): ?int
-    {
-        return $this->idHistory;
-    }
-
-    public function getRating(): ?float
-    {
-        return $this->rating;
-    }
-
-    public function setRating(float $rating): self
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
-    public function getBudget(): ?float
-    {
-        return $this->budget;
-    }
-
-    public function setBudget(float $budget): self
-    {
-        $this->budget = $budget;
-
-        return $this;
-    }
-
-    public function getAchivements(): ?string
-    {
-        return $this->achivements;
-    }
-
-    public function setAchivements(string $achivements): self
-    {
-        $this->achivements = $achivements;
-
-        return $this;
-    }
-
-    public function getIdFreelancer(): ?User
-    {
-        return $this->idFreelancer;
-    }
-
-    public function setIdFreelancer(?User $idFreelancer): self
-    {
-        $this->idFreelancer = $idFreelancer;
-
-        return $this;
-    }
 
 
 }

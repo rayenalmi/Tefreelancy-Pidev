@@ -49,58 +49,5 @@ class Formation
      */
     private $path;
 
-    public function getIdFormation(): ?int
-    {
-        return $this->idFormation;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getNbh(): ?int
-    {
-        return $this->nbh;
-    }
-
-    public function setNbh(int $nbh): self
-    {
-        $this->nbh = $nbh;
-
-        return $this;
-    }
-
-    public function getNbl(): ?int
-    {
-        return $this->nbl;
-    }
-
-    public function setNbl(int $nbl): self
-    {
-        $this->nbl = $nbl;
-
-        return $this;
-    }
-
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function setPath(?string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
 
 }

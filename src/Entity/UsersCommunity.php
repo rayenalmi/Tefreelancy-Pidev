@@ -30,15 +30,5 @@ class UsersCommunity
      */
     private $idUser;
 
-    public function getIdCommunity(): ?int
-    {
-        return $this->idCommunity;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
 
 }

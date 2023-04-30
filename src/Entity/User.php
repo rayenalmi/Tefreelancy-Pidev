@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -85,122 +83,6 @@ class User
     public function __construct()
     {
         $this->idOffer = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getPhone(): ?int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(int $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(?string $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Offer>
-     */
-    public function getIdOffer(): Collection
-    {
-        return $this->idOffer;
-    }
-
-    public function addIdOffer(Offer $idOffer): self
-    {
-        if (!$this->idOffer->contains($idOffer)) {
-            $this->idOffer->add($idOffer);
-            $idOffer->addIdUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdOffer(Offer $idOffer): self
-    {
-        if ($this->idOffer->removeElement($idOffer)) {
-            $idOffer->removeIdUser($this);
-        }
-
-        return $this;
     }
 
 }

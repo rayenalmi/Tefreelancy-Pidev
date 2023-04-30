@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Files
+ * Rayen
  *
- * @ORM\Table(name="files")
+ * @ORM\Table(name="rayen")
  * @ORM\Entity
  */
-class Files
+class Rayen
 {
     /**
      * @var int
@@ -22,11 +22,11 @@ class Files
     private $id;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="path", type="string", length=255, nullable=true)
+     * @ORM\Column(name="testName", type="string", length=250, nullable=false)
      */
-    private $path;
+    private $testname;
 
 
 }

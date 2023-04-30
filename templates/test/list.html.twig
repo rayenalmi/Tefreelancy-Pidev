@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>List of Tests</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th> Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in tests %}
+                <tr>
+                    <td>{{ test.name }}</td>
+                    <td>{{ test.type }}</td>
+                    <td><a href="{{ path('app_test_pass', { 'idTest': test.idTest }) }}">Passer ce test</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

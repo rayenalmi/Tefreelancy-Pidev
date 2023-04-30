@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,59 +48,6 @@ class Grouppost
      * @ORM\Column(name="id_community", type="integer", nullable=false)
      */
     private $idCommunity;
-
-    public function getIdGrouppost(): ?int
-    {
-        return $this->idGrouppost;
-    }
-
-    public function getContext(): ?string
-    {
-        return $this->context;
-    }
-
-    public function setContext(string $context): self
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function setUser(int $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getIdCommunity(): ?int
-    {
-        return $this->idCommunity;
-    }
-
-    public function setIdCommunity(int $idCommunity): self
-    {
-        $this->idCommunity = $idCommunity;
-
-        return $this;
-    }
 
 
 }

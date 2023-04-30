@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,16 +43,6 @@ class Candidacy
     private $accepted;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_freelancer", referencedColumnName="id_user")
-     * })
-     */
-    private $idFreelancer;
-
-    /**
      * @var \Offer
      *
      * @ORM\ManyToOne(targetEntity="Offer")
@@ -63,70 +52,15 @@ class Candidacy
      */
     private $idOffer;
 
-    public function getIdCandidacy(): ?int
-    {
-        return $this->idCandidacy;
-    }
-
-    public function getObject(): ?string
-    {
-        return $this->object;
-    }
-
-    public function setObject(string $object): self
-    {
-        $this->object = $object;
-
-        return $this;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(string $message): self
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
-    public function isAccepted(): ?bool
-    {
-        return $this->accepted;
-    }
-
-    public function setAccepted(?bool $accepted): self
-    {
-        $this->accepted = $accepted;
-
-        return $this;
-    }
-
-    public function getIdFreelancer(): ?User
-    {
-        return $this->idFreelancer;
-    }
-
-    public function setIdFreelancer(?User $idFreelancer): self
-    {
-        $this->idFreelancer = $idFreelancer;
-
-        return $this;
-    }
-
-    public function getIdOffer(): ?Offer
-    {
-        return $this->idOffer;
-    }
-
-    public function setIdOffer(?Offer $idOffer): self
-    {
-        $this->idOffer = $idOffer;
-
-        return $this;
-    }
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_freelancer", referencedColumnName="id_user")
+     * })
+     */
+    private $idFreelancer;
 
 
 }

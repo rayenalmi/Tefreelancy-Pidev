@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -73,83 +72,6 @@ class Workspace
      * })
      */
     private $idOffer;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getTask(): ?string
-    {
-        return $this->task;
-    }
-
-    public function setTask(?string $task): self
-    {
-        $this->task = $task;
-
-        return $this;
-    }
-
-    public function getPublication(): ?string
-    {
-        return $this->publication;
-    }
-
-    public function setPublication(?string $publication): self
-    {
-        $this->publication = $publication;
-
-        return $this;
-    }
-
-    public function getFreelancers(): ?string
-    {
-        return $this->freelancers;
-    }
-
-    public function setFreelancers(?string $freelancers): self
-    {
-        $this->freelancers = $freelancers;
-
-        return $this;
-    }
-
-    public function getIdoffer(): ?int
-    {
-        return $this->idoffer;
-    }
-
-    public function setIdoffer(int $idoffer): self
-    {
-        $this->idoffer = $idoffer;
-
-        return $this;
-    }
 
 
 }

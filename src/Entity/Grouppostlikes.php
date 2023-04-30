@@ -39,20 +39,5 @@ class Grouppostlikes
      */
     private $idgroup;
 
-    public function getIdgrouppost(): ?int
-    {
-        return $this->idgrouppost;
-    }
-
-    public function getIduser(): ?int
-    {
-        return $this->iduser;
-    }
-
-    public function getIdgroup(): ?int
-    {
-        return $this->idgroup;
-    }
-
 
 }
