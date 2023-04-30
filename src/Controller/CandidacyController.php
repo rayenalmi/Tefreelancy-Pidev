@@ -10,9 +10,11 @@ use App\Form\CandidacyType1;
 use App\Form\CandidacyTypeEdit;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twilio\Rest\Client;
 
 #[Route('/start/candidacy')]
 class CandidacyController extends AbstractController
@@ -23,6 +25,11 @@ class CandidacyController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
+
+
+
+
+            
     public function getCandidacyByID(int $id): array
     {
         $query = $this->entityManager->createQuery(
@@ -30,6 +37,99 @@ class CandidacyController extends AbstractController
         )->setParameter('id', $id);
 
         return $query->getResult();
+    }
+
+    public function getCandidacyOfRecruter(int $id): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT o FROM App\Entity\Offer o  WHERE c.idFreelancer = :id'
+        )->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
+    #[Route('/updateCondidacyTrue', name: 'updateCondidacy_true', methods: ['PUT'])]
+    public function rechercheAjadx(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $idcandidacy = $data['idCandidacy'];
+
+        
+        $qb = $this->entityManager->createQueryBuilder();
+        $accepted = true ; 
+        //$idcandidacy =$c->getIdCandidacy();
+        $qb->update(Candidacy::class, 'c')
+            ->set('c.accepted', ':accepted')
+            ->where('c.idCandidacy = :id')
+            ->setParameter('accepted', $accepted)
+            ->setParameter('id', $idcandidacy);
+
+            $updatedRows = $qb->getQuery()->execute();
+
+            $response = new JsonResponse(['updatedRows' => $updatedRows]);
+            
+            return new JsonResponse(['updatedRows' => $idcandidacy]);
+    }
+
+    #[Route('/updateCondidacyFalse', name: 'updateCondidacy_false', methods: ['PUT'])]
+    public function rechercheAjadx2(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $idcandidacy = $data['idCandidacy'];
+
+        
+        $qb = $this->entityManager->createQueryBuilder();
+        $accepted = false ; 
+        //$idcandidacy =$c->getIdCandidacy();
+        $qb->update(Candidacy::class, 'c')
+            ->set('c.accepted', ':accepted')
+            ->where('c.idCandidacy = :id')
+            ->setParameter('accepted', $accepted)
+            ->setParameter('id', $idcandidacy);
+
+            $updatedRows = $qb->getQuery()->execute();
+
+            $response = new JsonResponse(['updatedRows' => $updatedRows]);
+            
+            return new JsonResponse(['updatedRows' => $idcandidacy]);
+    }
+
+    #[Route('/recruter', name: 'app_candidacy_recruter', methods: ['GET'])]
+    public function indexRecruter(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $session = $request->getSession();
+        $u = $session->get('user');  
+        $candidacies = $this->getCandidacyByID($u->getIdUser());
+
+        return $this->render('candidacy/index.html.twig', [
+            'candidacies' => $candidacies,
+        ]);
+    }
+
+
+    public function getAllCandidacyOnOneOffer(int $id): array
+    {
+        $query = $this->entityManager->createQuery(
+            'SELECT c.idCandidacy , u.photo  ,u.email , c.object , c.message FROM App\Entity\Candidacy c JOIN App\Entity\User u WITH c.idFreelancer = u.idUser WHERE c.idOffer = :id AND c.accepted IS NULL '
+        )->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
+    #[Route('/recruter/{idOffer}', name: 'getCandidacyByOffer', methods: ['GET'])]
+    public function getAllCandidacyByOffer(Offer $o , Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+        $candidacies = $this->getAllCandidacyOnOneOffer($o->getIdOffer());
+       // var_dump($candidacies);
+        $e = json_encode($candidacies) ; 
+        $data = json_decode($e, true);
+        
+
+        return $this->render('candidacy/candidacyByOffer.html.twig', [
+            'candidacies' => $data,
+            'offer' => $o
+        ]);
     }
 
 
@@ -45,6 +145,28 @@ class CandidacyController extends AbstractController
             'candidacies' => $candidacies,
         ]);
     }
+
+    public  function sms(){
+        // Your Account SID and Auth Token from twilio.com/console
+                $sid = 'ACb111614e8a65dfa5310d91c478b19542';
+                $auth_token = '1eeca4d7c867fdc7debd991932a7fce6';
+        // In production, these should be environment variables. E.g.:
+        // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
+        // A Twilio number you own with SMS capabilities
+                $twilio_number = "+12764962398";
+        
+                $client = new Client($sid, $auth_token);
+                $client->messages->create(
+                // the number you'd like to send the message to
+                    '+21692661515',
+                    [
+                        // A Twilio phone number you purchased at twilio.com/console
+                        'from' => '+12764962398',
+                        // the body of the text message you'd like to send
+                        'body' => 'votre candidature est envoyée avec succés'
+                    ]
+                );
+            }
 
     #[Route('/new/{idOffer}', name: 'app_candidacy_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,Offer $offer): Response
@@ -63,6 +185,9 @@ class CandidacyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($candidacy);
             $entityManager->flush();
+            // Send an SMS notification to the freelancer  
+            $this->sms();
+            $this->addFlash('danger', 'reponse envoyée avec succées');
 
             return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
         }

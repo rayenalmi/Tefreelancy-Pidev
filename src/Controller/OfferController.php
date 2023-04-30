@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Entity\User;
 use App\Form\OfferType;
 use App\Form\OfferTypeEdit;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,7 +47,7 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-   
+
     public function RechercheAsc(): array
     {
         $query = $this->entityManager->createQuery(
@@ -58,31 +59,31 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-    #[Route('/listOffreAsc',name: 'OffreAsc')]
-    public function listeOffreAsc(Request $req,EntityManagerInterface $entityManager):Response
+    #[Route('/listOffreAsc', name: 'OffreAsc')]
+    public function listeOffreAsc(Request $req, EntityManagerInterface $entityManager): Response
     {
         $offers = $this->RechercheAsc();
-        $form= $this->createForm(SearchOfferType::class);
-        $form->handleRequest($req);        
-        if($form->isSubmitted()){
-        
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+
             /*var_dump($this); 
-            die() ;*/ 
+            die() ;*/
             $offers = $this->findOffer($form->getData('search'));
-            
+
             return $this->render('offer/index.html.twig', [
-                'offers'=>$offers,
-                'form'=>$form->createView()
+                'offers' => $offers,
+                'form' => $form->createView()
             ]);
         }
 
-    return $this->render('offer/index.html.twig', [
-        'offers' => $offers,
-        'form'=>$form->createView()
-    ]);
+        return $this->render('offer/index.html.twig', [
+            'offers' => $offers,
+            'form' => $form->createView()
+        ]);
     }
 
- public function RechercheDesc(): array
+    public function RechercheDesc(): array
     {
         $query = $this->entityManager->createQuery(
             'SELECT o
@@ -92,28 +93,28 @@ class OfferController extends AbstractController
 
         return $query->getResult();
     }
-    #[Route('/listOffreDesc',name: 'OffreDesc')]
-    public function listeOffreDesc(Request $req,EntityManagerInterface $entityManager):Response
+    #[Route('/listOffreDesc', name: 'OffreDesc')]
+    public function listeOffreDesc(Request $req, EntityManagerInterface $entityManager): Response
     {
         $offers = $this->RechercheDesc();
-        $form= $this->createForm(SearchOfferType::class);
-        $form->handleRequest($req);        
-        if($form->isSubmitted()){
-        
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+
             /*var_dump($this); 
-            die() ;*/ 
+            die() ;*/
             $offers = $this->findOffer($form->getData('search'));
-            
+
             return $this->render('offer/index.html.twig', [
-                'offers'=>$offers,
-                'form'=>$form->createView()
+                'offers' => $offers,
+                'form' => $form->createView()
             ]);
         }
 
-    return $this->render('offer/index.html.twig', [
-        'offers' => $offers,
-        'form'=>$form->createView()
-    ]);
+        return $this->render('offer/index.html.twig', [
+            'offers' => $offers,
+            'form' => $form->createView()
+        ]);
     }
 
     public function RechercheSalaryAsc(): array
@@ -127,28 +128,28 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-    #[Route('/listOffreSalaryAsc',name: 'OffreSalaryAsc')]
-    public function listeOffreSalaryAsc(Request $req,EntityManagerInterface $entityManager):Response
+    #[Route('/listOffreSalaryAsc', name: 'OffreSalaryAsc')]
+    public function listeOffreSalaryAsc(Request $req, EntityManagerInterface $entityManager): Response
     {
         $offers = $this->RechercheSalaryAsc();
-        $form= $this->createForm(SearchOfferType::class);
-        $form->handleRequest($req);        
-        if($form->isSubmitted()){
-        
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+
             /*var_dump($this); 
-            die() ;*/ 
+            die() ;*/
             $offers = $this->findOffer($form->getData('search'));
-            
+
             return $this->render('offer/index.html.twig', [
-                'offers'=>$offers,
-                'form'=>$form->createView()
+                'offers' => $offers,
+                'form' => $form->createView()
             ]);
         }
 
-    return $this->render('offer/index.html.twig', [
-        'offers' => $offers,
-        'form'=>$form->createView()
-    ]);
+        return $this->render('offer/index.html.twig', [
+            'offers' => $offers,
+            'form' => $form->createView()
+        ]);
     }
 
     public function RechercheSalaryDesc(): array
@@ -162,121 +163,122 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
-    #[Route('/listOffreSalaryDesc',name: 'OffreSalaryDesc')]
-    public function listeOffreSalaryDesc(Request $req,EntityManagerInterface $entityManager):Response
+    #[Route('/listOffreSalaryDesc', name: 'OffreSalaryDesc')]
+    public function listeOffreSalaryDesc(Request $req, EntityManagerInterface $entityManager): Response
     {
         $offers = $this->RechercheSalaryDesc();
-        $form= $this->createForm(SearchOfferType::class);
-        $form->handleRequest($req);        
-        if($form->isSubmitted()){
-        
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+
             /*var_dump($this); 
-            die() ;*/ 
+            die() ;*/
             $offers = $this->findOffer($form->getData('search'));
-            
+
             return $this->render('offer/index.html.twig', [
-                'offers'=>$offers,
-                'form'=>$form->createView()
+                'offers' => $offers,
+                'form' => $form->createView()
             ]);
         }
 
-    return $this->render('offer/index.html.twig', [
-        'offers' => $offers,
-        'form'=>$form->createView()
-    ]);
+        return $this->render('offer/index.html.twig', [
+            'offers' => $offers,
+            'form' => $form->createView()
+        ]);
     }
 
 
-    
+
     public function findOffer($keyword)
     {
-       /* var_dump($keyword); 
-        die()*/ ; //transforme array to string 
+            /* var_dump($keyword); 
+        die()*/; //transforme array to string 
         $ch = implode('', $keyword);
         $query = $this->entityManager
-        ->createQuery(
-            'SELECT o
+            ->createQuery(
+                'SELECT o
             FROM App\Entity\Offer o
-            WHERE o.keywords LIKE  :keywords')
-        ->setParameter('keywords', '%g%' );
+            WHERE o.keywords LIKE  :keywords'
+            )
+            ->setParameter('keywords', '%g%');
 
         return $query->getResult();
     }
 
 
-    #[Route('/RecruterOffer', name: 'app_offer_index_recruter', methods: ['GET','POST'])]
-    public function indexRecruter(Request $req,EntityManagerInterface $entityManager): Response
+    #[Route('/RecruterOffer', name: 'app_offer_index_recruter', methods: ['GET', 'POST'])]
+    public function indexRecruter(Request $req, EntityManagerInterface $entityManager): Response
     {
         $session = $req->getSession();
         $u = $session->get('user');
+        $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
+        $offers = $this->getOfferByID($urs->getIdUser());
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
 
-            $offers = $this->getOfferByID($u->getIdUser());
-            $form= $this->createForm(SearchOfferType::class);
-            $form->handleRequest($req);        
-            if($form->isSubmitted()){
-            
-                /*var_dump($this); 
-                die() ;*/ 
-                $offers = $this->findOffer($form->getData('search'));
-                
-                return $this->render('offer/index_recruter.html.twig', [
-                    'offers'=>$offers,
-                    'form'=>$form->createView()
-                ]);
-            }
+            /*var_dump($this); 
+                die() ;*/
+            $offers = $this->findOffer($form->getData('search'));
+
+            return $this->render('offer/index_recruter.html.twig', [
+                'offers' => $offers,
+                'form' => $form->createView()
+            ]);
+        }
 
         return $this->render('offer/index_recruter.html.twig', [
             'offers' => $offers,
-            'form'=>$form->createView()
+            'form' => $form->createView()
         ]);
     }
 
-    
 
-    #[Route('/', name: 'app_offer_index', methods: ['GET','POST'])]
-    public function index(Request $req,EntityManagerInterface $entityManager): Response
+
+    #[Route('/', name: 'app_offer_index', methods: ['GET', 'POST'])]
+    public function index(Request $req, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
-            $offers = $entityManager->getRepository(Offer::class)->findAll();
-            /*$offers = $paginator->paginate(
-                $offers,
-                $req->query->getInt(key:'page',default:1),
-                limit:2
-            );*/
-            $form= $this->createForm(SearchOfferType::class);
-            $form->handleRequest($req);        
-            if($form->isSubmitted()){
-            
-                /*var_dump($this); 
-                die() ;*/ 
-                $offers = $this->findOffer($form->getData('search'));
-                
-                return $this->render('offer/index.html.twig', [
-                    'offers'=>$offers,
-                    'form'=>$form->createView()
-                ]);
-            }
+        $offers = $entityManager->getRepository(Offer::class)->findAll();
+        $offers = $paginator->paginate(
+            $offers,
+            $req->query->getInt(key: 'page', default: 1),
+            limit: 2
+        );
+        $form = $this->createForm(SearchOfferType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+
+            /*var_dump($this); 
+                die() ;*/
+            $offers = $this->findOffer($form->getData('search'));
+
+            return $this->render('offer/index.html.twig', [
+                'offers' => $offers,
+                'form' => $form->createView()
+            ]);
+        }
 
         return $this->render('offer/index.html.twig', [
             'offers' => $offers,
-            'form'=>$form->createView()
+            'form' => $form->createView()
         ]);
     }
 
     #[Route('/rechercheoffre', name: 'recherche_ajax_offre')]
-    public function rechercheAjadx(Request $request) : JsonResponse
+    public function rechercheAjadx(Request $request): JsonResponse
     {
         $requestString = $request->query->get('searchValue');
-        
-        $resultats = $this->entityManager
-        ->createQuery(
-            'SELECT o
-            FROM App\Entity\Offer o
-            WHERE o.keywords LIKE  :keywords')
-        ->setParameter('keywords', '%'.$requestString.'%' )
-        ->getArrayResult();
-        
-        return $this->json($resultats);
 
+        $resultats = $this->entityManager
+            ->createQuery(
+                'SELECT o
+            FROM App\Entity\Offer o
+            WHERE o.keywords LIKE  :keywords'
+            )
+            ->setParameter('keywords', '%' . $requestString . '%')
+            ->getArrayResult();
+
+        return $this->json($resultats);
     }
 
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
@@ -290,9 +292,9 @@ class OfferController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $x=$this->getOfferByName($form["name"]->getData());
-            if(count($x)!=0){
-                $this->addFlash('error','alerte!');
+            $x = $this->getOfferByName($form["name"]->getData());
+            if (count($x) != 0) {
+                $this->addFlash('error', 'alerte!');
                 return $this->redirectToRoute('app_offer_new', [], Response::HTTP_SEE_OTHER);
             }
             $entityManager->persist($offer);
@@ -313,6 +315,53 @@ class OfferController extends AbstractController
         return $this->render('offer/show.html.twig', [
             'offer' => $offer,
         ]);
+    }
+
+    #[Route('/recommended_offer', name: 'app_offer_show', methods: ['GET','POST'])]
+    public function shxcbdgow(Request $request): Response
+    {
+        $session = $request->getSession();
+        $u = $session->get('user');
+        $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
+    
+        $query = $this->entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Skills s
+            JOIN App\Entity\User u WITH s.idFreelancer = u.idUser
+            WHERE s.idFreelancer = :userId'
+        )->setParameter('userId', 199);
+    
+        $listSk = $query->getResult();
+
+        $list = [];
+        $query = $this->entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Offer o
+            ORDER BY o.salary DESC'
+        );
+    $qb = $this->entityManager->createQueryBuilder();
+    $qb->select('o')
+        ->from(Offer::class, 'o');
+    $result = $qb->getQuery()->getResult();
+    foreach ($result as $row) {
+        $o = new Offer();
+        $o = $row;
+        $listKey = explode(' ', $row->getKeywords());
+        $percent = $this->countPercentLinktoOffer($listSk, $listKey);
+        $o->setPercent($percent);
+        $list[] = $o;
+        
+
+    }
+    /*foreach ($list as $o) {
+        var_dump($o->getName());
+        var_dump($o->getPercent());
+    }*/
+
+    return $this->renderForm('offer/recommendedOffer.html.twig', [
+        'offer' => $list,
+        
+    ]);
     }
 
     #[Route('/{idOffer}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
@@ -336,7 +385,7 @@ class OfferController extends AbstractController
     #[Route('/{idOffer}', name: 'app_offer_delete', methods: ['POST'])]
     public function delete(Request $request, Offer $offer, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$offer->getIdOffer(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $offer->getIdOffer(), $request->request->get('_token'))) {
             $entityManager->remove($offer);
             $entityManager->flush();
         }
@@ -345,7 +394,7 @@ class OfferController extends AbstractController
     }
 
     #[Route('/pdf/{id}', name: 'PDF_offer', methods: ['GET'])]
-    public function pdf(EntityManagerInterface $entityManager,$id)
+    public function pdf(EntityManagerInterface $entityManager, $id)
     {
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
@@ -385,10 +434,56 @@ class OfferController extends AbstractController
 
 
 
-    #[Route('/yas', name: 'app_yass')]
-    function helloWorld(): Response
+    #[Route('/dgsdvsdv', name: 'appcxvcvxc_yass')]
+    function xcbxcbcxb(): Response
+    {
+        return new Response('Hello, world!');
+    }
+
+    #[Route('/recommended', name: 'offer_recommended', methods: ['GET'])]
+    public function recommandedOffre(Request $request)
 {
-    return new Response('Hello, world!');
+   /* $session = $request->getSession();
+    $u = $session->get('user');
+    $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
+
+    $query = $this->entityManager->createQuery(
+        'SELECT s
+        FROM App\Entity\Skills s
+        JOIN App\Entity\User u WITH s.idFreelancer = u.idUser
+        WHERE s.idFreelancer = :userId'
+    )->setParameter('userId', 199);
+
+    $listSk = $query->getResult();
+
+    $list = [];
+    $qb = $this->entityManager->createQueryBuilder();
+    $qb->select('o.id', 'o.name', 'o.description', 'o.duration', 'o.keywords', 'o.salary', 'o.recruterId')
+        ->from(Offer::class, 'o');
+    $result = $qb->getQuery()->getResult();
+    foreach ($result as $row) {
+        $o = new Offer();
+
+        $listKey = explode(' ', $row['keywords']);
+        $percent = $this->countPercentLinktoOffer($listSk, $listKey);
+        $o->setPercent($percent);
+        $list[] = $o;
+    }
+   // return $list;
+    */
+   return new Response('Hello, world!');
 }
+
+public function countPercentLinktoOffer(array $lsk, array $listKey): float
+{
+    $nb = 0;
+    foreach ($lsk as $skill) {
+        if (in_array($skill->getName(), $listKey)) {
+            $nb++;
+        }
+    }
+    return (float) $nb / count($listKey);
+}
+
 
 }

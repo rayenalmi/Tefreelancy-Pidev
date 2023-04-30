@@ -28,19 +28,6 @@
 
             <!-- Right content -->
             <div class="col-xl-9 col-lg-9 col-md-8">
-
-
-                <div class="row">
-                    <div class="col-md-4">
-                        {{form(form)}}
-                    </div>
-                    <div class="button-group-area mt-10">
-                        <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
-                        <br><br>
-                    </div>
-
-                </div>
-
                 <!-- Featured_job_start -->
                 <section class="featured-job-area">
                     <div class="container">
@@ -91,9 +78,11 @@
                                 </div>
                             </div>
                             <div class="items-link items-link2 f-right">
-                                <a href={{ path('app_offer_show', {'idOffer': offer.idOffer}) }}>Show</a>
-                                <span>{{offer.duration}}</span>
-                            </div>
+                                            <a
+                                                href="{{path('getCandidacyByOffer', {'idOffer': offer.idOffer} ) }}">Voir</a>
+                                            <span>{{offer.duration}}</span>
+                                        </div>
+                            
                         </div>
                         {% endfor %}
 

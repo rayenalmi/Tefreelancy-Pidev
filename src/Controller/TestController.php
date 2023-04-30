@@ -23,6 +23,8 @@ class TestController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
+
     #[Route('/test', name: 'app_test')]
     public function index(EntityManagerInterface $entityManager): Response
     {

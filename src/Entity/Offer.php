@@ -83,6 +83,18 @@ class Offer
      * )
      */
     private $idUser = array();
+//
+    private $percent;
+    public function setPercent(float $f): self
+    {
+        $this->percent = $f;
+
+        return $this;
+    }
+    public function getPercent(): ?float
+    {
+        return $this->percent;
+    }
 
     /**
      * Constructor
@@ -197,5 +209,7 @@ class Offer
 
         return $this;
     }
+
+    
 
 }
