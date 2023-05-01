@@ -65,7 +65,7 @@
                                             <li><a href="about.html">About</a></li>
                                             <li><a href="#">Page</a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
+                                                    <li><a href={{path('app_favoris_index')}}>Favoris</a></li>
                                                     <li><a href="single-blog.html">Blog Details</a></li>
                                                     <li><a href="elements.html">Elements</a></li>
                                                     <li><a href="job_details.html">job Details</a></li>
@@ -79,7 +79,7 @@
                                 {% if app.session.get('user') %}
                                    <!-- <p>My variable is: {{ app.session.get('user') }}</p> -->
                                 <div class="header-btn d-none f-right d-lg-block">
-                                    <a href={{ path('app_user_logout') }} class="btn head-btn2">Logout </a>
+                                    <a href={{ path('app_user_signin') }} class="btn head-btn2">Logout </a>
                                 </div>
                                 {% else %}
                                 <div class="header-btn d-none f-right d-lg-block">
