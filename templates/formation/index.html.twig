@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation index{% endblock %}
+
+{% block body %}
+    <h1>Formation</h1>
+
+  
+
+   <!-- {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }} 
+    {{ form_row(form.search) }}
+    <button class="btn">{{ button_label|default('Search') }}</button>
+    {{ form_end(form) }} -->
+    <input type="text" id="search" class="form-control" placeholder="Search">
+    <br>
+    <div id="resultats_container" > </div>
+    
+  <div class="row" id="start">
+    {% for formation in formations %}
+    <div class="col-4">
+
+
+      <div class="card">
+
+  <div class="card-header">
+    <h2>Formation {{formation.name}}</h2>
+    <p>Number of Hours: {{formation.nbh}}</p>
+  </div>
+
+  <div class="card-body">
+    <h3>Number of Lesson</h3>
+    <p> {{ formation.nbl}} </p>
+  </div>
+
+  <div class="card-footer">
+    <button class="favorite-button" onclick="myFunction({{ formation.idFormation}}, this)"><i class="far fa-heart"></i> Add to Favorites</button>
+  </div>
+
+</div>
+
+    </div>
+
+     {% endfor %} 
+    </div>
+
+    <br>
+    <br>
+   
+
+
+
+    <br>
+    <br>
+
+    <br>
+    
+  
+
+
+ 
+    <br>
+    
+    <script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+
+    <script>
+
+
+          function myFunction(id,button) {
+            var index = Array.prototype.indexOf.call(button.parentNode.children, button);
+            button.style.display = "none";
+            var url = "{{ path('app_favoris_new') }}";
+            // Add your custom JavaScript code here
+            // add formation to favoris
+            event.preventDefault();
+
+            //console.log(id);
+            //app_favoris_test
+             $.ajax({
+            url: "{{ path('app_favoris_test') }}",
+            method: 'POST',
+            data: JSON.stringify({
+                    'idFormation' : id
+            }),
+            success: function(response) {
+                // Handle success response
+                console.log(response['success']);
+                alert('Form submitted successfully!');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                alert('Error: ' + error);
+                        }
+            });
+
+            }
+        
+
+
+
+        $( document ).ready(function () {
+           /* $("#test").click(function(event) {
+            // Prevent form submission
+            event.preventDefault();
+
+            console.log("sdqdq");
+            //app_favoris_test
+             $.ajax({
+            url: "{{ path('app_favoris_test') }}",
+            method: 'POST',
+            data: {
+                    'idFormation' : value
+            },
+            success: function(response) {
+                // Handle success response
+                console.log(response['success']);
+                alert('Form submitted successfully!');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                alert('Error: ' + error);
+                        }
+                    });
+            });
+            */
+            $("#search").keyup(function (e) {
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d'effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l'id est
+                « search » pour faire la recherche */
+
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est
+                    envoyée */
+                    url: "{{ path('recherche_ajax_formation') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type: 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la
+                    zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le
+                    nouveau contenu*/
+                    success: function (resultats) {
+                        console.log(value.length);
+                        var html = '';
+                        if (resultats.length != 0) {
+                             $('#start').hide();
+                            for (var i = 0; i < resultats.length; i++) {
+                            html += '<div class="card">';
+
+                            html += '<div class="card-header">';
+                            html += ' <h2>Formation ' + resultats[i].name + '</h2>';
+                            html += ' <p>Number of Hours: '+resultats[i].nbh+'</p>';
+                            html += '</div>';
+
+                            html += '<div class="card-body">';
+                            html += '<h3>Number of Lesson</h3>';
+                            html += '<p>'+  resultats[i].nbl +'</p>';
+                            html += '</div>';
+
+                            html += '<div class="card-footer">';
+                            html += '<button class="favorite-button"onclick="myFunction('+resultats[i].idFormation+', this)"><i class="far fa-heart"></i> Add to Favorites</button>';
+                            html += '</div>';
+                            
+                            html += '</div>';
+
+                        }
+                        $('#resultats_container').html(html);
+                           /* $('#t tbody#searchtab').empty();
+
+
+                               
+
+                            $.each(resultats, function(i, obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#searchtab').append('<tr><td> ' + obj.email  +'</td><td> '+obj.lastname+'</td><td> '+obj.roles+ '</td><td> '+obj.etat+ '</td><td> '+obj.experience+'</td><td><img src="/userphoto'+obj.id+'" width="150" height="200"></td><td><a href="'+obj.id+'/edit">update</a><a href="'+obj.id+'/show">show</a>     </td></tr>');
+                            });*/
+                        }
+
+                        else {
+                            $('#start').show();
+                            $('#resultats_container').empty();
+                            $('#resultats_container').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+
+        });
+
+    </script>
+
+ {% endblock %}
+
+
+
+
+

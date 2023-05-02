@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Offer{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <!-- Count of Job list Start -->
+    <div class="row">
+        <div class="col-lg-7">
+            <h1>Create new Offer</h1>
+        </div>
+    </div>
+</div>
+{{ include('offer/_form.html.twig') }}
+<div class="container">
+    <!-- Count of Job list Start -->
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="button-group-area mt-10">
+                <a href={{path('app_offer_index')}} class="genric-btn primary-border">go back</a>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3110755453ead5fb454460e2ebcb6fa2",
+
+    "content-hash": "4532956f8e51c52f25a427d455f446b5",
     "packages": [
         {
             "name": "brick/math",
@@ -2177,16 +2178,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.20.1",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "57f6787f0bb6431905a18aa7caea25dcd2bd59e0"
+                "reference": "22dcdfd725ddf99583bfe398fc624ad6c5004a0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/57f6787f0bb6431905a18aa7caea25dcd2bd59e0",
-                "reference": "57f6787f0bb6431905a18aa7caea25dcd2bd59e0",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/22dcdfd725ddf99583bfe398fc624ad6c5004a0f",
+                "reference": "22dcdfd725ddf99583bfe398fc624ad6c5004a0f",
                 "shasum": ""
             },
             "require": {
@@ -2216,9 +2217,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.20.1"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.18.1"
             },
-            "time": "2023-04-22T09:05:52+00:00"
+            "time": "2023-04-07T11:51:11+00:00"
         },
         {
             "name": "psr/cache",
@@ -7824,6 +7825,55 @@
                 }
             ],
             "time": "2023-02-08T07:49:20+00:00"
+        },
+        {
+            "name": "twilio/sdk",
+            "version": "7.3.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:twilio/twilio-php.git",
+                "reference": "db64f7b5555b1bb4b5ea1511917cadf064342c0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/db64f7b5555b1bb4b5ea1511917cadf064342c0e",
+                "reference": "db64f7b5555b1bb4b5ea1511917cadf064342c0e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "phpunit/phpunit": ">=7.0 < 10"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "src/Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "https://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2023-04-20T07:20:58+00:00"
         },
         {
             "name": "webmozart/assert",
