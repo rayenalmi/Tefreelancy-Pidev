@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Community
+{% endblock %}
+
+{% block body %}
+<div>
+   <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
+
+  <a href="{{ path('app_community_index') }}">Back to list</a>
+ </div>
+  {# <a href="{{ path('app_grouppost_new',{ idCommunity: community.idCommunity}) }}">Create new</a> #}
+
+  {# <img src="https://images.unsplash.com/photo-1608408843596-b3119736057c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2034&q=80" #}
+             <img src="..\assets\img\about.jpg"
+              {# href="{{ asset('..\public\assets\css\styleCommunityPage.css') }}" #}
+              class="img-fluid rounded-start small-img w-25 ml-200 mt-50  w-75"
+              alt="..." />
+               <div style=" " class="mb-20 mt-20 ml-200 ">
+          <img src="https://cdn-icons-png.flaticon.com/512/10336/10336548.png"
+            alt=""
+            class="img-fluid "
+            style="width: 25px;  " />
+          <a href="{{ path('app_grouppost_new',{'idCommunity':community.getIdCommunity()}) }}">Create new</a>
+        </div>
+
+  <h5 class="ml-200 mt-35">
+    {{ community.name }}
+  </h5>
+  <p class="ml-200">
+  {{ community.description }}
+  <p/>
+
+
+
+  <table class="table">
+    {% for grouppost in groupposts %}
+      <div class="card mb-3  ml-200 " style="margin-right:270px">
+        <div class="row g-0 ml-10">
+          <div class="col-md-4" >
+            <img src="..\assets\img\manUser.png"
+              {# href="{{ asset('..\public\assets\css\styleCommunityPage.css') }}" #}
+              class="img-fluid rounded-start small-img mt-20 " style="width:110px"
+              alt="..." />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">
+                Ameni Ben Saada
+              </h5>
+              <p class="card-text">
+                {{ grouppost.context }}
+              </p>
+              
+                  <div class="items-link items-link2 f-right row mt-20">
+
+                        <a class="genric-btn primary-border circle mr-10" href="{{
+        path(
+          'app_grouppost_edit',
+          {
+            idGrouppost: grouppost.idGrouppost
+          }
+        )
+        }}">
+        Edit
+      </a>
+   
+      
+                          <a class="genric-btn danger-border circle" href="{{
+        path(
+          'app_grouppost_delete',
+          {
+            idGrouppost: grouppost.idGrouppost
+          }
+        )
+        }}">
+          <i class="fas fa-trash"></i>  Delete
+      </a>
+      </div>
+    {# {% set likeCount = countLikes(grouppost.idGrouppost) %} #}
+       <div class="navigation-top">
+                  <div class="d-sm-flex justify-content-between text-center">
+                     <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> {{ grouppost.numLikes }}
+                        people like this</p>
+                    
+                  </div>
+                 
+               </div>
+<button class="genric-btn disable" class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="addLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ > <i class="fas fa-thumbs-up"></i> Like 
+ {# <span >{{ grouppost.numLikes }}</span> #}
+  </button>
+ <button class="genric-btn disable" class="{{ grouppost.idGrouppost }}" data-item-Iduser="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ > 
+ <i class="far fa-thumbs-down"></i>
+  DisLike</button>
+ {# <span>{{ num_likes }} likes</span> #}
+
+    <a href="{{ path('app_commentairegrppost_index', 
+          {
+            idgrppost: grouppost.idGrouppost
+          }) }}">Show comments</a>
+
+
+
+      {# </button> #}
+      {# <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete?')){window.location.href='{{ path('app_grouppost_delete', {idGrouppost: grouppost.idGrouppost}) }}'}">
+  Delete
+</button> #}
+
+            </div>
+          </div>
+        </div>
+      </div>
+        {# <td>
+        <a href="{{ path('app_community_show', {'id': grouppost.idCommunity}) }}">View Stats</a>
+    </td> #}
+    {% endfor %}
+    
+  </table>
+<script>
+
+    {# const addLikeBtn = document.querySelector('#addLikeBtn'); #}
+    const Likesbuttons = document.querySelectorAll('#addLikeBtn');
+    Likesbuttons.forEach(likebutton => {
+        let liked = false;
+    likebutton.addEventListener('click', function(event) {
+      const itemId = event.target.dataset.itemId;
+      const grpId = event.target.dataset.itemIdgrp;
+        fetch(`/grouppostlikes/new`, {
+            method: 'POST',
+            body: JSON.stringify({
+                Idgrouppost: itemId ,
+                Iduser: 2,
+                Idgroup: grpId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error adding like');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        
+    }); });
+
+    const dislikebuttons = document.querySelectorAll('#deleteLikeBtn');
+    dislikebuttons.forEach(dislikebutton => {
+console.log("bamenoiiiiiiiiiiiiiii");
+    dislikebutton.addEventListener('click', function(event) {
+      console.log("hihihihihihi");
+
+      const grppostid = event.target.dataset.itemId;
+      //const userid = event.target.dataset.itemIdgrp;
+      const userid = 2;
+        fetch(`/grouppostlikes/${grppostid}/${userid}/delete`, {
+            method: 'POST',
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error deleting like');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        
+    }); });
+</script>
+
+  {# <a href="{{
+    path(
+      'app_community_edit',
+      {
+        idCommunity: community.idCommunity
+      }
+    )
+    }}">
+    edit
+  </a> #}
+
+
+
+  {# {{ include('grouppost/_delete_form.html.twig') }} #}
+{% endblock %}

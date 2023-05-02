@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Grouppostlikes{% endblock %}
+
+{% block body %}
+    <h1>Edit Grouppostlikes</h1>
+
+    {{ include('grouppostlikes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_grouppostlikes_index') }}">back to list</a>
+
+    {{ include('grouppostlikes/_delete_form.html.twig') }}
+{% endblock %}

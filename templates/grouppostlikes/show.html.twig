@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Grouppostlikes{% endblock %}
+
+{% block body %}
+    <h1>Grouppostlikes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idgrouppost</th>
+                <td>{{ grouppostlike.idgrouppost }}</td>
+            </tr>
+            <tr>
+                <th>Iduser</th>
+                <td>{{ grouppostlike.iduser }}</td>
+            </tr>
+            <tr>
+                <th>Idgroup</th>
+                <td>{{ grouppostlike.idgroup }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_grouppostlikes_index') }}">back to list</a>
+
+    <a href="{{ path('app_grouppostlikes_edit', {'idgrouppost': grouppostlike.idgrouppost}) }}">edit</a>
+
+    {{ include('grouppostlikes/_delete_form.html.twig') }}
+{% endblock %}
