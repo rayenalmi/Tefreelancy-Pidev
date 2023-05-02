@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PublicationWs
  *
@@ -27,6 +27,7 @@ class PublicationWs
      *
      * @ORM\Column(name="title", type="string", length=30, nullable=false)
      */
+   // #[Assert\NotBlank(message:"Title is required")]
     private $title;
 
     /**
@@ -34,6 +35,7 @@ class PublicationWs
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
+   // #[Assert\NotBlank(message:"Content is required")]
     private $content;
 
     /**
@@ -49,6 +51,47 @@ class PublicationWs
      * @ORM\Column(name="creationDate", type="date", nullable=false)
      */
     private $creationdate;
+
+    public function __construct()
+{
+    $this->creationdate = new \DateTime();
+}
+
+
+ /**
+     * @var int
+     */
+    private $likes_count = 0;
+
+    public function getLikesCount(): int
+    {
+        return $this->likes_count;
+    }
+
+    public function incrementLikesCount(): void
+    {
+        $this->likes_count++;
+    }
+
+    
+    /**
+     * @var boolean
+     */
+
+
+    private $isLikedByUser = false;
+
+    public function getIsLikedByUser(): bool
+    {
+        return $this->isLikedByUser;
+    }
+
+    public function setIsLikedByUser(bool $isLikedByUser): self
+    {
+        $this->isLikedByUser = $isLikedByUser;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -96,12 +139,19 @@ class PublicationWs
         return $this->creationdate;
     }
 
-    public function setCreationdate(\DateTimeInterface $creationdate): self
-    {
-        $this->creationdate = $creationdate;
+    public function setCreationdate(\DateTimeInterface $creationDate = null): self
+{
+    $this->creationdate = $creationDate ?: new \DateTime();
 
-        return $this;
-    }
+    return $this;
+}
 
+    // public function setCreationdate(\DateTimeInterface $creationdate): self
+    // {
+    //     $this->creationdate = $creationdate;
+
+    //     return $this;
+    // }
+    
 
 }

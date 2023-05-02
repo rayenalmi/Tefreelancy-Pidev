@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Task
@@ -19,6 +22,7 @@ class Task
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"tasks"})
      */
     private $id;
 
@@ -26,29 +30,40 @@ class Task
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=30, nullable=false)
+     * @Groups({"tasks"})
      */
+
+    //#[Assert\NotBlank(message:"Title is required")]
     private $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups({"tasks"})
      */
+
+    // #[Assert\NotBlank(message:"Description is required")]
     private $description;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deadline", type="date", nullable=false)
+     * @Groups({"tasks"})
      */
+
+    // #[Assert\NotBlank(message:"Deadline is required")] 
+
     private $deadline;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="completed", type="boolean", nullable=false)
+     * @Groups({"tasks"})
      */
-    private $completed;
+    private $completed = false;
 
     public function getId(): ?int
     {
@@ -102,6 +117,4 @@ class Task
 
         return $this;
     }
-
-
 }
