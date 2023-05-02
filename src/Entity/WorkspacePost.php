@@ -35,5 +35,34 @@ class WorkspacePost
      */
     private $publicationId;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getWorkspaceId(): ?int
+    {
+        return $this->workspaceId;
+    }
+
+    public function setWorkspaceId(int $workspaceId): self
+    {
+        $this->workspaceId = $workspaceId;
+
+        return $this;
+    }
+
+    public function getPublicationId(): ?int
+    {
+        return $this->publicationId;
+    }
+
+    public function setPublicationId(int $publicationId): self
+    {
+        $this->publicationId = $publicationId;
+
+        return $this;
+    }
+
 
 }

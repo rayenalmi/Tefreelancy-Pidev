@@ -42,5 +42,46 @@ class Achievement
      */
     private $rate;
 
+    public function getIdAchivement(): ?int
+    {
+        return $this->idAchivement;
+    }
+
+    public function getIdFreelancer(): ?int
+    {
+        return $this->idFreelancer;
+    }
+
+    public function setIdFreelancer(int $idFreelancer): self
+    {
+        $this->idFreelancer = $idFreelancer;
+
+        return $this;
+    }
+
+    public function getIdOffer(): ?int
+    {
+        return $this->idOffer;
+    }
+
+    public function setIdOffer(int $idOffer): self
+    {
+        $this->idOffer = $idOffer;
+
+        return $this;
+    }
+
+    public function getRate(): ?float
+    {
+        return $this->rate;
+    }
+
+    public function setRate(float $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
 
 }

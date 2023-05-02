@@ -2,38 +2,74 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentairegrppostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Community
- *
- * @ORM\Table(name="community")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CommentairegrppostRepository::class)
  */
-class Community
+class Commentairegrppost
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_community", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $idCommunity;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="text", length=65535, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private $context;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $description;
+    private $Idgrppost;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $user;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getContext(): ?string
+    {
+        return $this->context;
+    }
+
+    public function setContext(?string $context): self
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    public function getIdgrppost(): ?int
+    {
+        return $this->Idgrppost;
+    }
+
+    public function setIdgrppost(?int $Idgrppost): self
+    {
+        $this->Idgrppost = $Idgrppost;
+
+        return $this;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function setUser(?string $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

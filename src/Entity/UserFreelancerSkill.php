@@ -28,5 +28,22 @@ class UserFreelancerSkill
      */
     private $idSkills;
 
+    public function getIdPortfolio(): ?int
+    {
+        return $this->idPortfolio;
+    }
+
+    public function getIdSkills(): ?int
+    {
+        return $this->idSkills;
+    }
+
+    public function setIdSkills(int $idSkills): self
+    {
+        $this->idSkills = $idSkills;
+
+        return $this;
+    }
+
 
 }

@@ -35,5 +35,34 @@ class WorkspaceTask
      */
     private $taskId;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getWorkspaceId(): ?int
+    {
+        return $this->workspaceId;
+    }
+
+    public function setWorkspaceId(int $workspaceId): self
+    {
+        $this->workspaceId = $workspaceId;
+
+        return $this;
+    }
+
+    public function getTaskId(): ?int
+    {
+        return $this->taskId;
+    }
+
+    public function setTaskId(int $taskId): self
+    {
+        $this->taskId = $taskId;
+
+        return $this;
+    }
+
 
 }

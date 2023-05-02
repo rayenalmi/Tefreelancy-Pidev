@@ -45,5 +45,46 @@ class Skills
      */
     private $idFreelancer;
 
+    public function getIdSkills(): ?int
+    {
+        return $this->idSkills;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getLevel(): ?string
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?string $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getIdFreelancer(): ?User
+    {
+        return $this->idFreelancer;
+    }
+
+    public function setIdFreelancer(?User $idFreelancer): self
+    {
+        $this->idFreelancer = $idFreelancer;
+
+        return $this;
+    }
+
 
 }
