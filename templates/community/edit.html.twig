@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Community{% endblock %}
+
+{% block body %}
+  <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
+    <a href="{{ path('app_community_index') }}">Back to list</a>
+<section class="mt-5">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-3 col-lg-3 col-xl-3">
+        <img src="{{ asset('assets/img/editGrp.png') }}" class="img-fluid" alt="" />
+        {# <img src="../assets/img/editGrp.png" class="img-fluid" alt="" /> #}
+
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+       {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+          <div class="form-outline mb-4">
+    <h5>Edit Community</h5>
+
+{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg pb-80', 'placeholder': 'Enter a valid group name'}}) }}
+
+            <label class="form-label" ></label>
+          </div>
+
+          <div class="form-outline mb-3">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg pb-80', 'placeholder': 'Enter Description'}}) }}
+
+            <label class="form-label" ></label>
+
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+    <button class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ button_label|default('Save') }}</button>
+          </div>
+       {{ form_end(form) }}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    {# {{ include('community/_delete_form.html.twig') }} #}
+{% endblock %}

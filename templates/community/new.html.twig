@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  New Community
+{% endblock %}
+
+{% block body %}
+  <img src="https://cdn-icons-png.flaticon.com/512/10303/10303091.png"
+                      alt=""
+                      class="img-fluid  ml-35 "
+                      style="width: 25px;" />
+  <a href="{{ path('app_community_index') }}">back to list</a>
+
+  <section class="mt-5>
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5 mt-30">
+
+        <img src="{{ asset('assets/img/addgrp.png') }}" class="img-fluid w-75" />
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <h5>
+    Create new Community
+  </h5>
+       {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+          <div class="form-outline mb-4">
+{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg pb-20', 'placeholder': 'Enter a valid group name'}}) }}
+{{ form_errors(form.name, {'attr': {'class': 'text-danger'}}) }}
+
+
+            {# <label class="form-label" >Name</label> #}
+          </div>
+
+          <div class="form-outline mb-4">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg pb-100', 'placeholder': 'Enter Description'}}) }}
+{{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
+
+            {# <label class="form-label" >Description</label> #}
+
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+    <button class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ button_label|default('Save') }}</button>
+          </div>
+       {{ form_end(form) }}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

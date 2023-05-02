@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Job board HTML-5 Template </title>
+    <title>Tefreelancy </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href={{asset("site.webmanifest")}}>
@@ -59,12 +59,21 @@
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
                                             <li><a href="index.html">Home</a></li>
+                                            <li><a href={{path('app_community_index')}}>Find Offers </a></li> 
+                                            <li><a href={{ path('app_community_index') }}>Candidacy </a></li> 
+                                            <li><a href={{ path('app_community_index') }}>Groupe</a></li>
+                                            <li><a href="#">Page</a>
+                                                <ul class="submenu">
+                                                    <li><a href="blog.html">Blog</a></li>
                                             <li><a href={{path('app_offer_index')}}>Find Offers </a></li>
                                             <li><a href={{ path('app_candidacy_index') }}>Candidacy </a></li>
                                             <li><a href={{ path('app_formation_index') }}>Formation </a></li>
-                                            <li><a href={{ path('app_offer_index_recruter') }}>My Offers </a></li>
+                                            <li><a href={{ path('app_community_index') }}>Groupe</a></li>
+                                            <li><a href="about.html">About</a></li>
+                                            <li><a href="#">Page</a>
+
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
+                                                    <li><a href={{path('app_favoris_index')}}>Favoris</a></li>
                                                     <li><a href="single-blog.html">Blog Details</a></li>
                                                     <li><a href="elements.html">Elements</a></li>
                                                     <li><a href="job_details.html">job Details</a></li>
@@ -78,7 +87,7 @@
                                 {% if app.session.get('user') %}
                                    <!-- <p>My variable is: {{ app.session.get('user') }}</p> -->
                                 <div class="header-btn d-none f-right d-lg-block">
-                                    <a href={{ path('app_user_logout') }} class="btn head-btn2">Logout </a>
+                                    <a href={{ path('app_user_signin') }} class="btn head-btn2">Logout </a>
                                 </div>
                                 {% else %}
                                 <div class="header-btn d-none f-right d-lg-block">
@@ -248,7 +257,9 @@
     {% block js %}
     <!-- All JS Custom Plugins Link Here here -->
     <script src={{asset("./assets/js/vendor/modernizr-3.5.0.min.js")}}></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Jquery, Popper, Bootstrap -->
     <script src={{asset("./assets/js/vendor/jquery-1.12.4.min.js")}}></script>
     <script src={{asset("./assets/js/popper.min.js")}}></script>
@@ -270,6 +281,14 @@
     <script src={{asset("./assets/js/jquery.scrollUp.min.js")}}></script>
     <script src={{asset("./assets/js/jquery.nice-select.min.js")}}></script>
     <script src={{asset("./assets/js/jquery.sticky.js")}}></script>
+
+
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src={{asset("./assets/js/jquery.scrollUp.min.js")}}></script>
+    <script src={{asset("./assets/js/jquery.nice-select.min.js")}}></script>
+    <script src={{asset("./assets/js/jquery.sticky.js")}}></script>
+
 
     <!-- contact js -->
     <script src={{asset("./assets/js/contact.js")}}></script>

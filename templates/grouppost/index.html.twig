@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Grouppost index
+{% endblock %}
+
+{% block body %}
+  <h1>
+    Grouppost index
+  </h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Context
+        </th>
+
+        <th>
+          User
+        </th>
+
+        <th>
+          actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grouppost in groupposts %}
+        <tr>
+          <td>
+            {{ grouppost.context }}
+          </td>
+          <td>
+            {{ grouppost.user }}
+          </td>
+
+          <td>
+            <a href="{{
+              path(
+                'app_grouppost_show',
+                {
+                  idGrouppost: grouppost.idGrouppost
+                }
+              )
+              }}">
+              show
+            </a>
+            <a href="{{
+              path(
+                'app_grouppost_edit',
+                {
+                  idGrouppost: grouppost.idGrouppost
+                }
+              )
+              }}">
+              edit
+            </a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="6">
+            no records found
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {#<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="..." class="img-fluid rounded-start" alt="..." />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ grouppost.user }}
+          </h5>
+          <p class="card-text">
+            {{ grouppost.context }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>#}
+  {# <a href="{{ path('app_grouppost_new') }}">Create new</a> #}
+{% endblock %}

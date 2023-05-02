@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Twilio\Rest\Client;
 #[Route('/favoris')]
 class FavorisController extends AbstractController
 {
@@ -96,6 +96,23 @@ class FavorisController extends AbstractController
 
         $entityManager->persist($userFormation);
         $entityManager->flush();
+
+   /*     $accountSid = 'AC8f125b0c6fdcec2626c42735b0955891';
+            $authToken = '8cbe05e3c0c31f410e2a1da6ff60dbea';
+            $twilioNumber = '+15673339626';
+            $client = new Client($accountSid, $authToken);
+        
+            $message = $client->messages->create(
+                '+21622142153', // numéro de téléphone du destinataire
+                array(
+                    'from' => $twilioNumber,
+                    'body' => sprintf(
+                        'Formation %s was add by %s on his favoris list',
+                        $f->getName(),
+                        $urs->getFirstName(),
+                    )
+                )
+            );*/
 
 
         return new JsonResponse(['success' => ' '.$u.' '.$id.' '.$f]);

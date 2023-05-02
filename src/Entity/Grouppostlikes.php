@@ -43,16 +43,32 @@ class Grouppostlikes
     {
         return $this->idgrouppost;
     }
+    public function setIdgrouppost(int $idgrouppost): self
+    {
+        $this->idgrouppost = $idgrouppost;
+
+        return $this;
+    }
 
     public function getIduser(): ?int
     {
         return $this->iduser;
     }
+    public function setIduser(int $iduser): self
+    {
+        $this->iduser = $iduser;
 
+        return $this;
+    }
     public function getIdgroup(): ?int
     {
         return $this->idgroup;
     }
 
+    public function setIdgroup(int $Idgroup): self
+    {
+        $this->idgroup = $Idgroup;
 
+        return $this;
+    }
 }
