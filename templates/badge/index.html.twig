@@ -5,37 +5,41 @@
 {% block body %}
     <h1>Badge index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdBadge</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Image</th>
-                <th>ID test</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for badge in badges %}
-            <tr>
-                <td>{{ badge.idBadge }}</td>
-                <td>{{ badge.name }}</td>
-                <td>{{ badge.type }}</td>
-                <td>{{ badge.image }}</td>
-                <td>{{ badge.idTest }}</td>
-                <td>
-                    <a href="{{ path('app_badge_show', {'idBadge': badge.idBadge}) }}">show</a>
-                    <a href="{{ path('app_badge_edit', {'idBadge': badge.idBadge}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">IdBadge</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">ID test</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if badges is not empty %}
+                {% for badge in badges %}
+                    <tr>
+                        <td>{{ badge.idBadge }}</td>
+                        <td>{{ badge.name }}</td>
+                        <td>{{ badge.type }}</td>
+                        <td>{{ badge.image }}</td>
+                        <td>{{ badge.idTest }}</td>
+                        <td>
+                            <a href="{{ path('app_badge_show', {'idBadge': badge.idBadge}) }}" class="btn btn-sm btn-outline-secondary">Show</a>
+                            <a href="{{ path('app_badge_edit', {'idBadge': badge.idBadge}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_badge_new') }}">Create new</a>
+    <a href="{{ path('app_badge_new') }}" class="btn btn-primary">Create new</a>
 {% endblock %}

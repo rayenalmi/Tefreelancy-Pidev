@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Question</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>IdQuestion</th>
@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_question_index') }}">back to list</a>
+    <a href="{{ path('app_question_index') }}" class="btn btn-secondary">Back to List</a>
 
-    <a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}">edit</a>
+    <a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}" class="btn btn-primary">Edit</a>
 
     {{ include('question/_delete_form.html.twig') }}
 {% endblock %}
