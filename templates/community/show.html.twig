@@ -51,16 +51,14 @@
             <div class="card-body">
               <h5 class="card-title">
                 Ameni Ben Saada
-                {# {{ grouppost.user.first_name }} #}
               </h5>
               <p class="card-text">
                 {{ grouppost.context }}
               </p>
-               <img src="https://cdn-icons-png.flaticon.com/512/9283/9283120.png"
-                      alt=""
-                      class="img-fluid"
-                      style="width: 25px;" />
-                        <a href="{{
+              
+                  <div class="items-link items-link2 f-right row mt-20">
+
+                        <a class="genric-btn primary-border circle mr-10" href="{{
         path(
           'app_grouppost_edit',
           {
@@ -68,14 +66,11 @@
           }
         )
         }}">
-        edit
+        Edit
       </a>
-      {# <button class=" "> #}
-        <img src="https://cdn-icons-png.flaticon.com/512/10191/10191928.png"
-                      alt=""
-                      class="img-fluid  ml-35 "
-                      style="width: 25px;" />
-                          <a href="{{
+   
+      
+                          <a class="genric-btn danger-border circle" href="{{
         path(
           'app_grouppost_delete',
           {
@@ -83,15 +78,26 @@
           }
         )
         }}">
-        Delete
+          <i class="fas fa-trash"></i>  Delete
       </a>
+      </div>
     {# {% set likeCount = countLikes(grouppost.idGrouppost) %} #}
-<button class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="addLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
- >Like 
- <span >{{ grouppost.numLikes }}</span>
+       <div class="navigation-top">
+                  <div class="d-sm-flex justify-content-between text-center">
+                     <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> {{ grouppost.numLikes }}
+                        people like this</p>
+                    
+                  </div>
+                 
+               </div>
+<button class="genric-btn disable" class="{{ grouppost.idGrouppost }}" data-item-idgrp="{{community.getIdCommunity()}}" id="addLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ > <i class="fas fa-thumbs-up"></i> Like 
+ {# <span >{{ grouppost.numLikes }}</span> #}
   </button>
- <button class="{{ grouppost.idGrouppost }}" data-item-Iduser="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
- >DisLike</button>
+ <button class="genric-btn disable" class="{{ grouppost.idGrouppost }}" data-item-Iduser="{{community.getIdCommunity()}}" id="deleteLikeBtn" data-item-id="{{ grouppost.idGrouppost }}"
+ > 
+ <i class="far fa-thumbs-down"></i>
+  DisLike</button>
  {# <span>{{ num_likes }} likes</span> #}
 
     <a href="{{ path('app_commentairegrppost_index', 
@@ -110,6 +116,9 @@
           </div>
         </div>
       </div>
+        {# <td>
+        <a href="{{ path('app_community_show', {'id': grouppost.idCommunity}) }}">View Stats</a>
+    </td> #}
     {% endfor %}
     
   </table>

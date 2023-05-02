@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
 
 #[Route('/community')]
 class CommunityController extends AbstractController
@@ -151,10 +152,22 @@ class CommunityController extends AbstractController
             return $groupPost;
         },
         $groupposts);
+        // $chart = new LineChart();
+        // $chart->getData()->setArrayToDataTable($modifiedPosts);
+        // $chart->getOptions()->setTitle('Likes on Group Posts');
+        // $chart
+        //     ->getOptions()
+        //     ->getHAxis()
+        //     ->setTitle('Post Title');
+        // $chart
+        //     ->getOptions()
+        //     ->getVAxis()
+        //     ->setTitle('Number of Likes');
 
         return $this->render('community/show.html.twig', [
             'community' => $community,
             'groupposts' => $modifiedPosts,
+            // 'chart' => $chart,
         ]);
     }
 

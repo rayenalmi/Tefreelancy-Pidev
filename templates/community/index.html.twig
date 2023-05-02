@@ -67,72 +67,8 @@
 
     groups.forEach(group => {
         const groupElement = document.createElement('div');
-        groupElement.innerHTML = `{% for community in pagination %}
-                <div class="single-job-items">
-                  <div class="job-items">
-                    <div class="company-img">
-                      <a href="#">
-                        <img src="../assets/img/icon/job-list1.png" alt="" />
-                      </a>
-                    </div>
-                    <div class="job-tittle job-tittle2">
-                      <a href="#">
-                        <h4>
-                          {{ community.name }}
-                        </h4>
-                      </a>
-                      <ul>
-                        <li>{{ community.description }}</li>
-                        {# <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                  <li>$3500 - $4000</li> #}
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="items-link items-link2 f-right row mt-20">
-                    {# <a href="job_details.html">Full Time</a> #}
-                    <div class="col">
-                      <a href="{{
-                        path(
-                          'app_community_show',
-                          {
-                            idCommunity: community.idCommunity
-                          }
-                        )
-                        }}">
-                        Show
-                      </a>
-                    </div>
-                    <div class="col">
-                      <a href="{{
-                        path(
-                          'app_community_edit',
-                          {
-                            idCommunity: community.idCommunity
-                          }
-                        )
-                        }}">
-                        Edit
-                      </a>
-                    </div>
-
-                    <div class="col">
-                      <a href="{{
-                        path(
-                          'app_community_delete',
-                          {
-                            idCommunity: community.idCommunity
-                          }
-                        )
-                        }}">
-                        Delete
-                      </a>
-                      <i class="bi bi-person-fill"></i>
-                    </div>
-
-                    {# <span>7 hours ago</span> #}
-                  </div>
-                </div>
-              {% endfor %}`;
+        groupElement.innerHTML = `<h2>${group.name}</h2>`
+       ; 
         searchResults.appendChild(groupElement);
     });
             })  .catch(error => {
