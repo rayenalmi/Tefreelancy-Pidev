@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio index{% endblock %}
+
+{% block body %}
+<head>
+<style>
+    h2{
+        font-family: Verdana, sans-serif; 
+        text-align: center; 
+    }
+    table{
+        font-family: Arial,  sans-serif; 
+        border-collapse: collapse;
+        width: 100%; 
+    }
+    td,th{
+        border: 1px solid #444; 
+        padding: 8px; 
+        text-align: left;
+    }
+
+
+</style>
+</head>
+ <img src="{{ asset('img/profile/portfolio.png') }}"  width="120" height="80" alt="Natural" align="left"/>
+
+<br>
+    <h1>Your portfolio</h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+         
+                <th>Intro</th>
+                <th>About</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for portfolio in portfolioid %}
+            <tr>
+             
+                <td>{{ portfolio.intro }}</td>
+                <td>{{ portfolio.about }}</td>
+                <td>
+                    <a href="{{ path('app_portfolio_show', {'idPortfolio': portfolio.idPortfolio}) }}">show</a>
+                    <a href="{{ path('app_portfolio_edit', {'idPortfolio': portfolio.idPortfolio}) }}">edit</a>
+                    <a class="btn btn-danger" href="{{path('app_portfolio_byfreelancer_pdf', {'id': portfolio.idPortfolio}) }}" target="_blank">PDF</a>
+                
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_portfolio_new') }}">Create new</a>
+    <br>
+    
+    <td><a class="btn btn-primary" href="{{path('app_project_byfreelancer', {'id':190}) }}">Take a look on your projects</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_experience_byfreelancer', {'id':190} ) }}">See your experiences</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_skills_byfreelancer', {'id':190})  }}">Got a new skill ? </a></td>
+    <br>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio index{% endblock %}
+
+{% block body %}
+
+
+ <img src="{{ asset('img/profile/portfolio.png') }}"  width="120" height="80" alt="Natural" align="left"/>
+
+<br>
+    <h1>Portfolio index</h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>IdPortfolio</th>
+                <th>Intro</th>
+                <th>About</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for portfolio in portfolios %}
+            <tr>
+                <td>{{ portfolio.idPortfolio }}</td>
+                <td>{{ portfolio.intro }}</td>
+                <td>{{ portfolio.about }}</td>
+                <td>
+                    <a href="{{ path('app_portfolio_show', {'idPortfolio': portfolio.idPortfolio}) }}">show</a>
+                    <a href="{{ path('app_portfolio_edit', {'idPortfolio': portfolio.idPortfolio}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_portfolio_new') }}">Create new</a>
+    <br>
+    
+    {# <td><a class="btn btn-primary" href="{{path('app_project_index') }}">Take a look on your projects</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_experience_index') }}">See your experiences</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_skills_index') }}">Got a new skill ? </a></td> #}
+
+        <td><a class="btn btn-primary" href="{{path('app_project_byfreelancer', {'id':190}) }}"> projects</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_experience_byfreelancer', {'id':190})  }}">See your experiences</a></td>
+    <td><a class="btn btn-primary" href="{{path('app_skills_byfreelancer', {'id':190})  }}">Got a new skill ? </a></td>
+{% endblock %}
