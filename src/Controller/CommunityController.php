@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Community;
+use App\Entity\User;
+
 use App\Entity\Grouppostlikes;
 use App\Entity\Grouppost;
 use Knp\Component\Pager\PaginatorInterface;
@@ -149,6 +151,10 @@ class CommunityController extends AbstractController
                 $groupPost->getIdGrouppost(),
                 $entityManager
             );
+            $groupPost->userData = $entityManager
+                ->getRepository(User::class)
+                ->findOneBy(['idUser' => $groupPost->getUser()]);
+
             return $groupPost;
         },
         $groupposts);

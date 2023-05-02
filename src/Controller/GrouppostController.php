@@ -46,7 +46,9 @@ class GrouppostController extends AbstractController
         int $idCommunity
     ): Response {
         $grouppost = new Grouppost();
-        $grouppost->setUser(1);
+        $session = $request->getSession();
+       $user= $session->get('user');
+        $grouppost->setUser($user->getIdUser());
         $grouppost->setIdCommunity($idCommunity);
 
         $form = $this->createForm(GrouppostType::class, $grouppost);
