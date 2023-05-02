@@ -245,17 +245,18 @@ class WorkspaceController extends AbstractController
             // Twilio
 
             // Your Twilio account SID and auth token
-            $sid = "AC2bde9d4820e843bf7a4915e12b76b3fd";
-            $token = "8f0db41767c5c4004f8e897d94021f7a";
+            $sid = "***********************";
+            $token = "***********************";;
 
             // Initialize the Twilio client with your account SID and auth token
             $client = new Client($sid, $token);
 
             // The Twilio phone number you want to send the message from
-            $fromNumber = '+16813956673';
+            $fromNumber = '+********';
 
             // The phone number you want to send the message to
-            $toNumber = '+21699752554';
+            $toNumber = '+216' . $newFreelancer->getPhone();
+
 
             // The message you want to send
             $messageBody = "Hello Freelancer ,You have been added to this Workspace";
