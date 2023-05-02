@@ -1,0 +1,377 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublicationWs index
+{% endblock %}
+
+{% block body %}
+
+
+
+
+<!-- Hero Area Start-->
+<div class="slider-area ">
+	<div class="single-slider section-overly slider-height3 d-flex align-items-center" data-background="../../assets/img/hero/about.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="hero-cap text-center">
+						<h2>The Workspace</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Hero Area End -->
+
+<div class="container">
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<div
+				style="padding-top:50px; text-align:center">
+				<!-- Add a dropdown menu for notifications -->
+				<div class="dropdown">
+					<a class="notification-icon" href="#" role="button" id="notificationsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-bell"></i>
+						<span class="badge badge-danger" id="notification-badge">{{ app.session.flashbag.peek('success')|length }}</span>
+
+					</a>
+					<div class="dropdown-menu" aria-labelledby="notificationsDropdown" id="notifications-menu"></div>
+				</div>
+
+
+				<h4>Tasks</h4>
+				<form id="search-form" action="{{ path('app_workspace_homews', {'id': workspaceId}) }}" method="get">
+					<div class="form-group">
+						<input type="text" id="search" name="search" class="form-control" placeholder="Recherche...">
+					</div>
+					<button type="submit" class="genric-btn primary circle">Rechercher</button>
+				</form>
+			</script>
+
+		</script>
+
+
+	</div>
+	<div class="comments-area" style="height: 400px;width:auto; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #f1f1f1 #ddd;">
+
+		<style>
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+		::-webkit-scrollbar-thumb {
+			background-color: #555;
+			border-radius: 10px;
+		}
+	</style>
+
+
+	{% if searchQuery %}
+		<h2>Search Results for "{{ searchQuery }}"</h2>
+	{% endif %}
+
+	{% for task in tasks|slice(0, 5) %}
+		{% if task.completed == 0  %}
+			<div class="comment-list">
+				<div class="single-comment justify-content-between d-flex">
+					<div class="user justify-content-between d-flex">
+						<div class="thumb">
+							<img src="../../assets/img/comment/comment_2.png" alt="">
+						</div>
+						<div class="desc">
+							<p class="comment">{{ task.description }}</p>
+							<div class="d-flex justify-content-between">
+								<div class="d-flex align-items-center">
+									<h5>
+										<a href="#">{{ task.title }}</a>
+									</h5>
+									<p class="date">{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</p>
+								</div>
+								<div class="reply-btn">
+									<a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }}" class="btn-reply text-uppercase">Show</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		{% if not searchQuery %}
+			<p>No tasks found.</p>
+		{% else %}
+			<p>No search results found for "{{ searchQuery }}".</p>
+		{% endif %}
+	{% endfor %}
+
+
+</div></div><div class="col-12 col-md-6">
+<div class="testimonial-area testimonial-padding" style="padding-top: 50px;padding-bottom:50px;width:700px;">
+	<div class="container">
+		<label for="primary-switch">Posts Today</label>
+		<div class="toggle-switch">
+			<input type="checkbox" id="toggle-switch" class="toggle-switch-input" name="toggle-switch">
+			<label for="toggle-switch" class="toggle-switch-label"></label>
+		</div>
+
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+		<script>
+			$(document).ready(function () {
+$(document).on('click', '.like-btn', function () {
+var publicationId = $(this).data('publication-id');
+var likesCountSpan = $(this).siblings('.likes-count');
+var likesCount = parseInt(likesCountSpan.text());
+
+if ($(this).hasClass('liked')) { // User wants to unlike the publication
+likesCountSpan.text(likesCount - 1);
+$(this).removeClass('liked');
+$(this).find('img').attr('src', '/assets/img/heart.png');
+$(this).prop('disabled', false); // re-enable button
+} else { // User wants to like the publication
+likesCountSpan.text(likesCount + 1);
+$(this).addClass('liked');
+$(this).find('img').attr('src', '/assets/img/heart-liked.png');
+$(this).prop('disabled', true);
+}
+});
+});
+		</script>
+		<script>
+			$(document).ready(function () {
+$('#toggle-text div:nth-child(2)').hide();
+$('#toggle-switch').click(function () {
+$('#toggle-text div:nth-child(1)').toggle();
+$('#toggle-text div:nth-child(2)').toggle();
+$('#toggle-text').toggleClass('show');
+});
+});
+		</script>
+
+		<style>
+			#toggle-text div:nth-child(1) {
+				display: block;
+			}
+			#toggle-text div:nth-child(2) {
+				display: none;
+			}
+			#toggle-text.show div:nth-child(1) {
+				display: none;
+			}
+			#toggle-text.show div:nth-child(2) {
+				display: block;
+			}
+		</style>
+
+		<!-- Testimonial contents -->
+		<div class="row d-flex justify-content-center">
+			<div id="toggle-text" class="col-xl-8 col-lg-8 col-md-10 show">
+				<div class="h1-testimonial-active dot-style">
+					{% for publication_w in lastFilter %}
+						<!-- Single Testimonial -->
+						<div
+							class="single-testimonial text-center">
+							<!-- Testimonial Content -->
+							<div
+								class="testimonial-caption" style="height:auto;width:auto;">
+								<!-- founder -->
+								<div class="testimonial-founder">
+									<div class="founder-img mb-30">
+										<img src="../../assets/img/testmonial/testimonial-founder.png" alt="">
+										<br>
+										<a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}">{{ publication_w.title }}</a>
+									</div>
+								</div>
+								<button class="like-btn{% if publication_w.isLikedByUser %} liked{% endif %}" data-publication-id="{{ publication_w.id }}">
+									{% if publication_w.isLikedByUser %}
+										<img src="/assets/img/heart-liked.png" alt="Liked" style="width: 20px; height: 20px;">
+									{% else %}
+										<img src="/assets/img/heart.png" alt="Like" style="width: 20px; height: 20px;">
+									{% endif %}
+								</button>
+								<span class="likes-count">{{ publication_w.likesCount }}</span>
+							</div>
+						</div>
+					{% else %}
+						<tr>
+							<td colspan="3">No records found</td>
+						</tr>
+					{% endfor %}
+
+				</div>
+			</div>
+			<div id="toggle-text" class="col-xl-8 col-lg-8 col-md-10">
+				<div class="h1-testimonial-active dot-style">
+					{% for publication_w in publication_ws %}
+						<!-- Single Testimonial -->
+						<div
+							class="single-testimonial text-center">
+							<!-- Testimonial Content -->
+							<div
+								class="testimonial-caption" style="height:auto;width:auto;">
+								<!-- founder -->
+								<div class="testimonial-founder">
+									<div class="founder-img mb-30">
+										<img src="../../assets/img/testmonial/testimonial-founder.png" alt="">
+										<br>
+										<a href="{{ path('app_publication_ws_show', {'id': publication_w.id,'workspaceId': workspaceId}) }}">{{ publication_w.title }}</a>
+									</div>
+								</div>
+								<button class="like-btn{% if publication_w.isLikedByUser %} liked{% endif %}" data-publication-id="{{ publication_w.id }}">
+									{% if publication_w.isLikedByUser %}
+										<img src="/assets/img/heart-liked.png" alt="Liked" style="width: 20px; height: 20px;">
+									{% else %}
+										<img src="/assets/img/heart.png" alt="Like" style="width: 20px; height: 20px;">
+									{% endif %}
+								</button>
+								<span class="likes-count">{{ publication_w.likesCount }}</span>
+							</div>
+						</div>
+					{% else %}
+						<tr>
+							<td colspan="3">No records found</td>
+						</tr>
+					{% endfor %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div style="text-align: center;padding-left:130px;">
+	<a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="genric-btn primary circle">Create new post</a>
+</div></div></div></div><div class="container"><section class="blog_area single-post-area section-padding"><div class="container">
+
+<div class="row">
+	<div class="col-lg-8 posts-list">
+		<div class="comments-area">
+			<h4>Freelancers</h4>
+			{% for free in freelancers %}
+				<div class="comment-list">
+					<div class="single-comment justify-content-between d-flex">
+						<div class="user justify-content-between d-flex">
+							<div class="thumb">
+								<img src="../../assets/img/comment/comment_1.png" alt="">
+							</div>
+							<div class="desc">
+
+								<div class="d-flex justify-content-between">
+									<div class="d-flex align-items-center">
+										<h5>
+											<a href="#">{{ free.firstName }}
+												{{ free.lastName }}</a>
+										</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<tr>
+					<td colspan="2" class="text-center">No records found.</td>
+				</tr>
+			{% endfor %}
+		</div>
+	</div>
+</div></div></section></div><div style="text-align: center;padding-bottom:100px;">
+
+{% if freelancer_role == 'recruter' %}
+<a href="{{ path('app_editworkspace', {'id': workspaceId}) }} " class="genric-btn primary circle">Edit Workspace</a>
+{% endif %}
+</div>
+</div>
+
+
+
+
+<!-- Add the required CSS and JavaScript files -->{# 
+									<script>
+									  // Get the notification badge element
+									  const notificationBadge = document.getElementById('notification-badge');
+									  
+									  // Get the notifications menu element
+									  const notificationsMenu = document.getElementById('notifications-menu');
+									  
+									  // Check if there are any notifications available
+									  if (notificationsMenu.children.length === 0) {
+									    // Create a new notification item
+									    const notificationItem = document.createElement('a');
+									    notificationItem.classList.add('dropdown-item');
+									    notificationItem.textContent = 'No notifications available';
+									  
+									    // Add the notification item to the notifications menu
+									    notificationsMenu.appendChild(notificationItem);
+									  } else {
+									    // Update the notification badge count
+									    notificationBadge.textContent = notificationsMenu.children.length;
+									  }
+									</script>
+									
+									
+									    <script>
+									        const notificationBadge = document.getElementById('notification-badge');
+									        notificationBadge.textContent = {{ app.session.flashbag.get('success')|length }};
+									    </script>
+									 #}<script>// Get the notification badge element
+								const notificationBadge = document.getElementById('notification-badge');
+								// Get the notifications menu element
+								const notificationsMenu = document.getElementById('notifications-menu');
+								// Get the flash message with the task ID
+								const flashMessage = '{{ app.session.flashbag.peek('success')[0] ?? '' }}';
+								// Check if there's a notification in local storage
+								const notificationItem = localStorage.getItem('notificationItem');
+								if (flashMessage) { // Extract the task ID from the flash message
+								const taskId = flashMessage.split('ID: ')[0];
+								// Create a new notification item with the task ID
+								const newNotificationItem = document.createElement('a');
+								newNotificationItem.classList.add('dropdown-item');
+								newNotificationItem.href = '{{ path('app_task_show',{'id': 'TASK_ID_PLACEHOLDER','workspaceId': workspaceId}) }}'.replace('TASK_ID_PLACEHOLDER', taskId);
+								newNotificationItem.textContent = 'A new task has been added!';
+								// Add a click event listener to the notification item
+								newNotificationItem.addEventListener('click', () => { // Remove the notification item from the notifications menu
+								notificationsMenu.removeChild(newNotificationItem);
+								// Remove the notification from local storage
+								localStorage.removeItem('notificationItem');
+								// Update the notification badge count to zero
+								notificationBadge.textContent = '0';
+								});
+								// Add the notification item to the notifications menu
+								notificationsMenu.appendChild(newNotificationItem);
+								// Update the notification badge count
+								notificationBadge.textContent = parseInt(notificationBadge.textContent) + 1;
+								// Store the notification in local storage
+								localStorage.setItem('notificationItem', newNotificationItem.outerHTML);
+								} else if (notificationItem) { // If there's a notification in local storage, add it to the notifications menu
+								notificationsMenu.innerHTML = notificationItem;
+								// Add a click event listener to the notification item
+								notificationsMenu.firstChild.addEventListener('click', () => { // Remove the notification item from the notifications menu
+								notificationsMenu.innerHTML = '';
+								// Remove the notification from local storage
+								localStorage.removeItem('notificationItem');
+								// Update the notification badge count to zero
+								notificationBadge.textContent = '0';
+								});
+								// Update the notification badge count
+								notificationBadge.textContent = '1';
+								}
+								
+								// Clear the success flash message and update the notification badge count
+								const successFlashBag = '{{ app.session.flashbag.get('success')|join }}';
+								setTimeout(() => {
+								if (successFlashBag) { // Set an empty array to the success key of the flashbag object to clear the flash message
+								{% set _ = app.session.flashbag.set('success', []) %}
+								// Remove the notification item from the notifications menu
+								notificationsMenu.innerHTML = '';
+								// Remove the notification from local storage
+								localStorage.removeItem('notificationItem');
+								// Update the notification badge count to zero
+								notificationBadge.textContent = '0';
+								}
+								}, 5 * 60 * 1000); // 5 minutes in milliseconds</script>{% endblock %}

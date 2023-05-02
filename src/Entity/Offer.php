@@ -62,7 +62,7 @@ class Offer
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User",cascade={"persist"} )
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_recruter", referencedColumnName="id_user")
      * })
@@ -83,6 +83,18 @@ class Offer
      * )
      */
     private $idUser = array();
+//
+    private $percent;
+    public function setPercent(float $f): self
+    {
+        $this->percent = $f;
+
+        return $this;
+    }
+    public function getPercent(): ?float
+    {
+        return $this->percent;
+    }
 
     /**
      * Constructor
@@ -95,6 +107,11 @@ class Offer
     public function getIdOffer(): ?int
     {
         return $this->idOffer;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getIdOffer();
     }
 
     public function getName(): ?string
@@ -192,5 +209,7 @@ class Offer
 
         return $this;
     }
+
+    
 
 }

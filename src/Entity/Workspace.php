@@ -5,6 +5,9 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Workspace
  *
@@ -19,6 +22,7 @@ class Workspace
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"workspaces"})
      */
     private $id;
 
@@ -26,20 +30,25 @@ class Workspace
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=30, nullable=false)
+     * @Groups({"workspaces"})
      */
+    //#[Assert\NotBlank(message:"Name is required")]
     private $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups({"workspaces"})
      */
+    //#[Assert\NotBlank(message:"Description is required")]
     private $description;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="task", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $task;
 
@@ -47,6 +56,7 @@ class Workspace
      * @var string|null
      *
      * @ORM\Column(name="publication", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $publication;
 
@@ -54,25 +64,23 @@ class Workspace
      * @var string|null
      *
      * @ORM\Column(name="freelancers", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $freelancers;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idoffer", type="integer", nullable=false)
-     */
-    private $idoffer;
 
-    /**
-     * @var \Offer
-     *
-     * @ORM\ManyToOne(targetEntity="Offer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_offer", referencedColumnName="id_offer")
-     * })
-     */
-    private $idOffer;
+
+    private $notifications;
+    public function getNotifications(): array
+    {
+        return $this->notifications ?? [];
+    }
+    public function setNotifications(array $notifications): self
+    {
+        $this->notifications = $notifications;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -139,17 +147,17 @@ class Workspace
         return $this;
     }
 
-    public function getIdoffer(): ?int
-    {
-        return $this->idoffer;
-    }
+    // public function getIdoffer(): ?int
+    // {
+    //     return $this->idoffer;
+    // }
 
-    public function setIdoffer(int $idoffer): self
-    {
-        $this->idoffer = $idoffer;
+    // public function setIdoffer(int $idoffer): self
+    // {
+    //     $this->idoffer = $idoffer;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
 
 }

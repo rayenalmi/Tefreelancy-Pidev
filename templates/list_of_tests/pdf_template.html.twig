@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ test.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        h1 {
+            font-size: 18px;
+            text-align: center;
+        }
+        p {
+            margin: 5px 0;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ test.name }}</h1>
+    <p>Your score: {{ finalScore }}%</p>
+    <p>Number of correct answers: {{ correctAnswers }}/{{ questions|length }}</p>
+    <ul>
+        {% for question in questions %}
+            <li>
+                <h3>{{ question.quest }}</h3>
+                <ul>
+                    {% if userAnswers['answer_'~question.idQuestion] is defined %}
+                        <li>Your answer: {{ userAnswers['answer_'~question.idQuestion] }}</li>
+                    {% endif %}
+                    <li>Correct answer: {{ question.response }}</li>
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container mt-4">
+    <h1>Search for Offers</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search by offer name" id="search-input">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
+      </div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Salary</th>
+          <th>key words</th>
+        </tr>
+      </thead>
+      <tbody id="search-results">
+        <!-- Search results will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+  <script>
+    $(document).ready(function() {
+      // Define the endpoint to search for offers
+      var searchEndpoint = "{{ path('recherche_offre_ajax') }}";
+      
+      // Add event listener to the search button
+      $('#search-button').click(function() {
+        // Get the search value from the input field
+        var searchValue = $('#search-input').val();
+        
+        // Send the AJAX request to search for offers
+        $.get(searchEndpoint, {searchValue: searchValue}, function(response) {
+          // Clear the previous search results
+          $('#search-results').empty();
+          
+          // Iterate through each offer in the search results
+          $.each(response, function(index, offer) {
+            // Create a new row for the offer
+            var row = $('<tr>');
+            
+            // Add the offer details to the row
+            row.append($('<td>').text(offer.name));
+            row.append($('<td>').text(offer.description));
+            row.append($('<td>').text(offer.salary));
+            row.append($('<td>').text(offer.keywords));
+            
+            // Add the row to the search results table
+            $('#search-results').append(row);
+          });
+        });
+      });
+    });
+  </script>
+{% endblock %}

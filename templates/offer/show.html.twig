@@ -69,6 +69,20 @@
                                 <li>{{offer.keywords}}</li>
 
                             </ul>
+                            
+
+                        </div>
+                        <div class="post-details2  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Export your offer details into PDF</h4>
+                            </div>
+                            <ul>
+                            <a href="{{ path('PDF_offer', {'id': offer.idOffer}) }}" class="btn btn-secondary" tabindex="-1" role="button">PDF</a>
+
+                            </ul>
+                            
+
                         </div>
                         <!--
                             <div class="post-details2  mb-50">
@@ -90,7 +104,8 @@
                 </div>
                 <!-- Right Content -->
                 <div class="col-xl-4 col-lg-4">
-                    <a class="btn" href="{{ path('app_offer_index') }}">back to list</a>
+                    <!--<a class="btn" href="{{ path('app_offer_index') }}">back to list</a>-->
+                    
                     <div class="post-details3  mb-50">
                         <!-- Small Section Tittle -->
                         <div class="small-section-tittle">
