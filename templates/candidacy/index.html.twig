@@ -41,13 +41,30 @@
                             <div class="testimonial-founder  ">
                                 <div class="founder-img mb-30">
                                     {% for candidacy in candidacies %}
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <img src={{asset("assets/img/testmonial/testimonial-founder.png")}} alt="">
+                                    <div class="single-job-items mb-30">
+                                        <div class="job-items">
+                                            <div class="company-img">
+                                                <a href="#"><img width="100"
+                                                        src={{asset("assets/img/testmonial/testimonial-founder.png")}}
+                                                        alt=""></a>
+                                            </div>
+                                            <div class="job-tittle job-tittle2">
+                                                <a href="#">
+                                                    <h4>{{candidacy.object}}</h4>
+                                                </a>
+                                                <ul>
+                                                    <li>{{candidacy.message}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="items-link items-link2 f-right">
+                                            <a href="{{ path('app_candidacy_show', {'idCandidacy': candidacy.idCandidacy}) }}"
+                                                class="genric-btn primary circle">show</a>
+                                            <a href="{{ path('app_candidacy_edit', {'idCandidacy': candidacy.idCandidacy}) }}"
+                                                class="genric-btn warning circle">edit</a>
+
                                         </div>
                                         <div class="col-md-7 mt-sm-20">
-                                            <span>{{candidacy.object}}</span>
-                                            <span>{{candidacy.message}}</span>
                                             {% if candidacy.accepted == 0 %}
                                             <a href="#" class="genric-btn danger circle">Refused</a>
                                             {% else %}
@@ -55,16 +72,8 @@
                                             {% endif %}
 
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="{{ path('app_candidacy_show', {'idCandidacy': candidacy.idCandidacy}) }}"
-                                                class="genric-btn primary circle">show</a>
-                                            <br><br>
-                                            <a href="{{ path('app_candidacy_edit', {'idCandidacy': candidacy.idCandidacy}) }}"
-                                                class="genric-btn warning circle">edit</a>
-
-                                        </div>
-
                                     </div>
+
                                     <br><br>
                                     {% endfor %}
                                 </div>
@@ -73,10 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="button-group-area mt-10">
-                    <a href={{path('app_candidacy_new')}} class="genric-btn primary-border">Create Candidacy</a>
-                    <br><br>
-                </div>
+                
             </div>
         </div>
     </div>

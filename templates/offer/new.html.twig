@@ -12,6 +12,11 @@
         </div>
     </div>
 </div>
+{% if app.flashes('error') is not empty %}
+        <div class="alert alert-danger">
+            offer Exist
+        </div>
+        {% endif %}
 {{ include('offer/_form.html.twig') }}
 <div class="container">
     <!-- Count of Job list Start -->

@@ -1,0 +1,336 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offer index{% endblock %}
+
+{% block body %}
+<main>
+
+
+    <!-- Hero Area Start-->
+   
+    <!-- Hero Area End -->
+    <!-- Job List Area Start -->
+    <div class="job-listing-area pt-120 pb-120">
+        <div class="container">
+            <div class="row">
+                <!-- Left content -->
+                <div class="col-xl-3 col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="small-section-tittle2 mb-45">
+                                <div class="ion"> <svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="12px">
+                                        <path fill-rule="evenodd" fill="rgb(27, 207, 107)"
+                                            d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z" />
+                                    </svg>
+                                </div>
+                                <h4>Filter Jobs</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Job Category Listing start -->
+                    <div class="job-category-listing mb-50">
+                        <!-- single one -->
+                        <div class="single-listing">
+                            
+
+                            <div class="small-section-tittle2">
+                                <h4>Job Category</h4>
+                            </div>
+                            <!-- Select job items start -->
+                            <div class="select-job-items2">
+                                <select name="select">
+                                    <option value="">All Category</option>
+                                    <option value="">Category 1</option>
+                                    <option value="">Category 2</option>
+                                    <option value="">Category 3</option>
+                                    <option value="">Category 4</option>
+                                </select>
+                            </div>
+                            <!--  Select job items End-->
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pt-80 pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>Job Type</h4>
+                                </div>
+                                <label class="container">Full Time
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Part Time
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Remote
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Freelance
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <!-- single two -->
+                        <div class="single-listing">
+                            <div class="small-section-tittle2">
+                                <h4>Job Location</h4>
+                            </div>
+                            <!-- Select job items start -->
+                            <div class="select-job-items2">
+                                <select name="select">
+                                    <option value="">Anywhere</option>
+                                    <option value="">Category 1</option>
+                                    <option value="">Category 2</option>
+                                    <option value="">Category 3</option>
+                                    <option value="">Category 4</option>
+                                </select>
+                            </div>
+                            <!--  Select job items End-->
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pt-80 pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>Experience</h4>
+                                </div>
+                                <label class="container">1-2 Years
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">2-3 Years
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">3-6 Years
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">6-more..
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <!-- single three -->
+                        <div class="single-listing">
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>Posted Within</h4>
+                                </div>
+                                <label class="container">Any
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Today
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Last 2 days
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Last 3 days
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Last 5 days
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">Last 10 days
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <div class="single-listing">
+                            <!-- Range Slider Start -->
+                            <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
+                                <div class="small-section-tittle2">
+                                    <h4>Filter Jobs</h4>
+                                </div>
+                                <div class="widgets_inner">
+                                    <div class="range_item">
+                                        <!-- <div id="slider-range"></div> -->
+                                        <input type="text" class="js-range-slider" value="" />
+                                        <div class="d-flex align-items-center">
+                                            <div class="price_text">
+                                                <p>Price :</p>
+                                            </div>
+                                            <div class="price_value d-flex justify-content-center">
+                                                <input type="text" class="js-input-from" id="amount" readonly />
+                                                <span>to</span>
+                                                <input type="text" class="js-input-to" id="amount" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+                            <!-- Range Slider End -->
+                        </div>
+                    </div>
+                    <!-- Job Category Listing End -->
+                </div>
+                <!-- Right content -->
+                <div class="col-xl-9 col-lg-9 col-md-8">
+                    <!-- Featured_job_start -->
+                    <section class="featured-job-area">
+                        <div class="container">
+                            <!-- Count of Job list Start -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="count-job mb-35">
+                                        <!--{% set nbr = 0 %}
+                                        {% for f in offer %}
+                                        {% set nbr = nbr+1 %}
+                                        {% endfor %}-->
+
+                                        <!-- Select job items start -->
+                                        <div class="select-job-items">
+                                            <span>Sort by : </span>
+                                            <div class="button-group-area mt-40">
+                                                <a href="{{path('OffreAsc')}}" class="genric-btn default radius">Name
+                                                    Asc</a>
+                                                <a href="{{path('OffreDesc')}}" class="genric-btn primary radius">Name
+                                                    Desc</a>
+                                                <a href="{{path('OffreSalaryAsc')}}"
+                                                    class="genric-btn default radius">Salary Asc</a>
+                                                <a href="{{path('OffreSalaryDesc')}}"
+                                                    class="genric-btn primary radius">Salary Desc</a>
+
+                                                <!--<select name="select">
+                                                <option value="">None</option>
+                                                <option value="">job list</option>
+                                                <option value="">job list</option>
+                                                <option value="">job list</option>
+                                            </select>-->
+                                            </div>
+                                            <!--  Select job items End-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Count of Job list End -->
+                                <!-- single-job-content -->
+                                <div id="resultats_container"> </div>
+                                <div id="start">
+                                    {% for offer in offer %}
+                                    <div class="single-job-items mb-30">
+                                        <div class="job-items">
+                                            <div class="company-img">
+                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}"><img
+                                                        src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
+                                            </div>
+                                            <div class="job-tittle job-tittle2">
+                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}">
+                                                    <h4>{{offer.name}}</h4>
+                                                </a>
+                                                <ul>
+                                                    <li>{{offer.description}}</li>
+
+                                                </ul>
+                                                <ul>
+                                                    <li>Creative Agency</li>
+                                                    <li><i class="fas fa-map-marker-alt"></i>{{offer.duration}}</li>
+                                                    <li>${{offer.salary}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="items-link items-link2 f-right">
+                                            <a
+                                                href="{{path('app_candidacy_new', {'idOffer': offer.idOffer} ) }}">Apply</a>
+                                            <span>{{offer.percent}}</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <div class="pagination">
+                                <div class="items-link">
+
+                                </div>
+                            </div>
+                            <div class="button-group-area mt-10">
+                                <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
+                                <br><br>
+                            </div>
+                    </section>
+                    <!-- Featured_job_end -->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Job List Area End -->
+    <div>
+
+    </div>
+</main>
+<script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+
+<script>
+    $("#search").keyup(function (e) {
+        /* La variable value va prendre la valeur insérer dans le champ de texte
+        afin d'effectuer la recherche */
+        var value = $(this).val();
+        /* Ajax est lancé lors du remplissage du champ texte dont l'id est
+        « search » pour faire la recherche */
+
+        $.ajax({
+            /* l’url est une chaine de caractères contenant l’adresse où la requête est
+            envoyée */
+            url: "{{ path('recherche_ajax_offre') }}",
+            /* La méthode utilisée pour transférer les données est GET */
+            type: 'GET',
+            /*Ici search value va prendre la chaine entrée par un utilisateur dans la
+            zone de recherche et sera placée après l’url */
+            data: {
+                'searchValue': value
+            },
+            /*Cette fonction permet de vider le contenu du tableau pour recevoir le
+            nouveau contenu*/
+            success: function (resultats) {
+                var html = '';
+                console.log(resultats.length);
+                if (resultats.length != 0) {
+                    $('#start').hide();
+                    for (var i = 0; i < resultats.length; i++) {
+                        html += '<div class="single-job-items mb-30">' +
+                            '<div class="job-items">' +
+                            '<div class="company-img">' +
+                            '<div class="job-tittle job-tittle2">' +
+
+                            '<h4>' + resultats[i]['name'] + '</h4>' +
+                            '</a>' +
+                            '<ul>' +
+                            '<li>' + resultats[i]['description'] + '</li>' +
+                            '</ul>' +
+                            '<ul>' +
+                            '<li>Creative Agency</li>' +
+                            '<li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>' +
+                            '<li>$' + resultats[i]['salary'] + '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="items-link items-link2 f-right">' +
+                            '<span>' + resultats[i]['duration'] + '</span>' +
+                            '</div>' +
+                            '</div>'
+                    }
+                    $('#resultats_container').html(html);
+                } else {
+                    $('#start').show();
+                    $('#resultats_container').empty();
+                    $('#resultats_container').fadeIn('fast');
+                }
+            },
+        });
+        return false;
+    });
+</script>
+
+{% endblock %}

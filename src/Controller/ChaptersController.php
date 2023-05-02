@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 #[Route('/chapters')]
 class ChaptersController extends AbstractController
@@ -103,5 +105,44 @@ class ChaptersController extends AbstractController
         }
 
         return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/pdf/{id}', name: 'PDF_chapter', methods: ['GET'])]
+    public function pdf(EntityManagerInterface $entityManager, $id)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Open Sans');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $chapter = $entityManager->getRepository(Chapters::class)->find($id);
+        $html = $this->renderView('chapters/pdf.html.twig', [
+            'chapter' => $chapter,
+        ]);
+
+        // Add header HTML to $html variable
+        $headerHtml = '<h1 style="text-align: center; color: #b0f2b6;">Bienvenue chez Freelancy </h1>';
+        $html = $headerHtml . $html;
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        // Send the PDF to the browser
+        $response = new Response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="chapter.pdf"',
+        ]);
+
+        return $response;
     }
 }
