@@ -242,7 +242,30 @@ class WorkspaceController extends AbstractController
             $workspaceFreelancer->setFreelancerId($newFreelancer->getIdUser());
             $entityManager->persist($workspaceFreelancer);
 
+            // Twilio
 
+            // Get Twilio credentials from environment variables
+            $twilioAccountSid = getenv('TWILIO_ACCOUNT_SIDWS');
+            $twilioAuthToken = getenv('TWILIO_AUTH_TOKENWS');
+            $twilioPhoneNumber = getenv('TWILIO_PHONE_NUMBERWS');
+            // Initialize the Twilio client with your account SID and auth token
+            $client = new Client($twilioAccountSid, $twilioAuthToken);
+
+          
+            // The phone number you want to send the message to
+            $toNumber = '+216' . $newFreelancer->getPhone();
+
+
+            // The message you want to send
+            $messageBody = "Hello Freelancer ,You have been added to this Workspace";
+
+            // Send the message using the Twilio API
+            $message = $client->messages->create($toNumber, [
+                'from' => $twilioPhoneNumber,
+                'body' => $messageBody,
+            ]);
+
+            // end Twilio
 
             $entityManager->flush();
         }
