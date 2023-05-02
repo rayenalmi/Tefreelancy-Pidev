@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Formation;
+use App\Entity\User;
 use App\Entity\UserFormation;
 use App\Form\UserFormationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Twilio\Rest\Client;
 #[Route('/favoris')]
 class FavorisController extends AbstractController
 {
@@ -74,6 +77,45 @@ class FavorisController extends AbstractController
         return $this->render('favoris/show.html.twig', [
             'user_formation' => $userFormation,
         ]);
+    }
+
+    #[Route('/Addfavoris', name: 'app_favoris_test', methods: ['POST'])]
+    public function test(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $session = $request->getSession();
+        $u = $session->get('user') ;
+        $data = json_decode($request->getContent(), true);
+
+        $id = $data['idFormation'];
+
+        $f = $this->entityManager->getRepository(Formation::class)->find($id);
+        $urs = $this->entityManager->getRepository(User::class)->find($u->getIdUser());
+        $userFormation = new UserFormation();
+        $userFormation->setIdUser($urs);
+        $userFormation->setIdFormation($f);
+
+        $entityManager->persist($userFormation);
+        $entityManager->flush();
+
+   /*     $accountSid = 'AC8f125b0c6fdcec2626c42735b0955891';
+            $authToken = '8cbe05e3c0c31f410e2a1da6ff60dbea';
+            $twilioNumber = '+15673339626';
+            $client = new Client($accountSid, $authToken);
+        
+            $message = $client->messages->create(
+                '+21622142153', // numéro de téléphone du destinataire
+                array(
+                    'from' => $twilioNumber,
+                    'body' => sprintf(
+                        'Formation %s was add by %s on his favoris list',
+                        $f->getName(),
+                        $urs->getFirstName(),
+                    )
+                )
+            );*/
+
+
+        return new JsonResponse(['success' => ' '.$u.' '.$id.' '.$f]);
     }
 
     #[Route('/{idUser}/edit', name: 'app_favoris_edit', methods: ['GET', 'POST'])]

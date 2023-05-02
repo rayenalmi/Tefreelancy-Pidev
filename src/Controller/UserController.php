@@ -8,6 +8,7 @@ use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -179,6 +180,37 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/signinmobile', name: 'mob_signin', methods: ['POST'])]
+    public function signMobile(Request $request, EntityManagerInterface $entityManager , UserPasswordHasherInterface $passwordHasher ): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $u =$this->getUsersByEmail($email);
+        if (!$u) 
+            {
+                $this->addFlash('email', 'Your action!');
+                return new JsonResponse(['error' => 'email does not exsit']);
+            }
+            else 
+            {   
+                if ($passwordHasher->isPasswordValid($u, $password ))
+                {
+                    //$session = new Session(); 
+                    //$session->start(); 
+                    return new JsonResponse(['success' => 'welecome']);
+                }
+                else 
+                {
+                    $this->addFlash('password', 'Your action!');
+                    return new JsonResponse(['error' => 'password incorrect']);
+                }
+            }
+
     }
 
     #[Route('/signin', name: 'app_user_signin', methods: ['GET', 'POST'])]

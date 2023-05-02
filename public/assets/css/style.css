@@ -4,6 +4,112 @@
     background: #ffffff
 }
 
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(201, 211, 151);
+    border: 1px solid black;
+    padding: 50px;
+    width: 400px; /* set the width */
+    height: 200px; /* set the height */
+  }
+
+.line-list {
+    width: 20%;
+    list-style-type: none;
+    margin: 10;
+    padding: 10;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .line-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .line-list li:nth-child(odd) {
+    background-color: #f7f7f7;
+  }
+  
+  .line-list li:nth-child(even) {
+    background-color: #eaeaea;
+  }
+  
+  .line-list li .trend-up {
+    color: #4CAF50;
+  }
+  
+  .line-list li .trend-down {
+    color: #F44336;
+  }
+  
+  
+
+.details-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6aaff7;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    max-width: 500px;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    background-color: #ffdddd;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-footer {
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30%;
+  }
+  
+  .favorite-button,
+  .like-button {
+    padding: 20px;
+    background-color: #ffdddd;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .favorite-button:hover,
+  .like-button:hover {
+    background-color: #ff0000;
+    color: #fff;
+    transition: background-color 0.5s ease;
+  }
+  
+  .fa-heart,
+  .fa-thumbs-up {
+  margin-right: 5px;
+}
+
 .gray-bg {
     background: #f5f5f5
 }
@@ -17,7 +123,7 @@
 }
 
 .black-bg {
-    background: #16161a
+    background: #1d1ddf
 }
 
 .theme-bg {

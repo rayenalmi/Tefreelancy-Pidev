@@ -5,29 +5,46 @@
 {% block body %}
     <h1> Les Formation Favoris</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Nubmer Hours</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user_formation in a %}
-            <tr>
-                 <td>{{ user_formation.name }}</td>
-                 <td>{{ user_formation.nbh }}</td>
-                 <td>
-                   
-                 </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="1">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+      <div class="row" id="start">
+    {% for formation in a %}
+    <div class="col-4">
 
-    <a href="{{ path('app_favoris_new') }}">Create new</a>
+
+      <div class="card">
+
+  <div class="card-header">
+    <h2>Formation {{formation.name}}</h2>
+    <p>Number of Hours: {{formation.nbh}}</p>
+  </div>
+
+  <div class="card-body">
+    <h3>Number of Lesson</h3>
+    <p> {{ formation.nbl}} </p>
+  </div>
+
+  <div class="card-footer">
+   <button class="details-btn">
+   <a href={{ path('app_chapters_link_to_formation',{'idFormation': formation.idFormation}) }}> 
+  Show Details</a>
+    </button>
+  </div>
+
+</div>
+
+    </div>
+     <div class="col-2"></div>
+     {% endfor %} 
+    </div>
+
+    <script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+
+    <script>
+  
+  function myFunction() {
+    
+  }
+
+    </script>
+
+    
 {% endblock %}
