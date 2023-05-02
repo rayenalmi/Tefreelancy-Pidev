@@ -8,16 +8,16 @@
     <table class="table">
         <thead>
             <tr>
-                <!-- <th>IdSkills</th> -->
+                <th>IdSkills</th>
                 <th>Name</th>
                 <th>Level</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for skill in pagination %}
+        {% for skill in skills %}
             <tr>
-                {# <td>{{ skill.idSkills }}</td>  #}
+                <td>{{ skill.idSkills }}</td>
                 <td>{{ skill.name }}</td>
                 <td>{{ skill.level }}</td>
                 <td>
@@ -37,5 +37,5 @@
  {{ knp_pagination_render(pagination) }}
 
     <a href="{{ path('app_skills_new') }}">Create new</a>
-    <a href="{{ path('search_skills_1', {'id':190}) }}" class="btn-large waves-light orange darken-3">Recherche avancée</a>
+    <a href="{{ path('search_skills_1') }}" class="btn-large waves-light orange darken-3">Recherche avancée</a>
 {% endblock %}

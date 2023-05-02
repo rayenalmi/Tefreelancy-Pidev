@@ -64,8 +64,17 @@
                                             <li><a href="about.html">About</a></li>
                                             <li><a href="#">Profile</a>
                                                 <ul class="submenu">
-                                                    <li><a href="{{path('app_portfolio_index')}}">Portfolio</a></li>
-                                                    <li><a href="{{path('app_history_index')}}" >History</a></li>
+                                                    
+                                                    
+                                                    {# <li><a href="{{path('app_portfolio_index')}}">Portfolio</a></li> #}
+                                                    <li><a href="{{ path('app_portfolio_byfreelancer', {'id': 190}) }}">Portfolio</a> </li>
+                                                    
+                                                     {# <a href="{{ path('app_portfolio_byfreelancer', {'idPortfolio': portfolio.idPortfolio}) }}">show</a> #}
+                                                      {# <a href="{{ path('app_portfolio_byfreelancer', {'id': 190}) }}">show1</a>  #}
+
+
+                                                    {# <li><a href="{{path('app_history_index')}}" >History</a></li> #}
+                                                    <li><a href="{{ path('app_history_id', {'id': 190}) }}">History</a> </li>
                                                     
                                                 </ul>
                                             </li>

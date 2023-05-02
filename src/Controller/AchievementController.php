@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Achievement;
 use App\Form\AchievementType;
+use App\Repository\AchievementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,4 +84,44 @@ class AchievementController extends AbstractController
 
         return $this->redirectToRoute('app_achievement_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    
+
+
+
+    #[Route('/f/{id}', name: 'app_achievement_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf($id, AchievementRepository $repo): Response
+    
+    {
+        $achievements = $repo->findByFreelancerId($id); 
+        $totalrate = 0; 
+        $numberofratings = 0;
+            foreach ( $achievements as $i) {
+                $totalrate += $i->getRate();
+                $numberofratings += 1; 
+            }   
+            $finalrating = $totalrate / $numberofratings; 
+
+            
+        //$budget = $repo->findByOfferId($id);     
+        // $totalbudget = 0; 
+        // $numberofmoney = 0;
+        //     foreach ( $budget as $b) {
+        //         $totalbudget += $b->getSalary();
+        //         $numberofmoney += 1; 
+        //     }   
+        //     $finalbudget = $totalbudget; 
+
+
+
+        return $this->render('achievement/indexid.html.twig', [
+            'achievements' => $achievements,
+            'final_rating' => $finalrating,
+           
+        ]);
+    }
+
+
 }

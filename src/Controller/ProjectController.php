@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,4 +82,21 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/f/{id}', name: 'app_project_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf($id, ProjectRepository $repo): Response
+    
+    {
+        $project = $repo->findByFreelancerId($id); 
+        return $this->render('project/indexid.html.twig', [
+            'projectid' => $project,
+            
+            //'final_budget' => $finalbudget,
+        ]);
+    }
+
+
+
+
 }

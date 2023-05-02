@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\History;
+use App\Repository\HistoryRepository; 
 use App\Form\HistoryType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+//use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/history')]
 class HistoryController extends AbstractController
@@ -80,5 +83,38 @@ class HistoryController extends AbstractController
         }
 
         return $this->redirectToRoute('app_history_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+    #[Route('/f/{id}', name: 'app_history_id', methods: ['GET'])]
+
+    //,ManagerRegistry $doctrine
+    public function gethistory($id, Request $req, HistoryRepository $repo): Response
+    {
+        $histories = $repo->findByFreelancerId($id); 
+        //$test = $student->getName(); 
+        
+        return $this->render('history/index.html.twig', [
+            //'controller_name' => 'StudentController',
+            'histories' => $histories,
+        ]);
+        
+        
+        /*$form = $this->createForm(StudentType::class, $student); 
+        $form->handleRequest($req); 
+
+        $em= $doctrine->getManager(); 
+
+        if($form->isSubmitted()){
+            $don = $form->getName(); 
+            $em->flush();
+            return $this->redirectToRoute('app_student'); 
+        }
+
+        return $this->render('student/updatestudent.html.twig', [
+            'form'=>$form->createView()
+        ]);
+        */
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Experience;
 use App\Form\ExperienceType;
+use App\Repository\ExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,4 +82,21 @@ class ExperienceController extends AbstractController
 
         return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/f/{id}', name: 'app_experience_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf($id, ExperienceRepository $repo): Response
+    
+    {
+        $experiences = $repo->findByFreelancerId($id); 
+        return $this->render('experience/indexid.html.twig', [
+            'experiencesid' => $experiences,
+            
+            //'final_budget' => $finalbudget,
+        ]);
+    }
+
+
+
 }

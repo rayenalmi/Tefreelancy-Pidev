@@ -21,8 +21,14 @@ class Offer
      * @ORM\Column(name="id_offer", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+
      */
     private $idOffer;
+
+
+    //#[ORM\OneToMany(mappedBy: 'idOffer', targetEntity: Achievement::class)]
+    //private Collection $achievements;
+
 
     /**
      * @var string

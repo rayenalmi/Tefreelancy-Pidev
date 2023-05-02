@@ -89,6 +89,32 @@
 
 
 
+<script>
+
+
+
+
+
+
+document.querySelector('.note').innerHTML = 'Rating :' + {{final_rating|number_format(2) }};
+
+var res = '{{ final_rating|number_format(2)  }}';
+$("#rateYo").rateYo({
+			rating: res,
+			spacing: "10px",
+			numStars: 10,
+			minValue: 0,
+			maxValue: 10,
+			multiColor: {
+ 
+      "startColor": "#FF0000", //RED
+      "endColor"  : "#00FF00"  //GREEN
+    }
+
+
+		})
+
+</script>
 
 </body>
 
