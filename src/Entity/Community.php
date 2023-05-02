@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommunityRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommunityRepository::class)]
 /**
@@ -26,6 +27,8 @@ class Community
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("pagination")]
+
     private ?int $idCommunity;
     /**
      * @Assert\NotBlank(message=" Name field can't be empty")
@@ -38,6 +41,8 @@ class Community
      */
 
     #[ORM\Column(length: 550)]
+    #[Groups("pagination")]
+
     private ?string $name;
     /**
      * @Assert\NotBlank(message="Description field can't be empty")
@@ -49,6 +54,8 @@ class Community
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
     #[ORM\Column(length: 550)]
+    #[Groups("pagination")]
+
     private ?string $description;
 
     public function getIdCommunity(): ?int
