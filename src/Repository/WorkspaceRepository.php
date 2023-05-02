@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class WorkspaceRepository extends ServiceEntityRepository
 {
 
-    
+
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -92,7 +92,23 @@ class WorkspaceRepository extends ServiceEntityRepository
         return $freelancer;
     }
 
-   
+    public function getFreelancerById($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT f
+         FROM App\Entity\User f
+         WHERE f.idUser = :id'
+        )->setParameter('id', $id);
+
+        $freelancer = $query->getOneOrNullResult();
+
+        return $freelancer;
+    }
+
+
+
     //    /**
     //     * @return Workspace[] Returns an array of Workspace objects
     //     */

@@ -280,7 +280,18 @@ $('#toggle-text').toggleClass('show');
 			{% endfor %}
 		</div>
 	</div>
-</div></div></section></div><div style="text-align: center;padding-bottom:100px;"><a href="{{ path('app_editworkspace', {'id': workspaceId}) }} " class="genric-btn primary circle">Edit Workspace</a></div></div><!-- Add the required CSS and JavaScript files -->{# 
+</div></div></section></div><div style="text-align: center;padding-bottom:100px;">
+
+{% if freelancer_role == 'recruter' %}
+<a href="{{ path('app_editworkspace', {'id': workspaceId}) }} " class="genric-btn primary circle">Edit Workspace</a>
+{% endif %}
+</div>
+</div>
+
+
+
+
+<!-- Add the required CSS and JavaScript files -->{# 
 									<script>
 									  // Get the notification badge element
 									  const notificationBadge = document.getElementById('notification-badge');

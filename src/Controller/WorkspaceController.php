@@ -18,9 +18,12 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use TCPDF;
 use Twilio\Rest\Client;
-
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 #[Route('/workspace')]
 class WorkspaceController extends AbstractController
@@ -35,38 +38,23 @@ class WorkspaceController extends AbstractController
             ->getRepository(Workspace::class)
             ->findBy([], ['id' => 'DESC']); */
         $workspaces = $repo3->getWorkspacesForFreelancer(12);
+        $freelancer_id = 12;
+        $the_freelancer = $repo3->getFreelancerById($freelancer_id);
+        $role = $the_freelancer->getRole();
         return $this->render('workspace/index.html.twig', [
             'workspaces' => $workspaces,
+            'freelancer_role' => $role
         ]);
     }
-    /* 
-    #[Route('/send-message', name: 'send_message', methods: ['GET'])]
-    public function sendMessage()
+
+    #[Route("/AllWsForFreeJson", name: "WsJsonFree")]
+    public function getAllWsJson(WorkspaceRepository $repo, SerializerInterface $serializer)
     {
-        // Your Twilio account SID and auth token
-        $sid = "AC2bde9d4820e843bf7a4915e12b76b3fd";
-        $token = "8f0db41767c5c4004f8e897d94021f7a";
+        $workspaces = $repo->getWorkspacesForFreelancer(12); // change
+        $json = $serializer->serialize($workspaces, 'json', ['groups' => "workspaces"]);
+        return new Response($json);
+    }
 
-        // Initialize the Twilio client with your account SID and auth token
-        $client = new Client($sid, $token);
-
-        // The Twilio phone number you want to send the message from
-        $fromNumber = '+16813956673';
-
-        // The phone number you want to send the message to
-        $toNumber = '+21699752554';
-
-        // The message you want to send
-        $messageBody = "Hello Freelancer ,You have been added to this Workspace";
-
-        // Send the message using the Twilio API
-        $message = $client->messages->create($toNumber, [
-            'from' => $fromNumber,
-            'body' => $messageBody,
-        ]);
-
-        return new Response('Message sent: ' . $message->sid);
-    } */
 
     #[Route('/pdf-example/{id}', name: 'pdf_save', methods: ['GET'])]
     public function downloadTasks($id, TaskRepository $repo)
@@ -192,12 +180,16 @@ class WorkspaceController extends AbstractController
             $tasks = $repo->findBySearchQuery($search);
         }
 
+        $freelancer_id = 12;
+        $the_freelancer = $repo3->getFreelancerById($freelancer_id);
+        $role = $the_freelancer->getRole();
 
         return $this->render('home_ws/index.html.twig', [
             'workspaces' => $workspaces,
             'publication_ws' => $publicationWs,
             'workspaceId' => $id,
             'tasks' => $tasks,
+            'freelancer_role' => $role,
             'freelancers' => $freelancers,
             'lastFilter' => $lastPost,
             'check' => $checkbox->createView(),
@@ -206,10 +198,27 @@ class WorkspaceController extends AbstractController
     }
 
 
+    /**
+     * @Route("/freelancers/{id}/remove/{workspaceId}", name="remove_freelancer")
+     */
+    public function remove($id, $workspaceId, EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
+    {
+        $workspaceFreelancer = $entityManager->getRepository(WorkspaceFreelancer::class)
+            ->findOneBy(['workspaceId' => $workspaceId, 'freelancerId' => $id]);
 
+        if ($workspaceFreelancer) {
+            $entityManager->remove($workspaceFreelancer);
+            $entityManager->flush();
+        }
+
+        // redirect to edit workspace page
+        return $this->redirectToRoute('app_editworkspace', [
+            'id' => $workspaceId
+        ]);
+    }
 
     #[Route('/editws/{id}', name: 'app_editworkspace', methods: ['GET', 'POST'])]
-    public function editWorkSpace(Request $request, $id, EntityManagerInterface $entityManager, TaskRepository $repo, PublicationWsRepository $repo2, WorkspaceRepository $repo3): Response
+    public function editWorkSpace(PaginatorInterface $paginator, PaginatorInterface $paginator2, Request $request, $id, EntityManagerInterface $entityManager, TaskRepository $repo, PublicationWsRepository $repo2, WorkspaceRepository $repo3): Response
     {
         $workspaces = $entityManager
             ->getRepository(Workspace::class)
@@ -219,7 +228,7 @@ class WorkspaceController extends AbstractController
         $publicationWs = $repo2->getPublicationWssForWorkspace($id);
 
         $tasks = $repo->getTasksForWorkspace($id);
-      
+
         $form2 = $this->createForm(AddFreelancerWsType::class);
         $form2->handleRequest($request);
         $newFreelancer = new User();
@@ -252,18 +261,32 @@ class WorkspaceController extends AbstractController
             $messageBody = "Hello Freelancer ,You have been added to this Workspace";
 
             // Send the message using the Twilio API
-            /*  $message = $client->messages->create($toNumber, [
+            $message = $client->messages->create($toNumber, [
                 'from' => $fromNumber,
                 'body' => $messageBody,
-            ]); */
+            ]);
 
             // end Twilio
 
             $entityManager->flush();
         }
+        $pagination = $paginator->paginate(
+            $publicationWs,
+            $request->query->getInt('page', 1),
+            3
+        );
+
+        $pagination2 = $paginator2->paginate(
+            $tasks,
+            $request->query->getInt('page', 1),
+            3
+        );
+
         array_push($freelancers, $newFreelancer);
         return $this->render('home_ws/edit.html.twig', [
             'workspaces' => $workspaces,
+            'pagination' => $pagination,
+            'pagination2' => $pagination2,
             'publication_ws' => $publicationWs,
             'workspaceId' => $id,
             'tasks' => $tasks,
@@ -295,7 +318,7 @@ class WorkspaceController extends AbstractController
             // Add the workspace task
             $workspaceFreelancer = new WorkspaceFreelancer();
             $workspaceFreelancer->setWorkspaceId($workspace->getId());
-            $workspaceFreelancer->setFreelancerId(12);
+            $workspaceFreelancer->setFreelancerId(12); // change
             $entityManager->persist($workspaceFreelancer);
             $entityManager->flush();
 
@@ -306,6 +329,27 @@ class WorkspaceController extends AbstractController
             'workspace' => $workspace,
             'form' => $form,
         ]);
+    }
+
+    #[Route("addWsJSON/new", name: "addWsJSON")]
+    public function addWsJSON(Request $req,   NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $workspace = new Workspace();
+        $workspace->setName($req->get('name'));
+        $workspace->setDescription($req->get('description'));
+
+        $entityManager->persist($workspace);
+        $entityManager->flush();
+
+        // Add the workspace task
+        $workspaceFreelancer = new WorkspaceFreelancer();
+        $workspaceFreelancer->setWorkspaceId($workspace->getId());
+        $workspaceFreelancer->setFreelancerId(12); // change
+        $entityManager->persist($workspaceFreelancer);
+
+        $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
+        return new Response(json_encode($jsonContent));
     }
 
     #[Route('/{id}', name: 'app_workspace_show', methods: ['GET'])]
@@ -321,6 +365,7 @@ class WorkspaceController extends AbstractController
     {
         $form = $this->createForm(WorkspaceType::class, $workspace);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $existingWs = $entityManager->getRepository(Workspace::class)->findOneBy(['name' => $workspace->getName()]);
@@ -338,10 +383,25 @@ class WorkspaceController extends AbstractController
         }
 
 
+
         return $this->renderForm('workspace/edit.html.twig', [
             'workspace' => $workspace,
             'form' => $form
         ]);
+    }
+
+    #[Route('/{id}/editJson', name: 'workspace_editJson', methods: ['GET', 'POST'])]
+    public function updateWsJson($id, Request $req, NormalizerInterface $Normalizer, Workspace $workspace, EntityManagerInterface $entityManager): Response
+    {
+
+        $workspace = $entityManager->getRepository(Workspace::class)->find($id);
+        $workspace->setName($req->get('name'));
+        $workspace->setDescription($req->get('description'));
+
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
+        return new Response("Workspace updated successfully " . json_encode($jsonContent));
     }
 
     #[Route('/{id}', name: 'app_workspace_delete', methods: ['POST'])]
@@ -353,5 +413,17 @@ class WorkspaceController extends AbstractController
         }
 
         return $this->redirectToRoute('app_workspace_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route("/deleteWsJSON/{id}/{workspaceId}", name: "deleteWsJSON")]
+    public function deleteWsJSON($id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $workspace = $entityManager->getRepository(Workspace::class)->find($id);
+        $entityManager->remove($workspace);
+        $entityManager->flush();
+        $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
+        return new Response("Task deleted successfully " . json_encode($jsonContent));
     }
 }

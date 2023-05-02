@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +22,7 @@ class Workspace
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"workspaces"})
      */
     private $id;
 
@@ -28,6 +30,7 @@ class Workspace
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=30, nullable=false)
+     * @Groups({"workspaces"})
      */
     //#[Assert\NotBlank(message:"Name is required")]
     private $name;
@@ -36,6 +39,7 @@ class Workspace
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups({"workspaces"})
      */
     //#[Assert\NotBlank(message:"Description is required")]
     private $description;
@@ -44,6 +48,7 @@ class Workspace
      * @var string|null
      *
      * @ORM\Column(name="task", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $task;
 
@@ -51,6 +56,7 @@ class Workspace
      * @var string|null
      *
      * @ORM\Column(name="publication", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $publication;
 
@@ -58,22 +64,23 @@ class Workspace
      * @var string|null
      *
      * @ORM\Column(name="freelancers", type="text", length=65535, nullable=true)
+     * @Groups({"workspaces"})
      */
     private $freelancers;
 
-   
 
-   private $notifications;
-   public function getNotifications(): array
-{
-   return $this->notifications ?? [];
-}
-public function setNotifications(array $notifications): self
-{
-   $this->notifications = $notifications;
 
-   return $this;
-}
+    private $notifications;
+    public function getNotifications(): array
+    {
+        return $this->notifications ?? [];
+    }
+    public function setNotifications(array $notifications): self
+    {
+        $this->notifications = $notifications;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

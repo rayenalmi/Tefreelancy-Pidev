@@ -1,0 +1,29 @@
+{% if pageCount > 1 %}
+    <nav class="blog-pagination justify-content-center d-flex">
+        <ul class="pagination">
+            {% if current > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): (current - 1)})) }}" aria-label="Previous">
+                        <i class="ti-angle-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li class="page-item"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if current < pageCount %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): (current + 1)})) }}" aria-label="Next">
+                        <i class="ti-angle-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

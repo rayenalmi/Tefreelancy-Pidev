@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<h1 class="mt-4 mb-4">Tasks
-				<a href="#">  
+				<a href="#">
 					<img url="#" onclick="savePDF(event)" src="/assets/img/file.png" style="width: 20px; height: 20px;">
 				</a>
 			</h1>
@@ -22,7 +22,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for task in tasks %}
+					{% for task in pagination2 %}
 						<tr>
 							<td>{{ task.title }}</td>
 							<td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
@@ -38,6 +38,8 @@
 					{% endfor %}
 				</tbody>
 			</table>
+			{# {{ knp_pagination_render(pagination2, 'home_ws/pagination.html.twig') }}
+									 #}
 
 			<a href="{{ path('app_addtask', {'id': workspaceId }) }}" class="genric-btn primary circle">Create new task</a>
 		</div>
@@ -54,7 +56,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for publication_w in publication_ws %}
+					{% for publication_w in pagination %}
 						<tr>
 							<td>{{ publication_w.title }}</td>
 							<td>{{ publication_w.content }}</td>
@@ -71,10 +73,13 @@
 				</tbody>
 			</table>
 
+
 			<a href="{{ path('app_addpost', {'id': workspaceId }) }}" class="genric-btn primary circle">Create new post</a>
 		</div>
-	</div>
 
+
+	</div>
+	{{ knp_pagination_render(pagination, 'home_ws/pagination.html.twig') }}
 
 	<script>
 		function savePDF(event) {
@@ -128,8 +133,13 @@ xhr.send();
 																	{{ free.lastName }}</a>
 															</h5>
 														</div>
+
 														<div class="reply-btn">
-															<a href="#" class="btn-reply text-uppercase">Remove</a>
+
+															{% if free.idUser is not empty %}
+																<a href="{{ path('remove_freelancer', {'id': free.idUser, 'workspaceId': workspaceId}) }}" class="btn-reply text-uppercase">Remove</a>
+															{% endif %}
+
 														</div>
 													</div>
 												</div>
@@ -163,7 +173,6 @@ xhr.send();
 
 	<a href="{{ path('app_workspace_show', {'id': workspaceId}) }}" class="genric-btn primary-border circle">Show</a>
 	<a href="{{ path('app_workspace_edit', {'id': workspaceId}) }}" class="genric-btn primary-border circle">Edit</a>
-
 
 
 {% endblock %}

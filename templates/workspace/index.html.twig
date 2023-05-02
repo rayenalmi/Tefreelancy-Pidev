@@ -21,22 +21,22 @@
 	<!-- Hero Area End -->
 
 	{# <div class="row">
-										{% for workspace in workspaces %}
-											<div class="col-md-4 mb-3">
-												<div class="card">
-													<div class="card-body">
-														<h5 class="card-title">{{ workspace.name }}</h5>
-														<p class="card-text">{{ workspace.description }}</p>
-														<a href="{{ path('app_workspace_show', {'id': workspace.id}) }}" class="btn btn-primary">Show</a>
-														<a href="{{ path('app_workspace_edit', {'id': workspace.id}) }}" class="btn btn-secondary">Edit</a>
-														<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
+												{% for workspace in workspaces %}
+													<div class="col-md-4 mb-3">
+														<div class="card">
+															<div class="card-body">
+																<h5 class="card-title">{{ workspace.name }}</h5>
+																<p class="card-text">{{ workspace.description }}</p>
+																<a href="{{ path('app_workspace_show', {'id': workspace.id}) }}" class="btn btn-primary">Show</a>
+																<a href="{{ path('app_workspace_edit', {'id': workspace.id}) }}" class="btn btn-secondary">Edit</a>
+																<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
+															</div>
+														</div>
 													</div>
-												</div>
-											</div>
-										{% else %}
-											<p>No records found.</p>
-										{% endfor %}
-									</div> #}
+												{% else %}
+													<p>No records found.</p>
+												{% endfor %}
+											</div> #}
 
 
 	<div class="whole-wrap">
@@ -48,88 +48,89 @@
 						<h3 class="mb-30">Choose a Workspace</h3>
 						<!-- Job List Area Start -->
 						<!-- Job List Area Start -->
-<div class="job-listing-area" style="height: 500px; overflow-y: scroll;overflow-x: hidden;">
+						<div class="job-listing-area" style="height: 500px; overflow-y: scroll;overflow-x: hidden;">
 
-	<div class="row">
+							<div
+								class="row">
 
-		<!-- Right content -->
-		<div class="col-xl-9 col-lg-9 col-md-8">
-			<!-- Featured_job_start -->
-			<section class="featured-job-area">
-				<div class="container">
-					
-					<!-- Count of Job list End -->
-					<!-- single-job-content -->
-					{% for workspace in workspaces|slice(0, 5) %}
-						<div class="single-job-items mb-30">
+								<!-- Right content -->
+								<div
+									class="col-xl-9 col-lg-9 col-md-8">
+									<!-- Featured_job_start -->
+									<section class="featured-job-area">
+										<div class="container">
 
-							<div class="job-items">
-								<div class="company-img">
-									<a href="#"><img src="../assets/img/icon/job-list1.png" alt=""></a>
-								</div>
+											<!-- Count of Job list End -->
+											<!-- single-job-content -->
+												{% for workspace in workspaces|slice(0, 5) %}
+													<div class="single-job-items mb-30"> <div class="job-items">
+														<div class="company-img">
+															<a href="#"><img src="../assets/img/icon/job-list1.png" alt=""></a>
+														</div>
 
-								<div class="job-tittle job-tittle2">
+														<div class="job-tittle job-tittle2">
 
-									<a href="#">
-										<h4>{{ workspace.name }}</h4>
-									</a>
-									<ul>
-										<li>{{ workspace.description }}</li>
-									</ul>
+															<a href="#">
+																<h4>{{ workspace.name }}</h4>
+															</a>
+															<ul>
+																<li>{{ workspace.description }}</li>
+															</ul>
+														</div>
+													</div>
+													<div class="items-link items-link2 f-right">
+														<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
+
+													</div>
+												</div>
+											{% else %}
+												<p>No records found.</p>
+											{% endfor %}
+
+											{% if workspaces|length > 5 %}
+												<div style="height: 100px;">
+													{% for workspace in workspaces|slice(5, workspaces|length) %}
+														<div class="single-job-items mb-30">
+
+															<div class="job-items">
+																<div class="company-img">
+																	<a href="#"><img src="../assets/img/icon/job-list1.png" alt=""></a>
+																</div>
+
+																<div class="job-tittle job-tittle2">
+
+																	<a href="#">
+																		<h4>{{ workspace.name }}</h4>
+																	</a>
+																	<ul>
+																		<li>{{ workspace.description }}</li>
+																	</ul>
+																</div>
+															</div>
+															<div class="items-link items-link2 f-right">
+																<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
+
+															</div>
+														</div>
+													{% endfor %}
+												</div>
+											{% endif %}
+										</div>
+									</section>
+									<!-- Featured_job_end -->
 								</div>
 							</div>
-							<div class="items-link items-link2 f-right">
-								<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
-
-							</div>
 						</div>
-					{% else %}
-						<p>No records found.</p>
-					{% endfor %}
-
-					{% if workspaces|length > 5 %}
-						<div style="height: 100px;">
-							{% for workspace in workspaces|slice(5, workspaces|length) %}
-								<div class="single-job-items mb-30">
-
-									<div class="job-items">
-										<div class="company-img">
-											<a href="#"><img src="../assets/img/icon/job-list1.png" alt=""></a>
-										</div>
-
-										<div class="job-tittle job-tittle2">
-
-											<a href="#">
-												<h4>{{ workspace.name }}</h4>
-											</a>
-											<ul>
-												<li>{{ workspace.description }}</li>
-											</ul>
-										</div>
-									</div>
-									<div class="items-link items-link2 f-right">
-										<a href="{{ path('app_workspace_homews', {'id': workspace.id}) }}" class="genric-btn primary-border circle">Go</a>
-
-									</div>
-								</div>
-							{% endfor %}
-						</div>
-					{% endif %}
-				</div>
-			</section>
-			<!-- Featured_job_end -->
-		</div>
-	</div>
-</div>
 
 
 					</div>
 					<div class="col-lg-3 col-md-4 mt-sm-30">
-
-						<div class="single-element-widget mt-30">
-							<h5 class="mb-30">Create new Workspace</h5>
-							<a href="{{ path('app_workspace_new') }}" class="genric-btn primary-border circle">Create</a>
-						</div>
+						{% if freelancer_role == 'recruter' %}
+							<div class="single-element-widget mt-30">
+								<h5 class="mb-30">Create new Workspace</h5>
+								<a href="{{ path('app_workspace_new') }}" class="genric-btn primary-border circle">Create</a>
+							</div>
+						{% endif  %}
 					</div>
 				</div>
 			</div>
