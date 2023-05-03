@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Project
  *
@@ -20,12 +22,15 @@ class Project
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    
     private $idProject;
 
+    
     /**
      * @var string
-     *
+     * 
      * @ORM\Column(name="title", type="text", length=65535, nullable=false)
+     * 
      */
     private $title;
 

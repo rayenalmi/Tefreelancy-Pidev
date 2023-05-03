@@ -1,0 +1,155 @@
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+
+<head>
+<style>
+    h2{
+        font-family: Verdana, sans-serif; 
+        text-align: center; 
+    }
+    table{
+        font-family: Arial,  sans-serif; 
+        border-collapse: collapse;
+        width: 100%; 
+    }
+    td,th{
+        border: 1px solid #444; 
+        padding: 8px; 
+        text-align: left;
+    }
+
+
+</style>
+</head>
+ 
+<br>
+    <h1>Your portfolio</h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+             
+                <th>Intro</th>
+                <th>About</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for portfolio in portfolioid %}
+            <tr>
+                
+                <td>{{ portfolio.intro }}</td>
+                <td>{{ portfolio.about }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# //*************************************************************************** #}
+<br>
+<br>
+   <h1>Skills :</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>Name</th>
+                <th>Level</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill in skillsid %}
+            <tr>
+                
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.level }}</td>
+             
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+
+       
+        </tbody>
+    </table>
+
+
+<h1>Experiences :</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Duration</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for experience in experiencesid %}
+            <tr>
+                
+                <td>{{ experience.title }}</td>
+                <td>{{ experience.description }}</td>
+                <td>{{ experience.location }}</td>
+                <td>{{ experience.duration }}</td>
+                <td>{{ experience.type }}</td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    
+
+
+    <h1>Projects :</h1>
+
+    <table class="table" border="1" >
+        <thead>
+            <tr>
+                
+                <th>Title</th>
+                <th>Description</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+        {% for project in projectsid %}
+            <tr>
+                
+                <td>{{ project.title }}</td>
+                <td>{{ project.description }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

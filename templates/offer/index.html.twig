@@ -9,13 +9,13 @@
     <!-- Hero Area Start-->
     <div class="slider-area ">
         <div class="single-slider section-overly slider-height2 d-flex align-items-center"
-            data-background={{asset("assets/img/hero/recommended.webp")}}>
+            data-background={{asset("assets/img/hero/about.jpg")}}>
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h3> <a href="{{path('app_offer_show')}}" class="genric-btn primary-border radius">Recommended offers</a>
-                            </h3>
+                        <div class="hero-cap section-tittle white-text text-center">
+                            <h2> Find your offer
+                            </h2>
                         </div>
                     </div>
                 </div>
@@ -208,7 +208,15 @@
                                         {% for f in offers %}
                                         {% set nbr = nbr+1 %}
                                         {% endfor %}-->
+                                        <div class="container center">
+                                            <!-- Count of Job list Start -->
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <a href="{{path('app_offer_show')}}" class="genric-btn default radius"><img
+                                                        src={{asset("assets/img/hero/recommended.png")}}></a>
 
+                                            </div>
+                                        </div>
                                         <!-- Select job items start -->
                                         <div class="select-job-items">
                                             <span>Sort by : </span>
@@ -241,11 +249,11 @@
                                     <div class="single-job-items mb-30">
                                         <div class="job-items">
                                             <div class="company-img">
-                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}"><img
+                                                <a href="{{ path('app_offer_show1', {'idOffer': offer.idOffer}) }}"><img
                                                         src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
-                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}">
+                                                <a href="{{ path('app_offer_show1', {'idOffer': offer.idOffer}) }}">
                                                     <h4>{{offer.name}}</h4>
                                                 </a>
                                                 <ul>
@@ -253,31 +261,54 @@
 
                                                 </ul>
                                                 <ul>
-                                                    <li>Creative Agency</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
+
+                                                    <li><i class="fas fa-key"></i>{{offer.keywords}}</li>
                                                     <li>${{offer.salary}}</li>
+                                                    <span class="fas fa-clock">{{offer.duration}}</span>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="items-link items-link2 f-right">
                                             <a
                                                 href="{{path('app_candidacy_new', {'idOffer': offer.idOffer} ) }}">Apply</a>
-                                            <span>{{offer.duration}}</span>
+                                            
                                         </div>
                                     </div>
                                     {% endfor %}
                                 </div>
 
                             </div>
-                            <div class="pagination">
-                                <div class="items-link">
+                            <div class="pagination-area pb-115 text-center">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="single-wrap d-flex justify-content-center">
+                            {{ knp_pagination_render(offers) }}
 
-                                </div>
-                            </div>
-                            <div class="button-group-area mt-10">
-                                <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
-                                <br><br>
-                            </div>
+                    {# <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-start">
+                        <li class="page-item active">
+                          <a class="page-link" href="#">01</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">02</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">03</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            <span class="ti-angle-right"></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav> #}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+                            
                     </section>
                     <!-- Featured_job_end -->
                 </div>

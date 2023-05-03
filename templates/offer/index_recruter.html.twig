@@ -72,20 +72,23 @@
                                     </ul>
                                     <ul>
                                         <li>Creative Agency</li>
-                                        
+
                                         <li>${{offer.salary}}</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="items-link items-link2 f-right">
-                                            <a
-                                                href="{{path('getCandidacyByOffer', {'idOffer': offer.idOffer} ) }}">Voir</a>
-                                            <span>{{offer.duration}}</span>
-                                        </div>
-                            
+                                <a href="{{path('getCandidacyByOffer', {'idOffer': offer.idOffer} ) }}">Voir</a>
+                                <span>{{offer.duration}}</span>
+                            </div>
+
                         </div>
                         {% endfor %}
 
+                    </div>
+                    <div class="button-group-area mt-10">
+                        <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
+                        <br><br>
                     </div>
 
                 </section>

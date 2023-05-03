@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Experience{% endblock %}
+
+{% block body %}
+    <h1>Experience</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdExperience</th>
+                <td>{{ experience.idExperience }}</td>
+            </tr>
+            <tr>
+                <th>IdFreelancer</th>
+                <td>{{ experience.idFreelancer }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ experience.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ experience.description }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ experience.location }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ experience.duration }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ experience.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_experience_byfreelancer') }}">back to list</a>
+
+    <a href="{{ path('app_skills_byfreelancer', {'idExperience': experience.idExperience}) }}">edit</a>
+
+    {{ include('experience/_delete_form.html.twig') }}
+{% endblock %}

@@ -300,7 +300,7 @@ class OfferController extends AbstractController
             $entityManager->persist($offer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_offer_index_recruter', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('offer/new.html.twig', [
@@ -309,14 +309,13 @@ class OfferController extends AbstractController
         ]);
     }
 
-    #[Route('/{idOffer}', name: 'app_offer_show', methods: ['GET'])]
+    #[Route('details/{idOffer}', name: 'app_offer_show1', methods: ['GET'])]
     public function show(Offer $offer): Response
     {
         return $this->render('offer/show.html.twig', [
             'offer' => $offer,
         ]);
     }
-
     #[Route('/recommended_offer', name: 'app_offer_show', methods: ['GET','POST'])]
     public function shxcbdgow(Request $request): Response
     {
@@ -329,7 +328,7 @@ class OfferController extends AbstractController
             FROM App\Entity\Skills s
             JOIN App\Entity\User u WITH s.idFreelancer = u.idUser
             WHERE s.idFreelancer = :userId'
-        )->setParameter('userId', 199);
+        )->setParameter('userId', $urs);
     
         $listSk = $query->getResult();
 
@@ -363,6 +362,8 @@ class OfferController extends AbstractController
         
     ]);
     }
+
+
 
     #[Route('/{idOffer}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Offer $offer, EntityManagerInterface $entityManager): Response

@@ -25,6 +25,13 @@ use Twilio\Rest\Client;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
+require_once __DIR__ . '../../../vendor/autoload.php'; // load Composer's autoloader
+
+use Symfony\Component\Dotenv\Dotenv;
+
+
 #[Route('/workspace')]
 class WorkspaceController extends AbstractController
 {
@@ -32,13 +39,18 @@ class WorkspaceController extends AbstractController
 
 
     #[Route('/', name: 'app_workspace_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
     {
         /* $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findBy([], ['id' => 'DESC']); */
-        $workspaces = $repo3->getWorkspacesForFreelancer(47);
-        $freelancer_id = 47;
+
+        $session = $request->getSession();
+        $u = $session->get('user')->getIdUser();
+        /* $workspaces = $repo3->getWorkspacesForFreelancer(12);
+        $freelancer_id = 12; */
+        $workspaces = $repo3->getWorkspacesForFreelancer($u);
+        $freelancer_id = $u;
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
         return $this->render('workspace/index.html.twig', [
@@ -48,9 +60,11 @@ class WorkspaceController extends AbstractController
     }
 
     #[Route("/AllWsForFreeJson", name: "WsJsonFree")]
-    public function getAllWsJson(WorkspaceRepository $repo, SerializerInterface $serializer)
+    public function getAllWsJson(Request $request, WorkspaceRepository $repo, SerializerInterface $serializer)
     {
-        $workspaces = $repo->getWorkspacesForFreelancer(12); // change
+        $session = $request->getSession();
+        $u = $session->get('user')->getIdUser();
+        $workspaces = $repo->getWorkspacesForFreelancer($u); // change
         $json = $serializer->serialize($workspaces, 'json', ['groups' => "workspaces"]);
         return new Response($json);
     }
@@ -180,7 +194,9 @@ class WorkspaceController extends AbstractController
             $tasks = $repo->findBySearchQuery($search);
         }
 
-        $freelancer_id = 12;
+        $session = $request->getSession();
+        $u = $session->get('user')->getIdUser();
+        $freelancer_id = $u; //change
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
 
@@ -220,6 +236,9 @@ class WorkspaceController extends AbstractController
     #[Route('/editws/{id}', name: 'app_editworkspace', methods: ['GET', 'POST'])]
     public function editWorkSpace(PaginatorInterface $paginator, PaginatorInterface $paginator2, Request $request, $id, EntityManagerInterface $entityManager, TaskRepository $repo, PublicationWsRepository $repo2, WorkspaceRepository $repo3): Response
     {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '../../../.env');
+
         $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findAll();
@@ -242,30 +261,6 @@ class WorkspaceController extends AbstractController
             $workspaceFreelancer->setFreelancerId($newFreelancer->getIdUser());
             $entityManager->persist($workspaceFreelancer);
 
-            // Twilio
-
-            // Get Twilio credentials from environment variables
-            $twilioAccountSid = getenv('TWILIO_ACCOUNT_SIDWS');
-            $twilioAuthToken = getenv('TWILIO_AUTH_TOKENWS');
-            $twilioPhoneNumber = getenv('TWILIO_PHONE_NUMBERWS');
-            // Initialize the Twilio client with your account SID and auth token
-            $client = new Client($twilioAccountSid, $twilioAuthToken);
-
-          
-            // The phone number you want to send the message to
-            $toNumber = '+216' . $newFreelancer->getPhone();
-
-
-            // The message you want to send
-            $messageBody = "Hello Freelancer ,You have been added to this Workspace";
-
-            // Send the message using the Twilio API
-            $message = $client->messages->create($toNumber, [
-                'from' => $twilioPhoneNumber,
-                'body' => $messageBody,
-            ]);
-
-            // end Twilio
 
             $entityManager->flush();
         }
@@ -314,10 +309,14 @@ class WorkspaceController extends AbstractController
             $entityManager->persist($workspace);
             $entityManager->flush();
 
+
             // Add the workspace task
+
+            $session = $request->getSession();
+            $u = $session->get('user')->getIdUser();
             $workspaceFreelancer = new WorkspaceFreelancer();
             $workspaceFreelancer->setWorkspaceId($workspace->getId());
-            $workspaceFreelancer->setFreelancerId(12); // change
+            $workspaceFreelancer->setFreelancerId($u); // change
             $entityManager->persist($workspaceFreelancer);
             $entityManager->flush();
 
@@ -341,10 +340,13 @@ class WorkspaceController extends AbstractController
         $entityManager->persist($workspace);
         $entityManager->flush();
 
+        $session = $req->getSession();
+        $u = $session->get('user')->getIdUser();
+
         // Add the workspace task
         $workspaceFreelancer = new WorkspaceFreelancer();
         $workspaceFreelancer->setWorkspaceId($workspace->getId());
-        $workspaceFreelancer->setFreelancerId(12); // change
+        $workspaceFreelancer->setFreelancerId($u); // change
         $entityManager->persist($workspaceFreelancer);
 
         $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
