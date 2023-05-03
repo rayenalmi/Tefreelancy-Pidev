@@ -50,7 +50,7 @@
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">
-                Ameni Ben Saada
+               {{ grouppost.userData.firstName }}
               </h5>
               <p class="card-text">
                 {{ grouppost.context }}
@@ -157,7 +157,6 @@
 
     const dislikebuttons = document.querySelectorAll('#deleteLikeBtn');
     dislikebuttons.forEach(dislikebutton => {
-console.log("bamenoiiiiiiiiiiiiiii");
     dislikebutton.addEventListener('click', function(event) {
       console.log("hihihihihihi");
 

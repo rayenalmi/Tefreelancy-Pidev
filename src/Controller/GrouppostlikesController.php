@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 
 #[Route('/grouppostlikes')]
 class GrouppostlikesController extends AbstractController
@@ -31,15 +33,26 @@ class GrouppostlikesController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
+        $session = $request->getSession();
+        $user= $session->get('user');
         $grouppostlike = new Grouppostlikes();
         $body = $request->getContent();
         $data = json_decode($body, true);
         $grouppostlike->setIdgrouppost($data['Idgrouppost']);
-        $grouppostlike->setIduser($data['Iduser']);
+        $grouppostlike->setIduser($user->getIdUser());
         $grouppostlike->setIdgroup($data['Idgroup']);
+        $countLike=$entityManager
+        ->getRepository(Grouppostlikes::class)->createQueryBuilder('m') ->where('m.iduser = :userId')
+    ->andWhere('m.idgrouppost = :grouppostId')->setParameter('userId', $user->getIdUser())
+    ->setParameter('grouppostId', $data['Idgrouppost']) ->select('COUNT(m.iduser)')
+    ->getQuery()
+    ->getSingleScalarResult();
+    if ($countLike > 0) {
+            throw new HttpException(400, 'you can t add like twice');
+        }
         $entityManager->persist($grouppostlike);
         $entityManager->flush();
-        return new JsonResponse($data);
+        return new JsonResponse($countLike);
     }
 
     // #[Route('/delete', name: 'app_grouppostlikes_delete', methods: ['POST'])]
