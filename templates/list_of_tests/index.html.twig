@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Les tests disponibles</h1>
+        <div class="form-group">
+            <input type="text" id="search" class="form-control" placeholder="Rechercher un test">
+        </div>
+        <br>
+        <div id="resultats_container" >
+            <table class="table table-hover">
+                {# <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead> #}
+                <tbody>
+                    {% for test in tests %}
+                        <tr>
+                            <td>{{ test.name }}</td>
+                            <td>{{ test.type }}</td>
+                            <td>
+                                <a href="{{ path('app_passtest', {'id': test.idTest}) }}" class="btn btn-primary">Passer ce test</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").keyup(function (e) {
+                var value = $(this).val();
+                $.ajax({
+                    url: "{{ path('recherche_ajax_test') }}",
+                    type: "GET",
+                    data: {
+                        searchValue: value
+                    },
+                    success: function (response) {
+                        var resultatsContainer = $('#resultats_container');
+                        resultatsContainer.empty();
+                        if (response.length === 0) {
+                            resultatsContainer.append('<p class="text-muted">Aucun résultat.</p>');
+                        } else {
+                            var table = '<table class="table table-hover"><thead><tr><th></th><th></th><th></th></tr></thead><tbody>';
+                            $.each(response, function (key, value) {
+                                var url = "{{ path('app_passtest', {'id': '__id__'}) }}".replace('__id__', value.idTest);
+                                table += '<tr><td>' + value.name + '</td><td>' + value.type + '</td><td><a href="' + url + '" class="btn btn-primary">Passer ce test</a></td></tr>';
+                            });
+                            table += '</tbody></table>';
+                            resultatsContainer.append(table);
+                        }
+                    },
+                    error: function () {
+                        console.log('Une erreur est survenue lors du traitement de la requête.');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

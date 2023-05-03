@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question index{% endblock %}
+
+{% block body %}
+  <h1 class="mb-4">Question index</h1>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>IdQuestion</th>
+          <th>Quest</th>
+          <th>Choice1</th>
+          <th>Choice2</th>
+          <th>Choice3</th>
+          <th>Response</th>
+          <th>IdTest</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for question in questions %}
+          <tr>
+            <td>{{ question.idQuestion }}</td>
+            <td>{{ question.quest }}</td>
+            <td>{{ question.choice1 }}</td>
+            <td>{{ question.choice2 }}</td>
+            <td>{{ question.choice3 }}</td>
+            <td>{{ question.response }}</td>
+            <td>{{ question.idTest }}</td>
+            <td>
+              <a href="{{ path('app_question_show', {'idQuestion': question.idQuestion}) }}" class="btn btn-sm btn-info">Show</a>
+              <a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}" class="btn btn-sm btn-primary">Edit</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="8">No records found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <a href="{{ path('app_question_new') }}" class="btn btn-primary mt-4">Create new</a>
+{% endblock %}

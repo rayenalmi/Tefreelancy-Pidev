@@ -36,6 +36,11 @@ class Test
      */
     private $type;
 
+    public function __toString()
+{
+    return (string) $this->getIdTest();
+}
+
     public function getIdTest(): ?int
     {
         return $this->idTest;

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task index{% endblock %}
+
+{% block body %}
+    <h1>Task </h1>
+
+    <table class="table">
+        <thead>
+            <tr> {# <td><th>Id</th></td> #}
+                
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Completed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                {% if loop.index <= 20 %}
+               {# <td>{{ task.id }}</td> #}
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
+                <td>{{ task.completed ? 'Yes' : 'No' }}</td>
+                <td>
+                
+                    <a href="{{ path('app_task_show', {'id': task.id,'workspaceId': workspaceId}) }} " class="genric-btn primary-border circle">show</a>
+                    <a href="{{ path('app_task_edit', {'id': task.id,'workspaceId': workspaceId}) }} "class="genric-btn primary-border circle">edit</a>
+                </td>
+            </tr>
+            
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_task_new') }} " class="genric-btn primary-border circle">Create new</a>
+{% endblock %}

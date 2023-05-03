@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Portfolio
  *
@@ -45,6 +46,14 @@ class Portfolio
      * })
      */
     private $idFreelancer;
+
+
+    public function __toString() 
+{
+    return (string) $this->idPortfolio; 
+}
+
+
 
     public function getIdPortfolio(): ?int
     {

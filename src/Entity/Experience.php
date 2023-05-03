@@ -33,6 +33,7 @@ class Experience
      * @var string
      *
      * @ORM\Column(name="title", type="text", length=65535, nullable=false)
+     *
      */
     private $title;
 

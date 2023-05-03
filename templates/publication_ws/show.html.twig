@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublicationWs{% endblock %}
+
+{% block body %}
+<br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ publication_w.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="card-text">{{ publication_w.content }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li>Author: {{ publication_w.author }}</li>
+                                    <li>Creation Date: {{ publication_w.creationdate ? publication_w.creationdate|date('Y-m-d') : '' }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ path('app_workspace_homews',{'id': workspaceId})}}" class="genric-btn primary-border circle">Back to List</a>
+                        <a href="{{ path('app_publication_ws_edit', {'id': publication_w.id,'workspaceId': workspaceId}) }}" class="genric-btn primary-border circle">Edit</a>
+                        {# {{ include('publication_ws/_delete_form.html.twig') }} #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

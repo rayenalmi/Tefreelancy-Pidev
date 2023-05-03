@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}History index{% endblock %}
+
+{% block body %}
+ <img src="{{ asset('img/profile/history.png') }}"  width="100" height="80" alt="Natural" align="left"/>
+<br>
+    <h1>History index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+             
+                <th>Rating</th>
+                <th>Budget</th>
+                <th>Achivements</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for history in histories %}
+            <tr>
+         
+                <td>{{ history.rating }}</td>
+                <td>{{ history.budget }}</td>
+                <td>{{ history.achivements }}</td>
+                <td>
+                    <a href="{{ path('app_history_show', {'idHistory': history.idHistory}) }}">show</a>
+                    <a href="{{ path('app_history_edit', {'idHistory': history.idHistory}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_history_new') }}">Create new</a>
+{% endblock %}

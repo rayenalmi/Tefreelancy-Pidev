@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test index{% endblock %}
+
+{% block body %}
+    <h1>Test index</h1>
+    <input type="text" id="search" class="form-control" placeholder="Search">
+    <br>
+    <div id="resultats_container" > </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill in skills %}
+            <tr>
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.type }}</td>
+                <td>
+                    <a href="{{ path('app_passtest', {'id': skill.id}) }}">your skill</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script src="{{ asset('https://code.jquery.com/jquery-3.5.1.min.js') }}"></script>
+    <script>
+    $( document ).ready(function () {
+        
+            $("#search").keyup(function (e) {
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d'effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l'id est
+                « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est
+                    envoyée */
+                    url: "{{ path('recherche_ajax_test') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type: 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la
+                    zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le
+                    nouveau contenu*/
+                    success: function (resultats) {
+    console.log(value.length);
+    console.log(resultats.length);
+    if (resultats.length != 0) {
+        // Loop through the search results and update the table rows
+        $('tbody').empty();
+        for (var i = 0; i < resultats.length; i++) {
+            var test = resultats[i];
+            var row = $('<tr>');
+            row.append($('<td>').text(test.name));
+            row.append($('<td>').text(test.type));
+            row.append($('<td>').append($('<a>').attr('href', '/app_passtest/' + test.id).text('Passer ce test')));
+            $('tbody').append(row);
+        }
+    } else {
+        // Show "no records found" message if there are no search results
+        $('tbody').html('<tr><td colspan="3">no records found</td></tr>');
+    }
+},
+                });
+                return false;
+            });
+        });
+    </script>
+    {% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Result{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-0 shadow">
+                    <div class="card-header bg-primary text-white">{{ test.name }}</div>
+
+                    <div class="card-body">
+                        <p class="lead">Your score: <span class="font-weight-bold">{{ finalScore }}%</span></p>
+                        <p class="lead">Number of correct answers: <span class="font-weight-bold">{{ correctAnswers }}/{{ questions|length }}</span></p>
+
+                        <ul class="list-group">
+                            {% for question in questions %}
+                                <li class="list-group-item border-0">
+                                    <h5 class="mb-1">{{ question.quest }}</h5>
+                                    <ul class="list-group">
+                                        {% if userAnswers['answer_'~question.idQuestion] == question.response %}
+                                            <li class="list-group-item text-success"><i class="fas fa-check-circle mr-2"></i>Your answer: {{ userAnswers['answer_'~question.idQuestion] }}</li>
+                                            <li class="list-group-item text-success"><i class="fas fa-check-circle mr-2"></i>Correct answer: {{ question.response }}</li>
+                                        {% else %}
+                                            <li class="list-group-item text-danger"><i class="fas fa-times-circle mr-2"></i>Your answer: {{ userAnswers['answer_'~question.idQuestion] }}</li>
+                                            <li class="list-group-item text-danger"><i class="fas fa-check-circle mr-2"></i>Correct answer: {{ question.response }}</li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ path('app_generate_pdf', {'id': test.idTest}) }}" class="btn btn-primary"><i class="fas fa-file-pdf mr-2"></i>Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

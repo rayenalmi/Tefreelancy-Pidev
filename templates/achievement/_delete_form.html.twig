@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_achievement_delete', {'idAchivement': achievement.idAchivement}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ achievement.idAchivement) }}">
+    <button class="btn">Delete</button>
+</form>
