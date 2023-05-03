@@ -16,6 +16,46 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/history')]
 class HistoryController extends AbstractController
 {
+
+
+    #[Route('/f', name: 'app_history_id', methods: ['GET'])]
+
+    //,ManagerRegistry $doctrine
+    public function gethistory(Request $request , HistoryRepository $repo): Response
+    {
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        //$experiences = $repo->findByFreelancerId($u->getIdUser()); 
+
+        $histories = $repo->findByFreelancerId($u->getIdUser()); 
+        //$test = $student->getName(); 
+        
+        return $this->render('history/index.html.twig', [
+            //'controller_name' => 'StudentController',
+            'histories' => $histories,
+        ]);
+        
+        
+        /*$form = $this->createForm(StudentType::class, $student); 
+        $form->handleRequest($req); 
+
+        $em= $doctrine->getManager(); 
+
+        if($form->isSubmitted()){
+            $don = $form->getName(); 
+            $em->flush();
+            return $this->redirectToRoute('app_student'); 
+        }
+
+        return $this->render('student/updatestudent.html.twig', [
+            'form'=>$form->createView()
+        ]);
+        */
+    }
+
+
+
+
     #[Route('/', name: 'app_history_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -39,7 +79,7 @@ class HistoryController extends AbstractController
             $entityManager->persist($history);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_history_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_history_id', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('history/new.html.twig', [
@@ -65,7 +105,7 @@ class HistoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_history_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_history_id', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('history/edit.html.twig', [
@@ -82,39 +122,10 @@ class HistoryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_history_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_history_id', [], Response::HTTP_SEE_OTHER);
     }
 
 
 
-    #[Route('/f/{id}', name: 'app_history_id', methods: ['GET'])]
-
-    //,ManagerRegistry $doctrine
-    public function gethistory($id, Request $req, HistoryRepository $repo): Response
-    {
-        $histories = $repo->findByFreelancerId($id); 
-        //$test = $student->getName(); 
-        
-        return $this->render('history/index.html.twig', [
-            //'controller_name' => 'StudentController',
-            'histories' => $histories,
-        ]);
-        
-        
-        /*$form = $this->createForm(StudentType::class, $student); 
-        $form->handleRequest($req); 
-
-        $em= $doctrine->getManager(); 
-
-        if($form->isSubmitted()){
-            $don = $form->getName(); 
-            $em->flush();
-            return $this->redirectToRoute('app_student'); 
-        }
-
-        return $this->render('student/updatestudent.html.twig', [
-            'form'=>$form->createView()
-        ]);
-        */
-    }
+    
 }

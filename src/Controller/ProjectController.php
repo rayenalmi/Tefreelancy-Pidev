@@ -14,6 +14,28 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/project')]
 class ProjectController extends AbstractController
 {
+
+    #[Route('/f', name: 'app_project_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf(Request $request, ProjectRepository $repo): Response
+    
+    {
+
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        
+
+
+        $project = $repo->findByFreelancerId($u->getIdUser()); 
+        return $this->render('project/indexid.html.twig', [
+            'projectid' => $project,
+            'id' => $u->getIdUser(), 
+            
+            //'final_budget' => $finalbudget,
+        ]);
+    }
+
+
     #[Route('/', name: 'app_project_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -37,7 +59,7 @@ class ProjectController extends AbstractController
             $entityManager->persist($project);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_project_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('project/new.html.twig', [
@@ -63,7 +85,7 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_project_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('project/edit.html.twig', [
@@ -80,21 +102,10 @@ class ProjectController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_project_byfreelancer', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/f/{id}', name: 'app_project_byfreelancer', methods: ['GET'])]
-    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
-    public function getf($id, ProjectRepository $repo): Response
     
-    {
-        $project = $repo->findByFreelancerId($id); 
-        return $this->render('project/indexid.html.twig', [
-            'projectid' => $project,
-            
-            //'final_budget' => $finalbudget,
-        ]);
-    }
 
 
 

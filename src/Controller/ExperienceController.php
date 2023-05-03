@@ -14,6 +14,24 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/experience')]
 class ExperienceController extends AbstractController
 {
+
+    #[Route('/f', name: 'app_experience_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf(Request $request, ExperienceRepository $repo): Response
+    {
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        $experiences = $repo->findByFreelancerId($u->getIdUser()); 
+        return $this->render('experience/indexid.html.twig', [
+            'experiencesid' => $experiences,
+            'id' => $u->getIdUser(), 
+            
+            //'final_budget' => $finalbudget,
+        ]);
+    }
+
+
+
     #[Route('/', name: 'app_experience_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -37,7 +55,7 @@ class ExperienceController extends AbstractController
             $entityManager->persist($experience);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_experience_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('experience/new.html.twig', [
@@ -63,7 +81,7 @@ class ExperienceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_experience_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('experience/edit.html.twig', [
@@ -80,22 +98,11 @@ class ExperienceController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_experience_byfreelancer', [], Response::HTTP_SEE_OTHER);
     }
 
 
-    #[Route('/f/{id}', name: 'app_experience_byfreelancer', methods: ['GET'])]
-    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
-    public function getf($id, ExperienceRepository $repo): Response
     
-    {
-        $experiences = $repo->findByFreelancerId($id); 
-        return $this->render('experience/indexid.html.twig', [
-            'experiencesid' => $experiences,
-            
-            //'final_budget' => $finalbudget,
-        ]);
-    }
 
 
 

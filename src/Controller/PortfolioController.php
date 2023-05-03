@@ -68,7 +68,7 @@ class PortfolioController extends AbstractController
             $entityManager->persist($portfolio);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_portfolio_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_portfolio_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('portfolio/new.html.twig', [
@@ -94,7 +94,7 @@ class PortfolioController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_portfolio_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_portfolio_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('portfolio/edit.html.twig', [
@@ -111,7 +111,7 @@ class PortfolioController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_portfolio_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_portfolio_byfreelancer', [], Response::HTTP_SEE_OTHER);
     }
 
 
@@ -131,17 +131,23 @@ class PortfolioController extends AbstractController
 
 
 
-    #[Route('/f/{id}/pdf', name: 'app_portfolio_byfreelancer_pdf', methods: ['GET'])]
-    public function getf1($id, PortfolioRepository $repo, SkillsRepository $repo_skills,
+    #[Route('/f/pdf', name: 'app_portfolio_byfreelancer_pdf', methods: ['GET'])]
+    public function getf1(Request $request, PortfolioRepository $repo, SkillsRepository $repo_skills,
     ExperienceRepository $repo_exp, AchievementRepository $repo_achiv, ProjectRepository $repo_proj
     ): Response
 
     {
-        $portfolio = $repo->findByFreelancerId($id); 
-        $skills = $repo_skills->findByFreelancerId($id); 
-        $experiences = $repo_exp->findByFreelancerId($id); 
-        $achievements = $repo_achiv->findByFreelancerId($id); 
-        $projects = $repo_proj->findByFreelancerId($id); 
+
+        $session = $request->getSession();
+       $u =  $session->get('user'); 
+        //$portfolio = $repo->findByFreelancerId($u->getIdUser()); 
+
+
+        $portfolio = $repo->findByFreelancerId($u->getIdUser()); 
+        $skills = $repo_skills->findByFreelancerId($u->getIdUser()); 
+        $experiences = $repo_exp->findByFreelancerId($u->getIdUser()); 
+        $achievements = $repo_achiv->findByFreelancerId($u->getIdUser()); 
+        $projects = $repo_proj->findByFreelancerId($u->getIdUser()); 
         
 
         // Generate the PDF
