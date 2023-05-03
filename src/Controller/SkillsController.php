@@ -29,21 +29,53 @@ public function __construct(EntityManagerInterface $entityManager)
 }
  */
 
+
+
+ #[Route('/f', name: 'app_skills_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    public function getf( SkillsRepository $repo, Request $request, PaginatorInterface $paginator): Response
+    
+    {
+
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        //$experiences = $repo->findByFreelancerId($u->getIdUser()); 
+        //$skills = $repo->findByFreelancerId($id); 
+        
+        $pagination = $paginator->paginate(
+            $repo->paginationQuery($u->getIdUser()),
+            $request->query->get('page',1),
+            2
+        ); 
+
+
+        return $this->render('skills/index.html.twig', [
+            //'skills' => $skills,
+            'pagination' => $pagination
+        ]);
+    }
+
     // search & filter 
     
-    #[Route('/search/{id}', name: 'search_skills_1', methods: ['GET'])]
-    public function searchSkills($id, Request $request,ManagerRegistry $doctrine, SkillsRepository $repo2): Response
+    #[Route('/search', name: 'search_skills_1', methods: ['GET'])]
+    public function searchSkills( Request $request,ManagerRegistry $doctrine, SkillsRepository $repo2): Response
     {
+
+
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        //$experiences = $repo->findByFreelancerId($u->getIdUser()); 
+
         $em = $doctrine->getManager(); 
         //$skills = $em->getRepository(Skills::class)->findAll();
         //$skills = $em->getRepository(Skills::class)->findByFreelancerId($id);
-        $skills = $repo2->findByFreelancerId($id); 
+        $skills = $repo2->findByFreelancerId($u->getIdUser()); 
 
         $search = $request->query->get('search');
 
  // if search query is set, get the search results and pass them to the view
         if ($search) {
-            $skills = $repo2->findBySearchQuery($search, $id);
+            $skills = $repo2->findBySearchQuery($search, $u->getIdUser());
         }
 
        
@@ -82,7 +114,7 @@ public function __construct(EntityManagerInterface $entityManager)
             $entityManager->persist($skill);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_skills_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('skills/new.html.twig', [
@@ -115,7 +147,7 @@ public function __construct(EntityManagerInterface $entityManager)
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_skills_byfreelancer', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('skills/edit.html.twig', [
@@ -132,7 +164,7 @@ public function __construct(EntityManagerInterface $entityManager)
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_skills_byfreelancer', [], Response::HTTP_SEE_OTHER);
     }
 
 
@@ -149,26 +181,7 @@ public function __construct(EntityManagerInterface $entityManager)
             ;
         }
 
-    #[Route('/f/{id}', name: 'app_skills_byfreelancer', methods: ['GET'])]
-    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
-    public function getf($id, SkillsRepository $repo, Request $request, PaginatorInterface $paginator): Response
     
-    {
-
-        //$skills = $repo->findByFreelancerId($id); 
-        
-        $pagination = $paginator->paginate(
-            $repo->paginationQuery($id),
-            $request->query->get('page',1),
-            2
-        ); 
-
-
-        return $this->render('skills/index.html.twig', [
-            //'skills' => $skills,
-            'pagination' => $pagination
-        ]);
-    }
 
 
 
