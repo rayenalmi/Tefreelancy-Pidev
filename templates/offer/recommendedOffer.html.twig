@@ -217,14 +217,15 @@
                                 <div id="resultats_container"> </div>
                                 <div id="start">
                                     {% for offer in offer %}
+                                    {% if offer.percent >= 0.5 %}
                                     <div class="single-job-items mb-30">
                                         <div class="job-items">
                                             <div class="company-img">
-                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}"><img
+                                                <a href="{{ path('app_offer_show1', {'idOffer': offer.idOffer}) }}"><img
                                                         src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
-                                                <a href="{{ path('app_offer_show', {'idOffer': offer.idOffer}) }}">
+                                                <a href="{{ path('app_offer_show1', {'idOffer': offer.idOffer}) }}">
                                                     <h4>{{offer.name}}</h4>
                                                 </a>
                                                 <ul>
@@ -232,18 +233,20 @@
 
                                                 </ul>
                                                 <ul>
-                                                    <li>Creative Agency</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>{{offer.duration}}</li>
+                                                    
+                                                    <li><i class="fas fa-clock"></i>{{offer.duration}}</li>
                                                     <li>${{offer.salary}}</li>
+                                                    <span>{{offer.percent}}<i class="fas fa-star text-warning"></i></span>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="items-link items-link2 f-right">
                                             <a
                                                 href="{{path('app_candidacy_new', {'idOffer': offer.idOffer} ) }}">Apply</a>
-                                            <span>{{offer.percent}}</span>
+                                            
                                         </div>
                                     </div>
+                                    {% endif %}
                                     {% endfor %}
                                 </div>
 
@@ -253,10 +256,7 @@
 
                                 </div>
                             </div>
-                            <div class="button-group-area mt-10">
-                                <a href={{path('app_offer_new')}} class="genric-btn primary-border">Create Offer</a>
-                                <br><br>
-                            </div>
+                            
                     </section>
                     <!-- Featured_job_end -->
                 </div>
