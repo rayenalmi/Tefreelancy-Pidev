@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\AchievementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="achievement")
  * @ORM\Entity
  */
+
+//#[ORM\Entity(repositoryClass: AchievementRepository::class)] 
 class Achievement
 {
     /**
@@ -20,6 +22,9 @@ class Achievement
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idAchivement;
+
+    
+
 
     /**
      * @var int
@@ -32,7 +37,10 @@ class Achievement
      * @var int
      *
      * @ORM\Column(name="id_offer", type="integer", nullable=false)
+
      */
+    //#[ORM\ManyToOne(inversedBy: 'achievements')]
+    //private ?Offer $idOffer = null;
     private $idOffer;
 
     /**

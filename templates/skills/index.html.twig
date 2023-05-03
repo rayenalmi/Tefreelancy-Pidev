@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Skills index{% endblock %}
+
+{% block body %}
+    <h1>Skills index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <!-- <th>IdSkills</th> -->
+                <th>Name</th>
+                <th>Level</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill in pagination %}
+            <tr>
+                {# <td>{{ skill.idSkills }}</td>  #}
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.level }}</td>
+                <td>
+                    <a href="{{ path('app_skills_show', {'idSkills': skill.idSkills}) }}">show</a>
+                    <a href="{{ path('app_skills_edit', {'idSkills': skill.idSkills}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+
+       
+        </tbody>
+    </table>
+ {{ knp_pagination_render(pagination) }}
+
+    <a href="{{ path('app_skills_new') }}">Create new</a>
+    <a href="{{ path('search_skills_1', {'id':190}) }}" class="btn-large waves-light orange darken-3">Recherche avancée</a>
+{% endblock %}

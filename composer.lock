@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d836c386fe76ddbcf436a6633eeaa0d",
+    "content-hash": "4d4744c2917d4334c37d45395f055b3a",
     "packages": [
         {
             "name": "brick/math",
@@ -8444,6 +8444,7 @@
             "version": "1.11.0",
             "source": {
                 "type": "git",
+
                 "url": "https://github.com/webmozarts/assert.git",
                 "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991"
             },
