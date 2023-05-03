@@ -352,10 +352,10 @@ class OfferController extends AbstractController
         
 
     }
-    foreach ($list as $o) {
+    /*foreach ($list as $o) {
         var_dump($o->getName());
         var_dump($o->getPercent());
-    }
+    }*/
 
     return $this->renderForm('offer/recommendedOffer.html.twig', [
         'offer' => $list,
