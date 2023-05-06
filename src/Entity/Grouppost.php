@@ -63,6 +63,8 @@ class Grouppost
      */
     private $idCommunity;
 
+    public $numLikes;
+
     public function getIdGrouppost(): ?int
     {
         return $this->idGrouppost;
@@ -80,17 +82,17 @@ class Grouppost
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
+    // public function getDate(): ?\DateTimeInterface
+    // {
+    //     return $this->date;
+    // }
 
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
+    // public function setDate(\DateTimeInterface $date): self
+    // {
+    //     $this->date = $date;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getUser(): ?int
     {
