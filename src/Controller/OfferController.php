@@ -233,7 +233,29 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/getoffersmobile', name: 'app_offer_getallmobiile')]
+    public function indexMobile(Request $req, EntityManagerInterface $entityManager)
+    {
+        $offers = $entityManager->getRepository(Offer::class)->findAll();
+        $alloffer = [] ;
+        foreach ( $offers as $o) {
+           $u = [
+                'id' => $o->getIdOffer(),
+                'name' => $o->getName(),
+                'desc' => $o->getDescription(),
+                'duration' => $o->getDuration(),
+                'keyword'=> $o->getKeywords(),
+                'salaire' =>$o->getSalary(),
+                'idrec'=> $o->getIdRecruter()->getIdUser()
+           ];
+           $alloffer [] = $u ;
+        }
 
+        $json = json_encode($alloffer);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+    }
 
     #[Route('/', name: 'app_offer_index', methods: ['GET', 'POST'])]
     public function index(Request $req, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response

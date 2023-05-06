@@ -45,6 +45,35 @@ class UserController extends AbstractController
 
         return $query->getResult();
     }
+
+    #[Route('/getallusers', name: 'app_user_freelancermobile', methods: ['GET'])]
+    public function getallFMobile()
+    {   
+        $freelancers = $this->entityManager->createQuery(
+            'SELECT u FROM App\Entity\User u')
+        ->getResult();
+
+        //var_dump($freelancers);
+        $users = [] ;
+        foreach ( $freelancers as $userF) {
+           $u = [
+                'id' => $userF->getIdUser(),
+                'fname' => $userF->getFirstName(),
+                'lname' => $userF->getLastName(),
+                'email' => $userF->getEmail(),
+                'phone'=> $userF->getPhone(),
+                'photo' =>$userF->getPhoto(),
+                'role'=> $userF->getRole()
+           ];
+           $users [] = $u ;
+        }
+
+        $json = json_encode($users);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+    }
+
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(): Response
     {   
@@ -128,6 +157,16 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/deleteUser', name: 'app_user_deleteMobile', methods: ['POST'])]
+    public function deleteuser(Request $request,EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $id = $data['id'];
+        $user = $this->entityManager->getRepository(User::class)->find($id);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return new JsonResponse(['succes' => 'user deleted']);
+    }
 
     #[Route('/login', name: 'app_user_login', methods: ['GET', 'POST'])]
     public function login(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger , UserPasswordHasherInterface $passwordHasher ): Response
@@ -182,6 +221,44 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/signupfreelancermobile', name: 'mob_signupfreelancermobile', methods: ['POST'])]
+    public function signUpFreelancerMobile(Request $request, EntityManagerInterface $entityManager , UserPasswordHasherInterface $passwordHasher ): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $email = $data['email'];
+        $password = $data['password'];
+        $fname = $data['fname']; 
+        $lname = $data['lname']; 
+        $phone = $data['phone']; 
+
+        $user = new User();
+       
+        $user->setRole("freelancer");
+        $user->setFirstName($fname);
+        $user->setLastName($lname);
+        $user->setEmail($email);
+        $user->setPassword($password);
+        
+            $u =$this->getUsersByEmail($email);
+            if ($u) 
+            {
+                return new JsonResponse(['error' => 'email exsit']);
+            }
+                 $user->setPhoto("test.png");
+                 $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $user->getPassword()
+                );
+                $user->setPassword($hashedPassword);
+             
+                    $user->setPhone(intval($phone));
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                return new JsonResponse(['succes' => 'welcome']);
+    }
+
     #[Route('/signinmobile', name: 'mob_signin', methods: ['POST'])]
     public function signMobile(Request $request, EntityManagerInterface $entityManager , UserPasswordHasherInterface $passwordHasher ): JsonResponse
     {
@@ -193,7 +270,6 @@ class UserController extends AbstractController
         $u =$this->getUsersByEmail($email);
         if (!$u) 
             {
-                $this->addFlash('email', 'Your action!');
                 return new JsonResponse(['error' => 'email does not exsit']);
             }
             else 
@@ -202,11 +278,23 @@ class UserController extends AbstractController
                 {
                     //$session = new Session(); 
                     //$session->start(); 
-                    return new JsonResponse(['success' => 'welecome']);
+                    $u =$this->getUsersByEmail($email);
+                    $uarrya = [
+                        'id' => $u->getIdUser(),
+                        'fname' => $u->getFirstName(),
+                        'lname' => $u->getLastName(),
+                        'email' => $u->getEmail(),
+                        'phone'=> $u->getPhone(),
+                        'photo' =>$u->getPhoto(),
+                        'role'=> $u->getRole()
+                   ];
+                   $json = json_encode($uarrya);
+                   $response = new JsonResponse($json, 200, [], true);
+                    
+                    return $response;
                 }
                 else 
                 {
-                    $this->addFlash('password', 'Your action!');
                     return new JsonResponse(['error' => 'password incorrect']);
                 }
             }
@@ -494,4 +582,6 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
 }
