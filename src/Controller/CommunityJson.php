@@ -38,7 +38,7 @@ class CommunityJson extends AbstractController
         $pagination = $paginator->paginate(
             $entityManager->getRepository(Community::class)->findAll(),
             $request->query->getInt('page', 1),
-            $itemsPerPage
+            $totalGroups
         );
 
         $json = $serializer->serialize($pagination, 'json', [
@@ -121,7 +121,6 @@ class CommunityJson extends AbstractController
         $community->setName($req->get('name'));
         $community->setDescription($req->get('desc'));
         $em->flush();
-
         $jsonContent = $Normalizer->normalize($community, 'json', [
             'groups' => 'community',
         ]);
