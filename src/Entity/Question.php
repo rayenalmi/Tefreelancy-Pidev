@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Question
@@ -20,6 +21,7 @@ class Question
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("questions")]
     private $idQuestion;
 
     /**
@@ -27,6 +29,7 @@ class Question
      *
      * @ORM\Column(name="quest", type="text", length=65535, nullable=false)
      */
+    #[Groups("questions")]
     private $quest;
 
     /**
@@ -34,6 +37,7 @@ class Question
      *
      * @ORM\Column(name="choice1", type="text", length=65535, nullable=false)
      */
+    #[Groups("questions")]
     private $choice1;
 
     /**
@@ -41,6 +45,7 @@ class Question
      *
      * @ORM\Column(name="choice2", type="text", length=65535, nullable=false)
      */
+    #[Groups("questions")]
     private $choice2;
 
     /**
@@ -48,6 +53,7 @@ class Question
      *
      * @ORM\Column(name="choice3", type="text", length=65535, nullable=false)
      */
+    #[Groups("questions")]
     private $choice3;
 
     /**
@@ -55,6 +61,7 @@ class Question
      *
      * @ORM\Column(name="response", type="text", length=65535, nullable=false)
      */
+    #[Groups("questions")]
     private $response;
 
     /**
@@ -62,6 +69,7 @@ class Question
      *
      * @ORM\Column(name="id_test", type="integer", nullable=false)
      */
+    #[Groups("questions")]
     private $idTest;
 
     public function getIdQuestion(): ?int
