@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Skills
  *
@@ -19,6 +19,7 @@ class Skills
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("SKILLS")]
     private $idSkills;
 
     /**
@@ -26,6 +27,7 @@ class Skills
      *
      * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
+    #[Groups("SKILLS")]
     private $name;
 
     /**
@@ -33,6 +35,7 @@ class Skills
      *
      * @ORM\Column(name="level", type="string", length=0, nullable=true)
      */
+    #[Groups("SKILLS")]
     private $level;
 
     /**
@@ -43,6 +46,7 @@ class Skills
      *   @ORM\JoinColumn(name="id_freelancer", referencedColumnName="id_user")
      * })
      */
+    #[Groups("SKILLS")]
     private $idFreelancer;
 
     public function getIdSkills(): ?int

@@ -4,6 +4,9 @@ namespace App\Entity;
 use App\Repository\AchievementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Achievement
  *
@@ -21,6 +24,7 @@ class Achievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("ACH")]
     private $idAchivement;
 
     
@@ -31,6 +35,7 @@ class Achievement
      *
      * @ORM\Column(name="id_freelancer", type="integer", nullable=false)
      */
+    #[Groups("ACH")]
     private $idFreelancer;
 
     /**
@@ -41,6 +46,7 @@ class Achievement
      */
     //#[ORM\ManyToOne(inversedBy: 'achievements')]
     //private ?Offer $idOffer = null;
+    #[Groups("ACH")]
     private $idOffer;
 
     /**
@@ -48,6 +54,7 @@ class Achievement
      *
      * @ORM\Column(name="rate", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Groups("ACH")]
     private $rate;
 
     public function getIdAchivement(): ?int
