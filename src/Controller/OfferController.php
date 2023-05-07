@@ -233,6 +233,32 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/getoffersrecrutermobile', name: 'app_offer_recrutermobile')]
+    public function indexMobileRecruter(Request $req, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($req->getContent(), true);
+        $id = $data['id'];
+
+        $offers = $this->getOfferByID($id);
+        $alloffer = [] ;
+        foreach ( $offers as $o) {
+           $u = [
+                'id' => $o['idOffer'],
+                'name' =>$o['name'],
+                'desc' => $o['description'],
+                'duration' => $o['duration'],
+                'keyword'=> $o['keywords'],
+                'salaire' => $o['salary'],
+           ];
+           $alloffer [] = $u ;
+        }
+
+        $json = json_encode($alloffer);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response ;
+    }
+
     #[Route('/getoffersmobile', name: 'app_offer_getallmobiile')]
     public function indexMobile(Request $req, EntityManagerInterface $entityManager)
     {
@@ -301,6 +327,35 @@ class OfferController extends AbstractController
             ->getArrayResult();
 
         return $this->json($resultats);
+    }
+
+    #[Route('/newmobile', name: 'app_offer_mobile', methods: ['GET', 'POST'])]
+    public function newmobile(Request $request, EntityManagerInterface $entityManager)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $name = $data['name'];
+        $desc = $data['desc'];
+        $duration = $data['duration']; 
+        $key = $data['key']; 
+        $sal = $data['sal']; 
+        $id = $data['id']; 
+
+        $sal = (float) $sal ;   
+
+        $urs = $this->entityManager->getRepository(User::class)->find($id);
+
+        $o = new Offer();
+        $o->setName($name);
+        $o->setDescription($desc);
+        $o->setDuration($duration);
+        $o->setKeywords($key);
+        $o->setSalary($sal);
+        $o->setIdRecruter($urs);
+
+        $entityManager->persist($o);
+        $entityManager->flush();
+        return new JsonResponse(['succes' => 'welcome']);
     }
 
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
