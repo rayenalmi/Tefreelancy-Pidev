@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * PublicationWs
  *
@@ -19,6 +21,7 @@ class PublicationWs
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"posts"})
      */
     private $id;
 
@@ -26,6 +29,7 @@ class PublicationWs
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=30, nullable=false)
+     * @Groups({"posts"})
      */
    // #[Assert\NotBlank(message:"Title is required")]
     private $title;
@@ -34,6 +38,7 @@ class PublicationWs
      * @var string
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Groups({"posts"})
      */
    // #[Assert\NotBlank(message:"Content is required")]
     private $content;
@@ -42,6 +47,7 @@ class PublicationWs
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=50, nullable=false)
+     * @Groups({"posts"})
      */
     private $author;
 
@@ -49,6 +55,7 @@ class PublicationWs
      * @var \DateTime
      *
      * @ORM\Column(name="creationDate", type="date", nullable=false)
+     * @Groups({"posts"})
      */
     private $creationdate;
 

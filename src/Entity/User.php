@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
@@ -20,6 +21,7 @@ class User
      * @ORM\Column(name="id_user", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"users"})
      */
     private $idUser;
 
@@ -27,6 +29,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
+     * @Groups({"users"})
      */
     private $lastName;
 
@@ -34,6 +37,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
+     * @Groups({"users"})
      */
     private $firstName;
 
@@ -41,6 +45,7 @@ class User
      * @var int
      *
      * @ORM\Column(name="phone", type="integer", nullable=false)
+     * @Groups({"users"})
      */
     private $phone;
 
@@ -48,6 +53,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Groups({"users"})
      */
     private $email;
 
@@ -55,6 +61,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=250, nullable=false)
+     * @Groups({"users"})
      */
     private $password;
 
@@ -62,6 +69,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=50, nullable=false)
+     * @Groups({"users"})
      */
     private $photo;
 
@@ -69,6 +77,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="role", type="string", length=0, nullable=true)
+     * @Groups({"users"})
      */
     private $role;
 
@@ -76,6 +85,7 @@ class User
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Offer", mappedBy="idUser")
+     * @Groups({"users"})
      */
     private $idOffer = array();
 
@@ -202,5 +212,4 @@ class User
 
         return $this;
     }
-
 }

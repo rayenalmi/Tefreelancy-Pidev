@@ -44,29 +44,29 @@ class Workspace
     //#[Assert\NotBlank(message:"Description is required")]
     private $description;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="task", type="text", length=65535, nullable=true)
-     * @Groups({"workspaces"})
-     */
-    private $task;
+    // /**
+    //  * @var string|null
+    //  *
+    //  * @ORM\Column(name="task", type="text", length=65535, nullable=true)
+    //  * @Groups({"workspaces"})
+    //  */
+    // private $task;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="publication", type="text", length=65535, nullable=true)
-     * @Groups({"workspaces"})
-     */
-    private $publication;
+    // /**
+    //  * @var string|null
+    //  *
+    //  * @ORM\Column(name="publication", type="text", length=65535, nullable=true)
+    //  * @Groups({"workspaces"})
+    //  */
+    // private $publication;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="freelancers", type="text", length=65535, nullable=true)
-     * @Groups({"workspaces"})
-     */
-    private $freelancers;
+    // /**
+    //  * @var string|null
+    //  *
+    //  * @ORM\Column(name="freelancers", type="text", length=65535, nullable=true)
+    //  * @Groups({"workspaces"})
+    //  */
+    // private $freelancers;
 
 
 
@@ -111,41 +111,41 @@ class Workspace
         return $this;
     }
 
-    public function getTask(): ?string
-    {
-        return $this->task;
-    }
+    // public function getTask(): ?string
+    // {
+    //     return $this->task;
+    // }
 
-    public function setTask(?string $task): self
-    {
-        $this->task = $task;
+    // public function setTask(?string $task): self
+    // {
+    //     $this->task = $task;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getPublication(): ?string
-    {
-        return $this->publication;
-    }
+    // public function getPublication(): ?string
+    // {
+    //     return $this->publication;
+    // }
 
-    public function setPublication(?string $publication): self
-    {
-        $this->publication = $publication;
+    // public function setPublication(?string $publication): self
+    // {
+    //     $this->publication = $publication;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getFreelancers(): ?string
-    {
-        return $this->freelancers;
-    }
+    // public function getFreelancers(): ?string
+    // {
+    //     return $this->freelancers;
+    // }
 
-    public function setFreelancers(?string $freelancers): self
-    {
-        $this->freelancers = $freelancers;
+    // public function setFreelancers(?string $freelancers): self
+    // {
+    //     $this->freelancers = $freelancers;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     // public function getIdoffer(): ?int
     // {
