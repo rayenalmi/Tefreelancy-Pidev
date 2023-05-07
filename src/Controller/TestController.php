@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/test')]
 class TestController extends AbstractController
@@ -44,7 +45,6 @@ class TestController extends AbstractController
             'form' => $form,
         ]);
     }
-
     #[Route('/{idTest}', name: 'app_test_show', methods: ['GET'])]
     public function show(Test $test): Response
     {
@@ -52,7 +52,6 @@ class TestController extends AbstractController
             'test' => $test,
         ]);
     }
-
     #[Route('/{idTest}/edit', name: 'app_test_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Test $test, EntityManagerInterface $entityManager): Response
     {
@@ -81,5 +80,5 @@ class TestController extends AbstractController
 
         return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
     }
-
+    
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Badge
@@ -20,6 +21,7 @@ class Badge
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("badges")]
     private $idBadge;
 
     /**
@@ -27,6 +29,7 @@ class Badge
      *
      * @ORM\Column(name="name", type="text", length=65535, nullable=false)
      */
+    #[Groups("badges")]
     private $name;
 
     /**
@@ -34,6 +37,7 @@ class Badge
      *
      * @ORM\Column(name="type", type="text", length=65535, nullable=false)
      */
+    #[Groups("badges")]
     private $type;
 
     /**
@@ -41,6 +45,7 @@ class Badge
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
+    #[Groups("badges")]
     private $image;
 
     /**
@@ -48,6 +53,7 @@ class Badge
      *
      * @ORM\Column(name="id_test", type="integer", nullable=false)
      */
+    #[Groups("badges")]
     private $idTest;
     public function __toString()
     {

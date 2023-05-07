@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Test
@@ -20,6 +21,7 @@ class Test
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("tests")]
     private $idTest;
 
     /**
@@ -27,6 +29,7 @@ class Test
      *
      * @ORM\Column(name="name", type="text", length=65535, nullable=false)
      */
+    #[Groups("tests")]
     private $name;
 
     /**
@@ -34,6 +37,7 @@ class Test
      *
      * @ORM\Column(name="type", type="text", length=65535, nullable=false)
      */
+    #[Groups("tests")]
     private $type;
 
     public function __toString()
