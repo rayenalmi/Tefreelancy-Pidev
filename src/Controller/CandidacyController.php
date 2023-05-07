@@ -186,7 +186,7 @@ class CandidacyController extends AbstractController
             $entityManager->persist($candidacy);
             $entityManager->flush();
             // Send an SMS notification to the freelancer  
-            $this->sms();
+            //$this->sms();
             $this->addFlash('danger', 'reponse envoyée avec succées');
 
             return $this->redirectToRoute('app_offer_index', [], Response::HTTP_SEE_OTHER);
