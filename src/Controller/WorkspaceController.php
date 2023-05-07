@@ -25,13 +25,6 @@ use Twilio\Rest\Client;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-
-require_once __DIR__ . '../../../vendor/autoload.php'; // load Composer's autoloader
-
-use Symfony\Component\Dotenv\Dotenv;
-
-
 #[Route('/workspace')]
 class WorkspaceController extends AbstractController
 {
@@ -39,18 +32,13 @@ class WorkspaceController extends AbstractController
 
 
     #[Route('/', name: 'app_workspace_index', methods: ['GET'])]
-    public function index(Request $request, EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
+    public function index(EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
     {
         /* $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findBy([], ['id' => 'DESC']); */
-
-        $session = $request->getSession();
-        $u = $session->get('user')->getIdUser();
-        /* $workspaces = $repo3->getWorkspacesForFreelancer(12);
-        $freelancer_id = 12; */
-        $workspaces = $repo3->getWorkspacesForFreelancer($u);
-        $freelancer_id = $u;
+        $workspaces = $repo3->getWorkspacesForFreelancer(12);
+        $freelancer_id = 12;
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
         return $this->render('workspace/index.html.twig', [
@@ -59,15 +47,41 @@ class WorkspaceController extends AbstractController
         ]);
     }
 
-    #[Route("/AllWsForFreeJson", name: "WsJsonFree")]
-    public function getAllWsJson(Request $request, WorkspaceRepository $repo, SerializerInterface $serializer)
+    #[Route("/AllWsForFreeJson/{idFree}", name: "WsJsonFree")]
+    public function getAllWsJson($idFree, WorkspaceRepository $repo, SerializerInterface $serializer)
     {
-        $session = $request->getSession();
-        $u = $session->get('user')->getIdUser();
-        $workspaces = $repo->getWorkspacesForFreelancer($u); // change
+        // $idFree = 12;
+        $workspaces = $repo->getWorkspacesForFreelancer($idFree); // change
         $json = $serializer->serialize($workspaces, 'json', ['groups' => "workspaces"]);
         return new Response($json);
     }
+
+    #[Route("/AllFreeForWsJson/{workspaceId}", name: "FreelancersJson")]
+    public function getAllFreeJson($workspaceId, WorkspaceRepository $repo, SerializerInterface $serializer)
+    {
+        $freelancers = $repo->getFreelancersForWorkspace($workspaceId);
+        $json = $serializer->serialize($freelancers, 'json', ['groups' => "workspaces"]);
+        return new Response($json);
+    }
+
+
+    #[Route("/getWsById/{id}", name: "workspace_json")]
+    public function showWsJson($id, NormalizerInterface $normalizer, WorkspaceRepository $repo)
+    {
+        $workspace = $repo->find($id);
+        $WsNormalises = $normalizer->normalize($workspace, 'json', ['groups' => "workspaces"]);
+        return new Response(json_encode($WsNormalises));
+    }
+
+    #[Route("/getWsByEmail", name: "freeEmail_json")]
+    public function getFreelancerByEmail(Request $req, NormalizerInterface $normalizer, WorkspaceRepository $repo)
+    {
+        $email = $req->get('email');
+        $freelancer = $repo->getFreelancerByEmail($email);
+        $WsNormalises = $normalizer->normalize($freelancer, 'json', ['groups' => "users"]);
+        return new Response(json_encode($WsNormalises));
+    }
+
 
 
     #[Route('/pdf-example/{id}', name: 'pdf_save', methods: ['GET'])]
@@ -194,9 +208,7 @@ class WorkspaceController extends AbstractController
             $tasks = $repo->findBySearchQuery($search);
         }
 
-        $session = $request->getSession();
-        $u = $session->get('user')->getIdUser();
-        $freelancer_id = $u; //change
+        $freelancer_id = 12;
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
 
@@ -233,12 +245,10 @@ class WorkspaceController extends AbstractController
         ]);
     }
 
+
     #[Route('/editws/{id}', name: 'app_editworkspace', methods: ['GET', 'POST'])]
     public function editWorkSpace(PaginatorInterface $paginator, PaginatorInterface $paginator2, Request $request, $id, EntityManagerInterface $entityManager, TaskRepository $repo, PublicationWsRepository $repo2, WorkspaceRepository $repo3): Response
     {
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__ . '../../../.env');
-
         $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findAll();
@@ -261,6 +271,34 @@ class WorkspaceController extends AbstractController
             $workspaceFreelancer->setFreelancerId($newFreelancer->getIdUser());
             $entityManager->persist($workspaceFreelancer);
 
+
+            // Twilio
+
+            // Get Twilio credentials from environment variables
+            $accountSid = "";
+            $authToken = "";
+
+            // Initialize the Twilio client with your account SID and auth token
+            $client = new Client($accountSid, $authToken);
+
+            // The Twilio phone number you want to send the message from
+            $fromNumber = '+16073576544';
+
+
+            // The phone number you want to send the message to
+            $toNumber = '+216' . $newFreelancer->getPhone();
+
+
+            // The message you want to send
+            $messageBody = "Hello Freelancer ,You have been added to this Workspace";
+
+            // Send the message using the Twilio API
+            $message = $client->messages->create($toNumber, [
+                'from' => $fromNumber,
+                'body' => $messageBody,
+            ]);
+
+            // end Twilio
 
             $entityManager->flush();
         }
@@ -338,14 +376,10 @@ class WorkspaceController extends AbstractController
             $entityManager->persist($workspace);
             $entityManager->flush();
 
-
             // Add the workspace task
-
-            $session = $request->getSession();
-            $u = $session->get('user')->getIdUser();
             $workspaceFreelancer = new WorkspaceFreelancer();
             $workspaceFreelancer->setWorkspaceId($workspace->getId());
-            $workspaceFreelancer->setFreelancerId($u); // change
+            $workspaceFreelancer->setFreelancerId(12); // change
             $entityManager->persist($workspaceFreelancer);
             $entityManager->flush();
 
@@ -358,8 +392,8 @@ class WorkspaceController extends AbstractController
         ]);
     }
 
-    #[Route("addWsJSON/new", name: "addWsJSON")]
-    public function addWsJSON(Request $req,   NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    #[Route("/addWsJSON/new/{idUsr}", name: "addWsJSON")]
+    public function addWsJSON($idUsr, Request $req,   NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
         $workspace = new Workspace();
@@ -369,18 +403,33 @@ class WorkspaceController extends AbstractController
         $entityManager->persist($workspace);
         $entityManager->flush();
 
-        $session = $req->getSession();
-        $u = $session->get('user')->getIdUser();
-
         // Add the workspace task
         $workspaceFreelancer = new WorkspaceFreelancer();
         $workspaceFreelancer->setWorkspaceId($workspace->getId());
-        $workspaceFreelancer->setFreelancerId($u); // change
+        $workspaceFreelancer->setFreelancerId($idUsr); // change
         $entityManager->persist($workspaceFreelancer);
+        $entityManager->flush();
+
 
         $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
         return new Response(json_encode($jsonContent));
     }
+
+    #[Route('/addFreeToWs/{id}', name: 'addFreeEmailJson', methods: ['GET', 'POST'])]
+    public function addFreeToWs(Request $req, WorkspaceRepository $repo3, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+        $email = $req->get('email');
+        $newFreelancer = $repo3->getFreelancerByEmail($email);
+        $workspaceFreelancer = new WorkspaceFreelancer();
+        $workspaceFreelancer->setWorkspaceId($id);
+        $workspaceFreelancer->setFreelancerId($newFreelancer->getIdUser());
+        $entityManager->persist($workspaceFreelancer);
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($newFreelancer, 'json', ['groups' => 'users']);
+        return new Response("Freelancer added to workspace " . json_encode($jsonContent));
+    }
+
 
     #[Route('/{id}', name: 'app_workspace_show', methods: ['GET'])]
     public function show(Workspace $workspace): Response
@@ -446,14 +495,14 @@ class WorkspaceController extends AbstractController
     }
 
 
-    #[Route("/deleteWsJSON/{id}/{workspaceId}", name: "deleteWsJSON")]
-    public function deleteWsJSON($id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    #[Route("/deleteWsJSON/{workspaceId}", name: "deleteWsJSON")]
+    public function deleteWsJSON($workspaceId, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
-        $workspace = $entityManager->getRepository(Workspace::class)->find($id);
+        $workspace = $entityManager->getRepository(Workspace::class)->find($workspaceId);
         $entityManager->remove($workspace);
         $entityManager->flush();
         $jsonContent = $Normalizer->normalize($workspace, 'json', ['groups' => 'workspaces']);
-        return new Response("Task deleted successfully " . json_encode($jsonContent));
+        return new Response("Workspace deleted successfully " . json_encode($jsonContent));
     }
 }

@@ -16,8 +16,7 @@ class StartController extends AbstractController
         //$session->start(); 
         //$session->set('id', 191);
         // $session->get('key')
-        
-        return $this->render('base.html.twig', [
-        ]);
+
+        return $this->render('base.html.twig', []);
     }
 }
