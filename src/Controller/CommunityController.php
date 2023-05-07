@@ -74,8 +74,6 @@ class CommunityController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine
     ) {
-        dump('helloooooo');
-
         $name = $request->query->get('name');
         $queryBuilder = $doctrine
             ->getManager()
@@ -92,7 +90,6 @@ class CommunityController extends AbstractController
                 'name' => $group->getName(),
             ];
         }, $groups);
-        dump('heloooooooooooooooo testtttttttttt');
 
         return new JsonResponse($data);
     }
