@@ -122,7 +122,7 @@ class TaskController extends AbstractController
         $Task->setTitle($req->get('title'));
         $Task->setDescription($req->get('description'));
         $Task->setDeadline($deadlineInterface);
-        $Task->setCompleted($req->get('completed'));
+        //$Task->setCompleted($req->get('completed'));
 
         $entityManager->persist($Task);
         $entityManager->flush();
@@ -212,7 +212,7 @@ class TaskController extends AbstractController
     }
 
     #[Route("/updateTaskJSON/{id}/{workspaceId}", name: "updateTaskJSON")]
-    public function updateStudentJSON($workspaceId, Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    public function updateTaskJSON($workspaceId, Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
         // Get the deadline string from the URL parameters
         $deadlineStr = $_GET['deadline'];
@@ -257,7 +257,7 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('app_workspace_homews', ['id' => $workspaceId], Response::HTTP_SEE_OTHER);
     }
     #[Route("/deleteTaskJSON/{id}/{workspaceId}", name: "deleteTaskJSON")]
-    public function deleteStudentJSON($id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    public function deleteTaskJSON($id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
         $task = $entityManager->getRepository(Task::class)->find($id);
