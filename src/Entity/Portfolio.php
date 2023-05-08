@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Portfolio
@@ -21,6 +21,7 @@ class Portfolio
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("PORTFOLIO")]
     private $idPortfolio;
 
     /**
@@ -28,6 +29,7 @@ class Portfolio
      *
      * @ORM\Column(name="intro", type="text", length=65535, nullable=false)
      */
+    #[Groups("PORTFOLIO")]
     private $intro;
 
     /**
@@ -35,16 +37,19 @@ class Portfolio
      *
      * @ORM\Column(name="about", type="text", length=65535, nullable=false)
      */
+    #[Groups("PORTFOLIO")]
     private $about;
 
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User" ,cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_freelancer", referencedColumnName="id_user")
+     
      * })
      */
+     #[Groups("PORTFOLIO")]
     private $idFreelancer;
 
 
@@ -89,6 +94,7 @@ class Portfolio
         return $this->idFreelancer;
     }
 
+    
     public function setIdFreelancer(?User $idFreelancer): self
     {
         $this->idFreelancer = $idFreelancer;
