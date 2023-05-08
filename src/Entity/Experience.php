@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Experience
@@ -20,6 +21,7 @@ class Experience
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("EXP")]
     private $idExperience;
 
     /**
@@ -27,6 +29,8 @@ class Experience
      *
      * @ORM\Column(name="id_freelancer", type="integer", nullable=false)
      */
+    #[Groups("EXP")]
+
     private $idFreelancer;
 
     /**
@@ -35,6 +39,7 @@ class Experience
      * @ORM\Column(name="title", type="text", length=65535, nullable=false)
      *
      */
+    #[Groups("EXP")]
     private $title;
 
     /**
@@ -42,6 +47,7 @@ class Experience
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
+    #[Groups("EXP")]
     private $description;
 
     /**
@@ -49,6 +55,7 @@ class Experience
      *
      * @ORM\Column(name="location", type="text", length=65535, nullable=false)
      */
+    #[Groups("EXP")]
     private $location;
 
     /**
@@ -56,6 +63,7 @@ class Experience
      *
      * @ORM\Column(name="duration", type="text", length=65535, nullable=false)
      */
+    #[Groups("EXP")]
     private $duration;
 
     /**
@@ -63,6 +71,7 @@ class Experience
      *
      * @ORM\Column(name="type", type="string", length=0, nullable=true)
      */
+    #[Groups("EXP")]
     private $type;
 
     public function getIdExperience(): ?int
