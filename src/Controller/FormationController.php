@@ -209,6 +209,30 @@ class FormationController extends AbstractController
         return $query->getResult();
     }
 
+        
+
+    #[Route('/newFormationMobile', name: 'app_formation_new', methods: ['POST'])]
+    public function newFormation(Request $request, EntityManagerInterface $entityManager)
+    {
+        $formation = new Formation();
+        $data = json_decode($request->getContent(), true);
+
+        $name = $data['name'];
+        $nbl = $data['nbl'];
+        $nbh = $data['nbh'];
+        
+        $formation->setName($name);
+        $formation->setNbh($nbh);
+        $formation->setNbl($nbl);
+        $formation->setPath('http//test.html');
+        
+        $entityManager->persist($formation);
+        $entityManager->flush();
+
+        return new JsonResponse(["root" => "formation added"]);
+
+    }
+
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
