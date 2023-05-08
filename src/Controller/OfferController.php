@@ -59,6 +59,17 @@ class OfferController extends AbstractController
         return $query->getResult();
     }
 
+    #[Route('/deleteOffer', name: 'app_offer_deleteMobile', methods: ['POST'])]
+    public function deleteuser(Request $request,EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $id = $data['id'];
+        $offer = $this->entityManager->getRepository(Offer::class)->find($id);
+        $entityManager->remove($offer);
+        $entityManager->flush();
+        return new JsonResponse(['succes' => 'offer  deleted']);
+    }
+
     #[Route('/listOffreAsc', name: 'OffreAsc')]
     public function listeOffreAsc(Request $req, EntityManagerInterface $entityManager): Response
     {
