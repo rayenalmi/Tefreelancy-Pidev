@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/publication/ws')]
 class PublicationWsController extends AbstractController
@@ -26,6 +28,16 @@ class PublicationWsController extends AbstractController
             'publication_ws' => $publicationWs,
         ]);
     }
+
+
+    #[Route("/AllPostsJson/{id}", name: "posts_json")]
+    public function getAllPostsJson($id, PublicationWsRepository $repo, SerializerInterface $serializer)
+    {
+        $posts = $repo->getPublicationWssForWorkspace($id);
+        $json = $serializer->serialize($posts, 'json', ['groups' => "posts"]);
+        return new Response($json);
+    }
+
 
     #[Route('/new', name: 'app_publication_ws_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -67,7 +79,7 @@ class PublicationWsController extends AbstractController
                 ]);
             }
 
-            
+
             $entityManager->persist($publicationW);
             $entityManager->flush();
 
@@ -86,6 +98,28 @@ class PublicationWsController extends AbstractController
             'workspaceId' => $id,
             'form' => $form,
         ]);
+    }
+
+    #[Route("/addPostJSON/new/{id}", name: "addPostJson")]
+    public function addPostJSON($id, Request $req, EntityManagerInterface $entityManager,   NormalizerInterface $Normalizer)
+    {
+
+        $Post = new PublicationWs();
+        $Post->setTitle($req->get('title'));
+        $Post->setContent($req->get('content'));
+        $Post->setAuthor($req->get('author'));
+        $entityManager->persist($Post);
+        $entityManager->flush();
+
+        $workspacePost = new WorkspacePost();
+        $workspacePost->setWorkspaceId($id);
+        $workspacePost->setPublicationId($Post->getId());
+        $entityManager->persist($workspacePost);
+        $entityManager->flush();
+
+
+        $jsonContent = $Normalizer->normalize($Post, 'json', ['groups' => 'posts']);
+        return new Response(json_encode($jsonContent));
     }
 
 
@@ -129,6 +163,20 @@ class PublicationWsController extends AbstractController
         ]);
     }
 
+    #[Route("/updatePostJSON/{id}/{workspaceId}", name: "updatePostJSON")]
+    public function updatePostJSON($workspaceId, Request $req, $id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $Post = $entityManager->getRepository(PublicationWs::class)->find($id);
+        $Post->setTitle($req->get('title'));
+        $Post->setContent($req->get('content'));
+        $Post->setContent($req->get('author'));
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($Post, 'json', ['groups' => 'posts']);
+        return new Response("Post updated successfully " . json_encode($jsonContent));
+    }
+
     #[Route('/{id}/{workspaceId}', name: 'app_publication_ws_delete', methods: ['POST'])]
     public function delete($workspaceId, Request $request, PublicationWs $publicationW, EntityManagerInterface $entityManager): Response
     {
@@ -140,7 +188,15 @@ class PublicationWsController extends AbstractController
         return $this->redirectToRoute('app_workspace_homews', ['id' => $workspaceId], Response::HTTP_SEE_OTHER);
     }
 
-   
-    
 
+    #[Route("/deletePostJSON/{id}/{workspaceId}", name: "deletePostJSON")]
+    public function deletePostJSON($workspaceId, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $post = $entityManager->getRepository(PublicationWs::class)->find($workspaceId);
+        $entityManager->remove($post);
+        $entityManager->flush();
+        $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'posts']);
+        return new Response("Post deleted successfully " . json_encode($jsonContent));
+    }
 }
