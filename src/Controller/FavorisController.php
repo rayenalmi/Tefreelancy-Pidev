@@ -30,10 +30,48 @@ class FavorisController extends AbstractController
         $u=  $session->get('user');
         $query = $this->entityManager->createQuery(
             'SELECT f FROM App\Entity\UserFormation uf JOIN App\Entity\Formation f WITH uf.idFormation = f.idFormation WHERE uf.idUser = :id'
-            )->setParameter('id', $u->getIdUser());
+            )->setParameter('id', 197);
 
         return $query->getResult();
     }
+
+    public function getAllFormationFavorisMobile(int $id): array
+    {
+
+        $query = $this->entityManager->createQuery(
+            'SELECT f FROM App\Entity\UserFormation uf JOIN App\Entity\Formation f WITH uf.idFormation = f.idFormation WHERE uf.idUser = :id'
+            )->setParameter('id', 200);
+
+        return $query->getResult();
+    }
+
+    #[Route('/getallmobile', name: 'app_getAllFormationMobile',methods: ['POST'])]
+    public function getAllFormationMobile(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $idf = $data['id'];
+        // Do something
+        $formations =$this->getAllFormationFavorisMobile($idf);
+        $result = [] ;
+        foreach ( $formations as $f) {
+           $u = [
+                'id' => $f->getIdFormation(),
+                'name' => $f->getName(),
+                'nbh' => $f->getNbh(),
+                'nbl' => $f->getNbl(),
+           ];
+           $result [] = $u ;
+        }
+
+        $json = json_encode($result);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+
+    }
+
+    
 
     #[Route('/', name: 'app_favoris_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
@@ -43,10 +81,10 @@ class FavorisController extends AbstractController
             ->findAll();
 
         $session = new Session(); 
-
+        $res = $this->getAllFormationFavoris() ;
         return $this->render('favoris/index.html.twig', [
             'user_formations' => $userFormations,
-            'a' => $this->getAllFormationFavoris(),
+            'a' => $res,
             'b' => $session->get('id')
         ]);
     }
@@ -71,13 +109,34 @@ class FavorisController extends AbstractController
         ]);
     }
 
-    #[Route('/{idUser}', name: 'app_favoris_show', methods: ['GET'])]
+    /*#[Route('/{idUser}', name: 'app_favoris_show', methods: ['GET'])]
     public function show(UserFormation $userFormation): Response
     {
         return $this->render('favoris/show.html.twig', [
             'user_formation' => $userFormation,
         ]);
+    }*/
+
+    #[Route('/AddfavorisMobile', name: 'app_favoris_mobile', methods: ['POST'])]
+    public function addMobile(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $idf = $data['idFormation'];
+        $id = $data['id'];
+
+        $f = $this->entityManager->getRepository(Formation::class)->find($idf);
+        $urs = $this->entityManager->getRepository(User::class)->find($id);
+        $userFormation = new UserFormation();
+        $userFormation->setIdUser($urs);
+        $userFormation->setIdFormation($f);
+
+        $entityManager->persist($userFormation);
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => 'add to favoris']);
     }
+
 
     #[Route('/Addfavoris', name: 'app_favoris_test', methods: ['POST'])]
     public function test(Request $request, EntityManagerInterface $entityManager): JsonResponse

@@ -87,6 +87,99 @@ class FormationController extends AbstractController
         ]);
     }
 
+    public function getAllFormationFavorisMobile(int $id): array
+    {
+
+        $query = $this->entityManager->createQuery(
+            'SELECT f FROM App\Entity\UserFormation uf JOIN App\Entity\Formation f WITH uf.idFormation = f.idFormation WHERE uf.idUser = :id'
+            )->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
+    #[Route('/getallmobilefav', name: 'app_qxQXqxqXnMobile',methods: ['POST'])]
+    public function getAllFormationMobileFav(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $idf = $data['id'];
+        // Do something
+        $formations =$this->getAllFormationFavorisMobile($idf);
+        $result = [] ;
+        foreach ( $formations as $f) {
+           $u = [
+                'id' => $f->getIdFormation(),
+                'name' => $f->getName(),
+                'nbh' => $f->getNbh(),
+                'nbl' => $f->getNbl(),
+           ];
+           $result [] = $u ;
+        }
+
+        $json = json_encode($result);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+
+    }
+
+    #[Route('/getallmobile', name: 'app_getAllFormationMobile')]
+    public function getAllFormationMobile(EntityManagerInterface $entityManager)
+    {
+        // Do something
+        $formations =$entityManager
+        ->getRepository(Formation::class)
+        ->findAll();
+        //var_dump($freelancers);
+        $result = [] ;
+        foreach ( $formations as $f) {
+           $u = [
+                'id' => $f->getIdFormation(),
+                'name' => $f->getName(),
+                'nbh' => $f->getNbh(),
+                'nbl' => $f->getNbl(),
+           ];
+           $result [] = $u ;
+        }
+
+        $json = json_encode($result);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+
+    }
+
+    #[Route('/getallchptersmobile', name: 'app_getchaptersMobile')]
+    public function getAllchaptersFormationMobile(EntityManagerInterface $entityManager , Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $idf = $data['id'];
+        // Do something
+        $chapters =$this->entityManager
+        ->createQuery(
+            'SELECT c
+            FROM App\Entity\Chapters c
+            WHERE c.formation = :formation')
+        ->setParameter('formation', $idf )
+        ->getResult();
+        $result = [] ;
+        foreach ( $chapters as $c) {
+           $u = [
+                'id' => $c->getId(),
+                'name' => $c->getName(),
+                'context' => $c->getContext(),
+           ];
+           $result [] = $u ;
+        }
+
+        $json = json_encode($result);
+        
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+
+    }
+
     #[Route('/chaptersLinkTo/{idFormation}', name: 'app_chapters_link_to_formation',methods: ['GET', 'POST'])]
     public function chaptersLinkToFormation(Formation $formation): Response
     {
