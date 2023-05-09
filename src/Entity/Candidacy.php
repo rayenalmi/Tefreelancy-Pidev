@@ -97,6 +97,11 @@ class Candidacy
         return $this->accepted;
     }
 
+    public function getAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
     public function setAccepted(?bool $accepted): self
     {
         $this->accepted = $accepted;

@@ -64,11 +64,13 @@
                                                 class="genric-btn warning circle">edit</a>
 
                                         </div>
-                                        <div class="col-md-7 mt-sm-20">
-                                            {% if candidacy.accepted == 0 %}
+                                        <div class="col-md-7 mt-sm-20">                                            
+                                            {% if candidacy.accepted == NULL %}
+                                            <a href="#" class="genric-btn warning circle">Waiting</a>
+                                            {%  elseif candidacy.accepted == 0 %}
                                             <a href="#" class="genric-btn danger circle">Refused</a>
                                             {% else %}
-                                            <a href="#" class="genric-btn success circle">Accepted</a>
+                                            <a href="#" class="genric-btn success  circle">Accepted</a>
                                             {% endif %}
 
                                         </div>

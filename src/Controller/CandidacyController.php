@@ -140,7 +140,15 @@ class CandidacyController extends AbstractController
         $u = $session->get('user');
         
         $candidacies = $this->getCandidacyByID($u->getIdUser());
+        var_dump($candidacies[0]["accepted"]);
 
+        foreach ($candidacies as $c) {
+
+            if (is_object($c) && method_exists($c, 'getAccepted')) {
+                var_dump($c->getAccepted());
+            }
+        }
+        
         return $this->render('candidacy/index.html.twig', [
             'candidacies' => $candidacies,
         ]);
