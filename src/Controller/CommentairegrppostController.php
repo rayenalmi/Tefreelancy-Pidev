@@ -33,6 +33,9 @@ class CommentairegrppostController extends AbstractController
         int $idgrppost
     ): Response {
         $commentairegrppost = new Commentairegrppost();
+        $session = $request->getSession();
+        $user = $session->get('user');
+        $commentairegrppost->setUser($user->getIdUser());
         $commentairegrppost->setIdgrppost($idgrppost);
 
         $form = $this->createForm(
@@ -46,7 +49,7 @@ class CommentairegrppostController extends AbstractController
 
             return $this->redirectToRoute(
                 'app_commentairegrppost_index',
-                [],
+                ['idgrppost' => $idgrppost],
                 Response::HTTP_SEE_OTHER
             );
         }
