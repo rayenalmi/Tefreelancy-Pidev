@@ -80,7 +80,7 @@ public function __construct(EntityManagerInterface $entityManager)
         $em = $doctrine->getManager(); 
         $skill = new Skills();
 
-        $user = $entityManager->getRepository(User::class)->find(190);
+        $user = $entityManager->getRepository(User::class)->find($req->get('id'));
         $skill->setIdFreelancer($user);
         $skill->setName($req->get('name'));
         $skill->setLevel($req->get('level')); 
@@ -112,7 +112,7 @@ public function __construct(EntityManagerInterface $entityManager)
     public function edit(Request $req,$idSkills,  NormalizerInterface $normalizer,ManagerRegistry $doctrine,EntityManagerInterface $entityManager): Response
     {
         $em = $doctrine->getManager(); 
-        $user = $entityManager->getRepository(User::class)->find(190);
+        $user = $entityManager->getRepository(User::class)->find($req->get('id'));
         $skill = $em->getRepository(Skills::class)->find($idSkills);
         $skill->setIdFreelancer($user);
         $skill->setName($req->get('name'));

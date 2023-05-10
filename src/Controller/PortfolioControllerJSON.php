@@ -64,7 +64,7 @@ class PortfolioControllerJSON extends AbstractController
         //  $user->setIdUser(190); 
          
          
-        $user = $entityManager->getRepository(User::class)->find(190);
+        $user = $entityManager->getRepository(User::class)->find($req->get('id'));
         $portfolio->setIdFreelancer($user);
         $portfolio->setIntro($req->get('intro'));
         $portfolio->setAbout($req->get('about')); 
@@ -90,7 +90,7 @@ class PortfolioControllerJSON extends AbstractController
     {
         $em = $doctrine->getManager(); 
 
-        $user = $entityManager->getRepository(User::class)->find(190);
+        $user = $entityManager->getRepository(User::class)->find($idPortfolio);
         
 
         $portfolio = $em->getRepository(Portfolio::class)->find($idPortfolio);

@@ -185,7 +185,7 @@ public function __construct(EntityManagerInterface $entityManager)
 
 
 
-    #[Route('/recherche_ajax', name: 'recherche_ajax_test')]
+    #[Route('/recherche_ajax', name: 'recherche_ajax_skills')]
     public function rechercheAjax(Request $request): JsonResponse
     {
         $requestString = $request->query->get('searchValue');

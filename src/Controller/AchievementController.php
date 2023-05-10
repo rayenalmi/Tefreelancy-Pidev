@@ -23,6 +23,43 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AchievementController extends AbstractController
 {
 
+
+    #[Route('/f', name: 'app_achievement_byfreelancer', methods: ['GET'])]
+    //#[Route('/f/{id}', name: 'app_achievement_byfreelancer', methods: ['GET'])]
+    //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
+    //public function getf($id, AchievementRepository $repo): Response
+    public function getf(Request $request, AchievementRepository $repo): Response
+    {
+        $session = $request->getSession();
+        $u =  $session->get('user'); 
+        $achievements = $repo->findByFreelancerId($u->getIdUser()); 
+        $totalrate = 0; 
+        $numberofratings = 0;
+            foreach ( $achievements as $i) {
+                $totalrate += $i->getRate();
+                $numberofratings += 1; 
+            }   
+            $finalrating = $totalrate / $numberofratings; 
+
+            
+        //$budget = $repo->findByOfferId($id);     
+        // $totalbudget = 0; 
+        // $numberofmoney = 0;
+        //     foreach ( $budget as $b) {
+        //         $totalbudget += $b->getSalary();
+        //         $numberofmoney += 1; 
+        //     }   
+        //     $finalbudget = $totalbudget; 
+
+
+
+        return $this->render('achievement/indexid.html.twig', [
+            'achievements' => $achievements,
+            'final_rating' => $finalrating,
+           
+        ]);
+    }
+
     //create
 #[Route('/jsonnew', name: 'app_achievement_newJSON', methods: ['GET', 'POST'])]
 public function newjson(Request $req,  NormalizerInterface $normalizer,ManagerRegistry $doctrine, EntityManagerInterface $entityManager): Response
@@ -205,7 +242,7 @@ public function getfjson(Request $req,$id,AchievementRepository $repo,  Normaliz
 
 
 
-    #[Route('/f/{id}', name: 'app_achievement_byfreelancer', methods: ['GET'])]
+    /*#[Route('/f/{id}', name: 'app_achievement_byfreelancer', methods: ['GET'])]
     //public function getfreelancer($id, EntityManagerInterface $entityManager): Response
     public function getf($id, AchievementRepository $repo): Response
     
@@ -236,7 +273,7 @@ public function getfjson(Request $req,$id,AchievementRepository $repo,  Normaliz
             'final_rating' => $finalrating,
            
         ]);
-    }
+    }*/
 
 
 }

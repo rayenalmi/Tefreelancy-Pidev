@@ -39,8 +39,8 @@ class ExperienceControllerJSON extends AbstractController
         $em = $doctrine->getManager(); 
         
 
-        $user = $entityManager->getRepository(User::class)->find(190);
-        $experience->setIdFreelancer(190);
+        $user = $entityManager->getRepository(User::class)->find($req->get('id'));
+        $experience->setIdFreelancer($user->getIdUser());
         $experience->setTitle($req->get('title'));
         $experience->setDescription($req->get('description')); 
         $experience->setLocation($req->get('location')); 

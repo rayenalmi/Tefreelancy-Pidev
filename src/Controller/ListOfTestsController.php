@@ -152,5 +152,4 @@ public function generatePdf(Request $request,Test $test, QuestionRepository $que
         return $this->json($resultats);
     }
 
-
 }
