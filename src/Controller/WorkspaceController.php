@@ -32,13 +32,17 @@ class WorkspaceController extends AbstractController
 
 
     #[Route('/', name: 'app_workspace_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
+    public function index(Request $req,EntityManagerInterface $entityManager, WorkspaceRepository $repo3): Response
     {
         /* $workspaces = $entityManager
             ->getRepository(Workspace::class)
             ->findBy([], ['id' => 'DESC']); */
-        $workspaces = $repo3->getWorkspacesForFreelancer(12);
-        $freelancer_id = 12;
+
+            $session = $req->getSession();
+            $u = $session->get('user');
+            $freelancer_id = $u->getIdUser();
+        $workspaces = $repo3->getWorkspacesForFreelancer($freelancer_id);
+       
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
         return $this->render('workspace/index.html.twig', [
@@ -208,7 +212,10 @@ class WorkspaceController extends AbstractController
             $tasks = $repo->findBySearchQuery($search);
         }
 
-        $freelancer_id = 12;
+        $session = $request->getSession();
+            $u = $session->get('user');
+            $freelancer_id = $u->getIdUser();
+        //$freelancer_id = 12;
         $the_freelancer = $repo3->getFreelancerById($freelancer_id);
         $role = $the_freelancer->getRole();
 
@@ -275,14 +282,14 @@ class WorkspaceController extends AbstractController
             // Twilio
 
             // Get Twilio credentials from environment variables
-            $accountSid = "";
-            $authToken = "";
+            $accountSid = "AC41ddc35f4041bedc6be015a1570ecb81";
+            $authToken = "70387cf4ecf60ff52d5f75efab022554";
 
             // Initialize the Twilio client with your account SID and auth token
             $client = new Client($accountSid, $authToken);
 
             // The Twilio phone number you want to send the message from
-            $fromNumber = '+16073576544';
+            $fromNumber = '+13203628745';
 
 
             // The phone number you want to send the message to
@@ -303,7 +310,7 @@ class WorkspaceController extends AbstractController
             $entityManager->flush();
         }
 
-// Twilio
+/* // Twilio
 
         // Get Twilio credentials from environment variables
         $accountSid = "AC41ddc35f4041bedc6be015a1570ecb81";
@@ -329,7 +336,7 @@ class WorkspaceController extends AbstractController
             'body' => $messageBody,
         ]);
 
-        // end Twilio
+        // end Twilio */
 
         $pagination = $paginator->paginate(
             $publicationWs,
@@ -376,10 +383,13 @@ class WorkspaceController extends AbstractController
             $entityManager->persist($workspace);
             $entityManager->flush();
 
+            $session = $request->getSession();
+            $u = $session->get('user');
+            $freelancer_id = $u->getIdUser();
             // Add the workspace task
             $workspaceFreelancer = new WorkspaceFreelancer();
             $workspaceFreelancer->setWorkspaceId($workspace->getId());
-            $workspaceFreelancer->setFreelancerId(12); // change
+            $workspaceFreelancer->setFreelancerId($freelancer_id); // change
             $entityManager->persist($workspaceFreelancer);
             $entityManager->flush();
 

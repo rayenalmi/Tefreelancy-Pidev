@@ -61,7 +61,7 @@ class ChaptersController extends AbstractController
             $entityManager->persist($chapter);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_formation_back', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('chapters/new.html.twig', [
@@ -87,7 +87,7 @@ class ChaptersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_formation_back', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('chapters/edit.html.twig', [
@@ -104,7 +104,7 @@ class ChaptersController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_formation_back', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/pdf/{id}', name: 'PDF_chapter', methods: ['GET'])]

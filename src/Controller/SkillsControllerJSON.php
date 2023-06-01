@@ -168,20 +168,7 @@ public function __construct(EntityManagerInterface $entityManager)
 
 
 
-    #[Route('/recherche_ajax', name: 'recherche_ajax_test')]
-    public function rechercheAjax(Request $request): JsonResponse
-    {
-        $requestString = $request->query->get('searchValue');
-        
-        $resultats = $this->entityManager
-        ->createQuery(
-            'SELECT t
-            FROM App\Entity\Skills s
-            WHERE s.name LIKE  :name')
-        ->setParameter('name', '%'.$requestString.'%' )
-        ->getArrayResult();
-        return $this->json($resultats);
-    }
+
 
 
 

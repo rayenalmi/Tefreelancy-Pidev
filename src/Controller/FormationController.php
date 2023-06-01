@@ -55,7 +55,40 @@ class FormationController extends AbstractController
         return $this->json($resultats);
     }
 
-    #[Route('/', name: 'app_formation_index', methods: ['GET','POST'])]
+    
+    #[Route('/back', name: 'app_formation_back', methods: ['GET','POST'])]
+    public function indexbackOffice(Request $req,EntityManagerInterface $entityManager): Response
+    {
+        $formations = $entityManager
+            ->getRepository(Formation::class)
+            ->findAll();
+        $chapters = $entityManager
+            ->getRepository(Chapters::class)
+            ->findAll();
+
+        $form= $this->createForm(SearchType::class);
+        $form->handleRequest($req);
+
+        if($form->isSubmitted()){
+
+            $f =strlen($form["search"]->getData()) ==0  ? $formations : $this->findFormation($form["search"]->getData());
+            
+            return $this->render('formation/index.html.twig', [
+                'formations' => $f,
+                'chapters' => $chapters,
+                'form'=>$form->createView()
+            ]);
+        
+        }
+
+        return $this->render('formation/backformation.html.twig', [
+            'formations' => $formations,
+            'chapters' => $chapters,
+            'form'=>$form->createView()
+        ]);
+    }
+
+    #[Route('/getall', name: 'app_formation_index', methods: ['GET','POST'])]
     public function index(Request $req,EntityManagerInterface $entityManager): Response
     {
         $formations = $entityManager

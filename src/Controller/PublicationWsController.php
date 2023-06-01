@@ -190,10 +190,10 @@ class PublicationWsController extends AbstractController
 
 
     #[Route("/deletePostJSON/{id}/{workspaceId}", name: "deletePostJSON")]
-    public function deletePostJSON($workspaceId, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    public function deletePostJSON($id, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
     {
 
-        $post = $entityManager->getRepository(PublicationWs::class)->find($workspaceId);
+        $post = $entityManager->getRepository(PublicationWs::class)->find($id);
         $entityManager->remove($post);
         $entityManager->flush();
         $jsonContent = $Normalizer->normalize($post, 'json', ['groups' => 'posts']);
